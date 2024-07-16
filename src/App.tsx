@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./App.css";
+import logo from "./pages/img/Cloud_Runner_Logo.png";
 
 interface HeaderProps {
   title: string;
@@ -11,7 +12,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
   return (
     <header className="header">
       <Link to="/" className="logo">
-        <img src="img/Cloud_Runner_Logo.png" alt="logo" />
+        <img src={logo} alt="logo" />
       </Link>
       <nav>
         <ul>
