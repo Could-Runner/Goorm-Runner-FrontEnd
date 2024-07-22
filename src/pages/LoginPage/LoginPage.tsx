@@ -21,22 +21,19 @@ const Message = styled.h2`
 `;
 
 const Input = styled.input`
-  position: relative;
-  overflow: hidden;
   width: 100%;
   height: 40px;
-  margin: 0 0 8px;
+  margin-bottom: 8px;
   padding: 5px 39px 5px 11px;
-  border: solid 1px #dadada;
+  border: 1px solid #dadada;
   background: #fff;
   box-sizing: border-box;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ disabled: boolean }>`
   font-size: 18px;
   font-weight: 700;
   line-height: 49px;
-  display: block;
   width: 100%;
   height: 49px;
   margin: 16px 0 7px;
@@ -46,11 +43,19 @@ const Button = styled.button`
   border: none;
   border-radius: 0;
   background-color: #03c75a;
+
+  &:hover {
+    background-color: #028a4d;
+  }
+
   ${({ disabled }) =>
     disabled &&
     `
     background-color: #efefef;
     cursor: not-allowed;
+    &:hover {
+      background-color: #efefef; /* 호버시에도 동일한 배경색 유지 */
+    }
   `}
 `;
 
