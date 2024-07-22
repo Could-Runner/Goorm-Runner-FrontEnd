@@ -32,7 +32,7 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ disabled: boolean }>`
   font-size: 18px;
   font-weight: 700;
   line-height: 49px;
