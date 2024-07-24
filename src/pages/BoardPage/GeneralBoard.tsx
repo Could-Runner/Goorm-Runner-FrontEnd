@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const boardData = [
@@ -14,8 +15,9 @@ const boardData = [
 
 const ITEMS_PER_PAGE = 8;
 
-const BoardPage: React.FC = () => {
+const GeneralBoard: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const navigate = useNavigate();
 
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
@@ -26,6 +28,11 @@ const BoardPage: React.FC = () => {
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
+
+    const handleRowClick = (id: number) => {
+        navigate(`/board/general/${id}`);
+    };
+
 
     return (
         <Container>
@@ -42,7 +49,7 @@ const BoardPage: React.FC = () => {
                 </thead>
                 <tbody>
                 {currentItems.map((item) => (
-                    <tr key={item.id}>
+                    <tr key={item.id} onClick={() => handleRowClick(item.id)}>
                     <Td>{item.id}</Td>
                     <Td>{item.title}</Td>
                     <Td>{item.author}</Td>
@@ -67,7 +74,7 @@ const BoardPage: React.FC = () => {
     );
 };
 
-export default BoardPage;
+export default GeneralBoard;
 
 const Container = styled.div`
     padding: 20px;
