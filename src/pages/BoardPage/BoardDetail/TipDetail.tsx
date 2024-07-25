@@ -40,6 +40,9 @@ const TipDetail: React.FC = () => {
         setComments([...comments, newCommentData]);
         setNewComment("");
     };
+    const handleEdit = () => {
+        navigate(`/board/tips/edit/${id}`);
+    };
 
     return (
         <Container>
@@ -62,9 +65,9 @@ const TipDetail: React.FC = () => {
                 </tbody>
             </Table>
             <Actions>
-                <Button onClick={() => navigate('/board/general')}>목록으로</Button>
-                <Button onClick={handleLike}>좋아요 {likes}</Button>
-                <Button onClick={handleUnlike}>좋아요 취소</Button>
+                <Button onClick={() => navigate('/board/tips')}>목록으로</Button>
+                <LikeButton onClick={handleLike}>좋아요 {likes}</LikeButton>
+                <Button onClick={handleEdit}>수정하기</Button>
             </Actions>
             <CommentSection>
                 <CommentTitle>댓글</CommentTitle>
@@ -140,6 +143,14 @@ const Button = styled.button`
     }
 `;
 
+const LikeButton = styled(Button)`
+    background-color: rgba(255, 7, 7, 0.8);
+
+    &:hover {
+        background-color: rgba(255, 7, 7, 1);
+    }
+`;
+
 const CommentSection = styled.div`
     margin-top: 40px;
 `;
@@ -172,7 +183,7 @@ const CommentDate = styled.div`
 const CommentForm = styled.form`
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
 `;
 
 const CommentInput = styled.input`

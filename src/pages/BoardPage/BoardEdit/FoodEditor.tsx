@@ -1,23 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import boardData from "../../../assets/boardcontents.json";
+import { BoardData } from "../type";
 
-const PostWrtier: React.FC = () => {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+const FoodEditor: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const post = (boardData as BoardData[]).find(item => item.id === parseInt(id!, 10));
+    const [title, setTitle] = useState(post ? post.title : "");
+    const [content, setContent] = useState(post ? post.content : "");
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // 여기에 게시글 작성 로직을 추가하세요 (예: 서버에 POST 요청)
-        console.log({ title, content });
-        // 게시글 작성 후 목록 페이지로 이동
-        navigate("/board/general");
+        // 여기에 게시글 수정 로직을 추가하세요 (예: 서버에 PUT 요청)
+        console.log({ id, title, content });
+        // 게시글 수정 후 상세 페이지로 이동
+        navigate(`/board/food/${id}`);
     };
+
+    if (!post) {
+        return <div>게시글을 찾을 수 없습니다.</div>;
+    }
 
     return (
         <Container>
-            <Title>게시글 작성</Title>
+            <Title>게시글 수정</Title>
             <Form onSubmit={handleSubmit}>
                 <Label>
                     제목:
@@ -34,13 +42,13 @@ const PostWrtier: React.FC = () => {
                         onChange={(e) => setContent(e.target.value)}
                     />
                 </Label>
-                <Button type="submit">작성하기</Button>
+                <Button type="submit">수정하기</Button>
             </Form>
         </Container>
     );
 };
 
-export default PostWrtier;
+export default FoodEditor;
 
 const Container = styled.div`
     padding: 20px;
