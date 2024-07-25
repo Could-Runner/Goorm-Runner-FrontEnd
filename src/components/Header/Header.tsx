@@ -21,13 +21,13 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
   width: 100%;
   padding: 10px;
-  margin-right: 80px;
-  margin-left: 20px;
+  margin-right: 50px;
+  margin-left: 0px;
 `;
 
 const LoginButton = styled(Link)`
   font-size: 16px;
-  padding: 0px 10px;
+  padding: 0px 10px 0px 20px;
   color: black;
   border: none;
   text-decoration: none;
@@ -148,7 +148,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
     <PageContainer>
       <ButtonContainer>
         <LoginButton to="/loginpage">로그인</LoginButton>
-        <LoginButton to="/joinpage">회원가입</LoginButton>
+        <LoginButton to="/joinselectpage">회원가입</LoginButton>
       </ButtonContainer>
 
       <HeaderContainer>

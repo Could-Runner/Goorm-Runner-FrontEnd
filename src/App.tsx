@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import logo from "./assets/Cloud_Runner_Logo.png";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import FindAccount from "./pages/LoginPage/FindAccount";
 import JoinPage from "./pages/JoinPage/JoinPage";
-import JoinCompletePage from "./pages/JoinPage/JoinCompletePage"; // 추가된 부분
+import JoinCompletePage from "./pages/JoinPage/JoinCompletePage";
+import JoinSelectPage from "./pages/JoinPage/JoinSelectPage";
 import Match from "./pages/MatchingPage/matchingPage";
 import Market from "./pages/MarketPage/MarketPage";
 import FoodBoard from "./pages/BoardPage/FoodBoard";
@@ -30,8 +31,10 @@ const App: React.FC = () => {
           <Route path="/board/tips" element={<TipBoard />} />
           {/* <Route path="/mypage" element={<MyPage />} /> */}
           <Route path="/loginpage" element={<LoginPage />} />
+          <Route path="/findaccount" element={<FindAccount />} />
           <Route path="/joinpage" element={<JoinPage />} />
           <Route path="/joincomplete" element={<JoinCompletePage />} />{" "}
+          <Route path="/joinselectpage" element={<JoinSelectPage />} />
           {/* 추가된 부분 */}
         </Routes>
       </div>
