@@ -1,8 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import JoinPage from "./pages/JoinPage/JoinPage";
+import JoinCompletePage from "./pages/JoinPage/JoinCompletePage"; // 추가된 부분
 import Match from "./pages/MatchingPage/matchingPage";
 import Market from "./pages/MarketPage/MarketPage";
+
 import GeneralBoard from "./pages/BoardPage/GeneralBoard";
 import TipBoard from "./pages/BoardPage/TipBoard";
 import MatchingDetail from "./pages/MatchingPage/matchingDetail";
@@ -14,7 +17,6 @@ import GeneralDetail from "./pages/BoardPage/BoardDetail/GeneralDetail";
 import TipDetail from "./pages/BoardPage/BoardDetail/TipDetail";
 import PostWriter from "./pages/BoardPage/PostWriter";
 import FoodBoard from "./pages/BoardPage/FoodBoard";
-
 
 const App: React.FC = () => {
   return (
@@ -35,6 +37,9 @@ const App: React.FC = () => {
           <Route path="/postform" element={<PostWriter />} />
           {/* <Route path="/mypage" element={<MyPage />} /> */}
           <Route path="/loginpage" element={<LoginPage />} />
+          <Route path="/joinpage" element={<JoinPage />} />
+          <Route path="/joincomplete" element={<JoinCompletePage />} />{" "}
+          {/* 추가된 부분 */}
         </Routes>
       </div>
     </Router>
