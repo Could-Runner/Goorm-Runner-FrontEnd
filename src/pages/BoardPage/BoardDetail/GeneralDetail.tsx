@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import boardData from "../../../assets/boardcontents.json"
-import commentData from "../../../assets/comments.json"
+import boardData from "../../../assets/boardcontents.json";
+import commentData from "../../../assets/comments.json";
 import { BoardData, CommentData } from "../type";
 
 const GeneralDetail: React.FC = () => {
@@ -41,6 +41,10 @@ const GeneralDetail: React.FC = () => {
         setNewComment("");
     };
 
+    const handleEdit = () => {
+        navigate(`/board/general/edit/${id}`);
+    };
+
     return (
         <Container>
             <Table>
@@ -62,9 +66,9 @@ const GeneralDetail: React.FC = () => {
                 </tbody>
             </Table>
             <Actions>
-                <Button onClick={() => navigate('/board/general')}>목록으로</Button>
+                <Button onClick={() => navigate('/board/tips')}>목록으로</Button>
                 <Button onClick={handleLike}>좋아요 {likes}</Button>
-                <Button onClick={handleUnlike}>좋아요 취소</Button>
+                <Button onClick={handleEdit}>수정하기</Button>
             </Actions>
             <CommentSection>
                 <CommentTitle>댓글</CommentTitle>
@@ -172,7 +176,7 @@ const CommentDate = styled.div`
 const CommentForm = styled.form`
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
 `;
 
 const CommentInput = styled.input`

@@ -33,12 +33,16 @@ const FoodDetail: React.FC = () => {
         e.preventDefault();
         const newCommentData: CommentData = {
             id: comments.length + 1,
-            author: "익명",
+            author: "익명", // 로그인된 회원의 이름을 불러와야 함
             content: newComment,
             date: new Date().toISOString().split('T')[0]
         };
         setComments([...comments, newCommentData]);
         setNewComment("");
+    };
+
+    const handleEdit = () => {
+        navigate(`/board/food/edit/${id}`);
     };
 
     return (
@@ -47,7 +51,7 @@ const FoodDetail: React.FC = () => {
                 <tbody>
                     <Tr>
                         <Th>제목</Th>
-                        <Td>{post.title}</Td>
+                        <Td colSpan={3}>{post.title}</Td>
                     </Tr>
                     <Tr>
                         <Th>작성자</Th>
@@ -62,9 +66,9 @@ const FoodDetail: React.FC = () => {
                 </tbody>
             </Table>
             <Actions>
-                <Button onClick={() => navigate('/board/general')}>목록으로</Button>
-                <Button onClick={handleLike}>좋아요 {likes}</Button>
-                <Button onClick={handleUnlike}>좋아요 취소</Button>
+                <Button onClick={() => navigate('/board/food')}>목록으로</Button>
+                <LikeButton onClick={handleLike}>좋아요 {likes}</LikeButton>
+                <Button onClick={handleEdit}>수정하기</Button>
             </Actions>
             <CommentSection>
                 <CommentTitle>댓글</CommentTitle>
@@ -140,6 +144,14 @@ const Button = styled.button`
     }
 `;
 
+const LikeButton = styled(Button)`
+    background-color: rgba(255, 7, 7, 0.8);
+
+    &:hover {
+        background-color: rgba(255, 7, 7, 1);
+    }
+`;
+
 const CommentSection = styled.div`
     margin-top: 40px;
 `;
@@ -172,7 +184,7 @@ const CommentDate = styled.div`
 const CommentForm = styled.form`
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-bottom: 20px;
 `;
 
 const CommentInput = styled.input`

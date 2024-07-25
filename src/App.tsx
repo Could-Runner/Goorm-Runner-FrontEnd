@@ -17,6 +17,9 @@ import GeneralDetail from "./pages/BoardPage/BoardDetail/GeneralDetail";
 import TipDetail from "./pages/BoardPage/BoardDetail/TipDetail";
 import PostWriter from "./pages/BoardPage/PostWriter";
 import FoodBoard from "./pages/BoardPage/FoodBoard";
+import TipsEditor from "./pages/BoardPage/BoardEdit/TipsEditor";
+import GeneralEditor from "./pages/BoardPage/BoardEdit/GeneralEditor";
+import FoodEditor from "./pages/BoardPage/BoardEdit/FoodEditor";
 
 const App: React.FC = () => {
   return (
@@ -30,10 +33,13 @@ const App: React.FC = () => {
           <Route path="/market" element={<Market />} />
           <Route path="/board/general" element={<GeneralBoard />} />
           <Route path="/board/general/:id" element={<GeneralDetail />} />
+          <Route path="/board/general/edit/:id" element={<GeneralEditor />} />
           <Route path="/board/tips" element={<TipBoard />} />
           <Route path="/board/tips/:id" element={<TipDetail />} />
+          <Route path="/board/tips/edit/:id" element={<TipsEditor />} />
           <Route path="/board/food" element={<FoodBoard />} />
           <Route path="/board/food/:id" element={<FoodDetail />} />
+          <Route path="/board/food/edit/:id" element={<FoodEditor />} />
           <Route path="/postform" element={<PostWriter />} />
           {/* <Route path="/mypage" element={<MyPage />} /> */}
           <Route path="/loginpage" element={<LoginPage />} />
