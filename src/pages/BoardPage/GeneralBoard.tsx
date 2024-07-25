@@ -1,29 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
-const boardData = [
-    { id: 8, title: "올 시즌 최고의 타자는 누구일까요?", author: "baseballFan", date: "2024-07-07", likes: 15 },
-    { id: 7, title: "LG 트윈스와 두산 베어스의 역사적 라이벌리", author: "sportsGuru", date: "2024-07-07", likes: 20 },
-    { id: 6, title: "야구 경기 관람할 때 챙겨야 할 것들", author: "baseballLover", date: "2024-07-06", likes: 10 },
-    { id: 5, title: "주말에 함께 야구 보러 갈 사람 구해요", author: "happyWatcher", date: "2024-07-06", likes: 12 },
-    { id: 4, title: "한화 이글스 올해 우승 가능할까?", author: "eagleEye", date: "2024-07-05", likes: 25 },
-    { id: 3, title: "프로야구 선수들 트레이닝 비법", author: "fitnessFan", date: "2024-07-05", likes: 18 },
-    { id: 2, title: "KBO 리그 역사와 주요 순간들", author: "historyBuff", date: "2024-07-04", likes: 22 },
-    { id: 1, title: "야구장에서 먹으면 좋은 간식 추천", author: "foodieFan", date: "2024-07-04", likes: 30 }
-];
+import boardData from "../../assets/boardcontents.json";
+import { BoardData, BoardDataWithoutContent } from "./type"
 
 const ITEMS_PER_PAGE = 8;
 
 const GeneralBoard: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
+    const [data, setData] = useState<BoardDataWithoutContent[]>([]); // JSON 데이터를 state에 저장
+
+    useEffect(() => {
+        // content를 제외한 데이터를 설정
+        const filteredData = (boardData as BoardData[]).map(({ content, ...rest }) => rest);
+        setData(filteredData);
+    }, []);
 
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const currentItems = boardData.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(boardData.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -33,10 +31,16 @@ const GeneralBoard: React.FC = () => {
         navigate(`/board/general/${id}`);
     };
 
+    const handleWritePost = () => {
+        navigate("/postform");
+    };
 
     return (
         <Container>
-            <Title>자유게시판</Title>
+            <Header>
+                <Title>자유게시판</Title>
+                <WriteButton onClick={handleWritePost}>글쓰기</WriteButton>
+            </Header>
             <Table>
                 <thead>
                 <tr>
@@ -81,8 +85,29 @@ const Container = styled.div`
     margin: 0 200px;
 `;
 
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+`;
+
 const Title = styled.h1`
     margin-bottom: 20px;
+`;
+
+const WriteButton = styled.button`
+    padding: 10px 20px;
+    background-color: #03c75a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+
+    &:hover {
+        background-color: #028a3d;
+    }
 `;
 
 const Table = styled.table`
