@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import boardData from "../../../assets/boardcontents.json"
-import commentData from "../../../assets/comments.json"
+import boardData from "../../../assets/boardcontents.json";
+import commentData from "../../../assets/comments.json";
 import { BoardData, CommentData } from "../type";
 
 const FoodDetail: React.FC = () => {
@@ -10,6 +10,7 @@ const FoodDetail: React.FC = () => {
     const navigate = useNavigate();
     const post = (boardData as BoardData[]).find(item => item.id === parseInt(id!, 10));
     const [likes, setLikes] = useState(post ? post.likes : 0);
+    const [liked, setLiked] = useState(false);
     const [comments, setComments] = useState(commentData as CommentData[]);
     const [newComment, setNewComment] = useState("");
 
@@ -17,12 +18,13 @@ const FoodDetail: React.FC = () => {
         return <div>게시글을 찾을 수 없습니다.</div>;
     }
 
-    const handleLike = () => {
-        setLikes(likes + 1);
-    };
-
-    const handleUnlike = () => {
-        setLikes(likes - 1);
+    const handleLikeToggle = () => {
+        if (liked) {
+            setLikes(likes - 1);
+        } else {
+            setLikes(likes + 1);
+        }
+        setLiked(!liked);
     };
 
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +35,7 @@ const FoodDetail: React.FC = () => {
         e.preventDefault();
         const newCommentData: CommentData = {
             id: comments.length + 1,
-            author: "익명", // 로그인된 회원의 이름을 불러와야 함
+            author: "익명",
             content: newComment,
             date: new Date().toISOString().split('T')[0]
         };
@@ -42,7 +44,7 @@ const FoodDetail: React.FC = () => {
     };
 
     const handleEdit = () => {
-        navigate(`/board/food/edit/${id}`);
+        navigate(`/board/general/edit/${id}`);
     };
 
     return (
@@ -66,8 +68,10 @@ const FoodDetail: React.FC = () => {
                 </tbody>
             </Table>
             <Actions>
-                <Button onClick={() => navigate('/board/food')}>목록으로</Button>
-                <LikeButton onClick={handleLike}>좋아요 {likes}</LikeButton>
+                <Button onClick={() => navigate('/board/tips')}>목록으로</Button>
+                <LikeButton liked={liked} onClick={handleLikeToggle}>
+                    {liked ? `좋아요 취소 ${likes}` : `좋아요 ${likes}`}
+                </LikeButton>
                 <Button onClick={handleEdit}>수정하기</Button>
             </Actions>
             <CommentSection>
@@ -144,11 +148,11 @@ const Button = styled.button`
     }
 `;
 
-const LikeButton = styled(Button)`
-    background-color: rgba(255, 7, 7, 0.8);
+const LikeButton = styled(Button)<{ liked: boolean }>`
+    background-color: ${({ liked }) => (liked ? '#ccc' : '#ff0707')};
 
     &:hover {
-        background-color: rgba(255, 7, 7, 1);
+        background-color: ${({ liked }) => (liked ? '#bbb' : '#e60000')};
     }
 `;
 

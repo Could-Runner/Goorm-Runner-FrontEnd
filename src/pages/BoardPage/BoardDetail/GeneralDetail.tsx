@@ -10,6 +10,7 @@ const GeneralDetail: React.FC = () => {
     const navigate = useNavigate();
     const post = (boardData as BoardData[]).find(item => item.id === parseInt(id!, 10));
     const [likes, setLikes] = useState(post ? post.likes : 0);
+    const [liked, setLiked] = useState(false);
     const [comments, setComments] = useState(commentData as CommentData[]);
     const [newComment, setNewComment] = useState("");
 
@@ -17,12 +18,13 @@ const GeneralDetail: React.FC = () => {
         return <div>게시글을 찾을 수 없습니다.</div>;
     }
 
-    const handleLike = () => {
-        setLikes(likes + 1);
-    };
-
-    const handleUnlike = () => {
-        setLikes(likes - 1);
+    const handleLikeToggle = () => {
+        if (liked) {
+            setLikes(likes - 1);
+        } else {
+            setLikes(likes + 1);
+        }
+        setLiked(!liked);
     };
 
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +53,7 @@ const GeneralDetail: React.FC = () => {
                 <tbody>
                     <Tr>
                         <Th>제목</Th>
-                        <Td>{post.title}</Td>
+                        <Td colSpan={3}>{post.title}</Td>
                     </Tr>
                     <Tr>
                         <Th>작성자</Th>
@@ -67,7 +69,9 @@ const GeneralDetail: React.FC = () => {
             </Table>
             <Actions>
                 <Button onClick={() => navigate('/board/tips')}>목록으로</Button>
-                <Button onClick={handleLike}>좋아요 {likes}</Button>
+                <LikeButton liked={liked} onClick={handleLikeToggle}>
+                    {liked ? `좋아요 취소 ${likes}` : `좋아요 ${likes}`}
+                </LikeButton>
                 <Button onClick={handleEdit}>수정하기</Button>
             </Actions>
             <CommentSection>
@@ -141,6 +145,14 @@ const Button = styled.button`
 
     &:hover {
         background-color: #028a3d;
+    }
+`;
+
+const LikeButton = styled(Button)<{ liked: boolean }>`
+    background-color: ${({ liked }) => (liked ? '#ccc' : '#ff0707')};
+
+    &:hover {
+        background-color: ${({ liked }) => (liked ? '#bbb' : '#e60000')};
     }
 `;
 

@@ -163,9 +163,8 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
             >
               <span>직관 매칭</span>
               <div className="dropdown">
-                <Link to="/match/before">티켓팅 전</Link>
-                <Link to="/match/after">티켓팅 후</Link>
-                <Link to="/match/recruit">모집하기</Link>
+                <Link to="/matching">모집글 조회</Link>
+                <Link to="/matching/recruit">모집하기</Link>
               </div>
             </li>
             <li>
