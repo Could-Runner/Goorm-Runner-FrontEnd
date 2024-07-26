@@ -31,10 +31,16 @@ const FoodBoard: React.FC = () => {
     const handleRowClick = (id: number) => {
         navigate(`/board/food/${id}`);
     };
+    const handleWritePost = () => {
+        navigate("/postform");
+    };
 
     return (
         <Container>
-            <Title>맛집게시판</Title>
+            <Header>
+                <Title>맛집게시판</Title>
+                <WriteButton onClick={handleWritePost}>글쓰기</WriteButton>
+            </Header>
             <Table>
                 <thead>
                 <tr>
@@ -79,8 +85,29 @@ const Container = styled.div`
     margin: 0 200px;
 `;
 
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+`;
+
 const Title = styled.h1`
     margin-bottom: 20px;
+`;
+
+const WriteButton = styled.button`
+    padding: 10px 20px;
+    background-color: #03c75a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+
+    &:hover {
+        background-color: #028a3d;
+    }
 `;
 
 const Table = styled.table`
