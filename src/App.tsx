@@ -1,15 +1,18 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import FindAccount from "./pages/LoginPage/FindAccount";
 import JoinPage from "./pages/JoinPage/JoinPage";
-import JoinCompletePage from "./pages/JoinPage/JoinCompletePage"; // 추가된 부분
-import Match from "./pages/MatchingPage/MatchingPage";
+import JoinCompletePage from "./pages/JoinPage/JoinCompletePage";
+import JoinSelectPage from "./pages/JoinPage/JoinSelectPage";
+import Match from "./pages/MatchingPage/matchingPage";
 import Market from "./pages/MarketPage/MarketPage";
 
 import GeneralBoard from "./pages/BoardPage/GeneralBoard";
 import TipBoard from "./pages/BoardPage/TipBoard";
-import MatchingDetail from "./pages/MatchingPage/MatchingDetail";
 // import MyPage from "./pages/MyPage/MyPage";
+import MatchingDetail from "./pages/MatchingPage/matchingDetail";
+import Profile from "./pages/MyPage/Profile";
 import Header from "./components/Header/Header";
 import FoodDetail from "./pages/BoardPage/BoardDetail/FoodDetail";
 import Mainpage from "./pages/mainpage/mainpage";
@@ -43,11 +46,14 @@ const App: React.FC = () => {
           <Route path="/board/food/:id" element={<FoodDetail />} />
           <Route path="/board/food/edit/:id" element={<FoodEditor />} />
           <Route path="/postform" element={<PostWriter />} />
+          <Route path="/board/tips" element={<TipBoard />} />
           {/* <Route path="/mypage" element={<MyPage />} /> */}
           <Route path="/loginpage" element={<LoginPage />} />
+          <Route path="/findaccount" element={<FindAccount />} />
           <Route path="/joinpage" element={<JoinPage />} />
           <Route path="/joincomplete" element={<JoinCompletePage />} />{" "}
-          {/* 추가된 부분 */}
+          <Route path="/joinselectpage" element={<JoinSelectPage />} />
+          <Route path="mypage/profile" element={<Profile />} />
         </Routes>
       </div>
     </Router>
