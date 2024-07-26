@@ -167,6 +167,11 @@ const PopupButton = styled.button`
   }
 `;
 
+const MessageText = styled.p`
+  color: red;
+  font-size: 14px;
+`;
+
 const JoinPage: React.FC = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -174,9 +179,14 @@ const JoinPage: React.FC = () => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [phone, setPhone] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [favoriteTeam, setFavoriteTeam] = useState("");
   const [preferredStadium, setPreferredStadium] = useState("");
+  const [phoneMessage, setPhoneMessage] = useState("");
+  const [verificationMessage, setVerificationMessage] = useState("");
   const navigate = useNavigate();
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -205,6 +215,16 @@ const JoinPage: React.FC = () => {
     setDateOfBirth(e.target.value);
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+  };
+
+  const handleVerificationCodeChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setVerificationCode(e.target.value);
+  };
+
   const handleFavoriteTeamChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -217,13 +237,33 @@ const JoinPage: React.FC = () => {
     setPreferredStadium(e.target.value);
   };
 
+  const sendVerificationCode = () => {
+    // 인증 코드를 발송하는 로직을 추가합니다.
+    console.log("Sending verification code to:", phone);
+    setPhoneMessage("인증코드가 발송되었습니다.");
+    // 예: 서버에 요청을 보내서 인증 코드를 발송
+  };
+
+  const verifyCode = () => {
+    // 인증 코드를 확인하는 로직을 추가합니다.
+    console.log("Verifying code:", verificationCode);
+    if (verificationCode === "123456") {
+      // 서버 검증 로직을 대체해야 함
+      setIsPhoneVerified(true);
+      setVerificationMessage("인증되었습니다.");
+    } else {
+      setVerificationMessage("인증코드가 일치하지 않습니다.");
+    }
+  };
+
   const isDisabled =
     !id ||
     !password ||
     password !== confirmPassword ||
     !name ||
     !gender ||
-    !dateOfBirth;
+    !dateOfBirth ||
+    !isPhoneVerified;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -264,7 +304,7 @@ const JoinPage: React.FC = () => {
             id="password"
             name="password"
             type="password"
-            placeholder="8~12자의 영문 소문자, 숫자 조합"
+            placeholder="8~12자의 영문 소문자            , 숫자 조합"
             value={password}
             onChange={handlePasswordChange}
           />
@@ -321,6 +361,46 @@ const JoinPage: React.FC = () => {
             onChange={handleDateOfBirthChange}
           />
         </FormGroup>
+        <FormGroup>
+          <Label htmlFor="phone">전화번호</Label>
+          <Input
+            id="phone"
+            name="phone"
+            type="text"
+            placeholder="전화번호를 입력해주세요"
+            value={phone}
+            onChange={handlePhoneChange}
+          />
+          <Button
+            type="button"
+            disabled={!phone}
+            onClick={sendVerificationCode}
+          >
+            인증코드 발송
+          </Button>
+          {phoneMessage && <MessageText>{phoneMessage}</MessageText>}
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="verificationCode">인증코드</Label>
+          <Input
+            id="verificationCode"
+            name="verificationCode"
+            type="text"
+            placeholder="인증코드를 입력해주세요"
+            value={verificationCode}
+            onChange={handleVerificationCodeChange}
+          />
+          <Button
+            type="button"
+            disabled={!verificationCode}
+            onClick={verifyCode}
+          >
+            인증
+          </Button>
+          {verificationMessage && (
+            <MessageText>{verificationMessage}</MessageText>
+          )}
+        </FormGroup>
         <Button type="submit" disabled={isDisabled}>
           회원가입
         </Button>
@@ -341,7 +421,7 @@ const JoinPage: React.FC = () => {
                   <option value="팀1">팀1</option>
                   <option value="팀2">팀2</option>
                   <option value="팀3">팀3</option>
-                  {/* 다른 팀들도 추가*/}
+                  {/* 다른 팀들도 추가 */}
                 </PopupSelect>
               </PopupFormGroup>
               <PopupFormGroup>
@@ -355,7 +435,7 @@ const JoinPage: React.FC = () => {
                   <option value="구장1">구장1</option>
                   <option value="구장2">구장2</option>
                   <option value="구장3">구장3</option>
-                  {/* 다른 구장도 추가*/}
+                  {/* 다른 구장도 추가 */}
                 </PopupSelect>
               </PopupFormGroup>
               <PopupButton type="submit">제출</PopupButton>
