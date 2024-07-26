@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -30,13 +30,13 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 
-const Button = styled.button<{ disabled: boolean }>`
+const Button = styled.button<{ disabled?: boolean }>`
   font-size: 18px;
   font-weight: 700;
   line-height: 49px;
   width: 100%;
   height: 49px;
-  margin: 16px 0 7px;
+  margin: 1px 0 7px;
   cursor: pointer;
   text-align: center;
   color: #fff;
@@ -59,9 +59,60 @@ const Button = styled.button<{ disabled: boolean }>`
   `}
 `;
 
+const KakaoButton = styled(Button)`
+  background-color: #ffeb00;
+  color: #3c1e1e;
+
+  &:hover {
+    background-color: #e8d408;
+  }
+`;
+
+const SignUpLink = styled.div`
+  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
+
+  a {
+    color: #03c75a;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const RememberMeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+`;
+
+const FindLink = styled.a`
+  font-size: 14px;
+  color: #03c75a;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const LoginPage: React.FC = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("rememberedId");
+    if (savedId) {
+      setId(savedId);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
@@ -71,10 +122,20 @@ const LoginPage: React.FC = () => {
     setPassword(e.target.value);
   };
 
+  const handleRememberMeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(e.target.checked);
+    if (!e.target.checked) {
+      localStorage.removeItem("rememberedId");
+    }
+  };
+
   const isDisabled = !id || !password;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (rememberMe) {
+      localStorage.setItem("rememberedId", id);
+    }
     // 여기서 로그인 로직을 추가하세요
     console.log("ID:", id);
     console.log("Password:", password);
@@ -82,7 +143,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <Container>
-      <Message>Welcome! 로그인해주세요!</Message>
+      <Message>계정으로 로그인하기</Message>
       <form onSubmit={handleSubmit}>
         <Input
           id="id"
@@ -99,10 +160,26 @@ const LoginPage: React.FC = () => {
           value={password}
           onChange={handlePasswordChange}
         />
+        <RememberMeContainer>
+          <div>
+            <input
+              type="checkbox"
+              id="rememberMe"
+              checked={rememberMe}
+              onChange={handleRememberMeChange}
+            />
+            <label htmlFor="rememberMe">ID 기억하기</label>
+          </div>
+          <FindLink href="/findaccount">ID/PW 찾기</FindLink>
+        </RememberMeContainer>
         <Button type="submit" disabled={isDisabled}>
           로그인
         </Button>
       </form>
+      <KakaoButton>카카오 계정으로 로그인</KakaoButton>
+      <SignUpLink>
+        아직 회원이 아니신가요? <a href="/joinpage">회원가입</a>
+      </SignUpLink>
     </Container>
   );
 };
