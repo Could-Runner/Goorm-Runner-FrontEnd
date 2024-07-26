@@ -10,6 +10,7 @@ import Market from "./pages/MarketPage/MarketPage";
 
 import GeneralBoard from "./pages/BoardPage/GeneralBoard";
 import TipBoard from "./pages/BoardPage/TipBoard";
+// import MyPage from "./pages/MyPage/MyPage";
 import MatchingDetail from "./pages/MatchingPage/matchingDetail";
 import Profile from "./pages/MyPage/Profile";
 import Header from "./components/Header/Header";
@@ -22,6 +23,7 @@ import FoodBoard from "./pages/BoardPage/FoodBoard";
 import TipsEditor from "./pages/BoardPage/BoardEdit/TipsEditor";
 import GeneralEditor from "./pages/BoardPage/BoardEdit/GeneralEditor";
 import FoodEditor from "./pages/BoardPage/BoardEdit/FoodEditor";
+import MatchingWrite from "./pages/MatchingPage/MatchingWrite";
 
 const App: React.FC = () => {
   return (
@@ -32,6 +34,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Mainpage />} />
           <Route path="/matching" element={<Match />} />
           <Route path="/matching/detail" element={<MatchingDetail />} />
+          <Route path="/matching/recruit" element={<MatchingWrite />} />
           <Route path="/market" element={<Market />} />
           <Route path="/board/general" element={<GeneralBoard />} />
           <Route path="/board/general/:id" element={<GeneralDetail />} />

@@ -1,0 +1,12 @@
+[
+    { "id": 1, "name": "KIA 타이거즈", "logo": "기아타이거즈.png", "date": "07.16", "time": "오후 6:30", "location": "광주 챔피언스필드" },
+    { "id": 2, "name": "LG 트윈스", "logo": "엘지트윈스.png", "date": "07.18", "time": "오후 6:30", "location": "서울종합운동장 야구장" },
+    { "id": 3, "name": "삼성 라이온즈", "logo": "삼성라이온즈.png", "date": "07.20", "time": "오후 5:00", "location": "대구 라이온즈파크" },
+    { "id": 4, "name": "SSG 랜더스", "logo": "ssg랜더스.png", "date": "07.25", "time": "오후 6:30", "location": "인천 SSG랜더스필드" },
+    { "id": 5, "name": "롯데 자이언츠", "logo": "롯데자이언츠.png", "date": "07.31", "time": "오후 6:30", "location": "사직 야구장" },
+    { "id": 6, "name": "두산 베어스", "logo": "두산베어스.png", "date": "07.23", "time": "오후 6:30", "location": "서울종합운동장 야구장" },
+    { "id": 7, "name": "NC 다이노스", "logo": "엔씨다이노스.png", "date": "07.27", "time": "오후 5:00", "location": "창원 NC파크" },
+    { "id": 8, "name": "한화 이글스", "logo": "한화이글스.png", "date": "08.01", "time": "오후 6:30", "location": "대전 한화생명이글스파크" },
+    { "id": 9, "name": "KT 위즈", "logo": "케이티위즈.png", "date": "08.05", "time": "오후 6:30", "location": "수원 KT위즈파크" },
+    { "id": 10, "name": "키움 히어로즈", "logo": "키움히어로즈.png", "date": "08.07", "time": "오후 6:30", "location": "고척 스카이돔" }
+]

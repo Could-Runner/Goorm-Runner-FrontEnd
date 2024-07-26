@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import boardData from "../../../assets/boardcontents.json"
-import commentData from "../../../assets/comments.json"
+import boardData from "../../../assets/boardcontents.json";
+import commentData from "../../../assets/comments.json";
 import { BoardData, CommentData } from "../type";
 
-const TipDetail: React.FC = () => {
+const TipsDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const post = (boardData as BoardData[]).find(item => item.id === parseInt(id!, 10));
     const [likes, setLikes] = useState(post ? post.likes : 0);
+    const [liked, setLiked] = useState(false);
     const [comments, setComments] = useState(commentData as CommentData[]);
     const [newComment, setNewComment] = useState("");
 
@@ -17,12 +18,13 @@ const TipDetail: React.FC = () => {
         return <div>게시글을 찾을 수 없습니다.</div>;
     }
 
-    const handleLike = () => {
-        setLikes(likes + 1);
-    };
-
-    const handleUnlike = () => {
-        setLikes(likes - 1);
+    const handleLikeToggle = () => {
+        if (liked) {
+            setLikes(likes - 1);
+        } else {
+            setLikes(likes + 1);
+        }
+        setLiked(!liked);
     };
 
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,8 +42,9 @@ const TipDetail: React.FC = () => {
         setComments([...comments, newCommentData]);
         setNewComment("");
     };
+
     const handleEdit = () => {
-        navigate(`/board/tips/edit/${id}`);
+        navigate(`/board/general/edit/${id}`);
     };
 
     return (
@@ -50,7 +53,7 @@ const TipDetail: React.FC = () => {
                 <tbody>
                     <Tr>
                         <Th>제목</Th>
-                        <Td>{post.title}</Td>
+                        <Td colSpan={3}>{post.title}</Td>
                     </Tr>
                     <Tr>
                         <Th>작성자</Th>
@@ -60,13 +63,15 @@ const TipDetail: React.FC = () => {
                     </Tr>
                     <Tr>
                         <Th>내용</Th>
-                        <Td colSpan={3}>{post.content}</Td>
+                        <Td colSpan={3} rowSpan={3}>{post.content}</Td>
                     </Tr>
                 </tbody>
             </Table>
             <Actions>
                 <Button onClick={() => navigate('/board/tips')}>목록으로</Button>
-                <LikeButton onClick={handleLike}>좋아요 {likes}</LikeButton>
+                <LikeButton liked={liked} onClick={handleLikeToggle}>
+                    {liked ? `좋아요 취소 ${likes}` : `좋아요 ${likes}`}
+                </LikeButton>
                 <Button onClick={handleEdit}>수정하기</Button>
             </Actions>
             <CommentSection>
@@ -92,7 +97,7 @@ const TipDetail: React.FC = () => {
     );
 };
 
-export default TipDetail;
+export default TipsDetail;
 
 const Container = styled.div`
     padding: 20px;
@@ -143,11 +148,11 @@ const Button = styled.button`
     }
 `;
 
-const LikeButton = styled(Button)`
-    background-color: rgba(255, 7, 7, 0.8);
+const LikeButton = styled(Button)<{ liked: boolean }>`
+    background-color: ${({ liked }) => (liked ? '#ccc' : '#ff0707')};
 
     &:hover {
-        background-color: rgba(255, 7, 7, 1);
+        background-color: ${({ liked }) => (liked ? '#bbb' : '#e60000')};
     }
 `;
 
