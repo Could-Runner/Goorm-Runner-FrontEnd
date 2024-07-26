@@ -8,7 +8,7 @@ declare global {
     } 
 }
 
-const {kakao} =window;
+const {kakao} = window;
 
 const MatchingDetail: React.FC = () => {
     useEffect(() =>{
