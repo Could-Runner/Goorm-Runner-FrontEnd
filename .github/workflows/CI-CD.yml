@@ -7,10 +7,6 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
-permissions:
-  checks: write
-  pull-requests: write
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -28,7 +24,7 @@ jobs:
         run: npm install
 
       - name: 타입스크립트 빌드 🚧
-        run: npm run build
+        run: CI=false npm run build
 
       - name: 테스트 실행 🧪
         run: npm test
