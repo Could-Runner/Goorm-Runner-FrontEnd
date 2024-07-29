@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: 타입스크립트 빌드 🚧
-        run: CI=false npm run build
+        run: npm run build
 
       - name: 테스트 실행 🧪
         run: npm test
