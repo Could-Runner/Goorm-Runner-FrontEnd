@@ -148,7 +148,7 @@ const Container = styled.div`
 const FilterGroup = styled.div`
     display: flex;
     flex-direction: row;
-    margin-right: 20px;
+    margin-right: 10px;
     margin-top: 20px;
 `;
 
@@ -157,6 +157,7 @@ const FilterWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     margin-bottom: 10px;
+    margin-right: 10px;
 `;
 
 const FilterToggle = styled.button`
@@ -204,8 +205,9 @@ const TeamFilter = styled.button<{ color: string }>`
 const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    flex: 1;
     align-items: center;
-`; 
+`;
 
 const StyledLink = styled(Link)`
     text-decoration: none;
@@ -282,4 +284,4 @@ const PageNumber = styled.div<{ isActive: boolean }>`
     color: ${({ isActive }) => (isActive ? "#fff" : "#000")}; 
     border: 1px solid #dadada; 
     border-radius: 5px;
-    `;
+`;
