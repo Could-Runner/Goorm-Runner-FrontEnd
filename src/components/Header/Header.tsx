@@ -20,7 +20,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  padding: 10px;
+  padding-top: 10px;
   margin-right: 50px;
   margin-left: 0px;
 `;
