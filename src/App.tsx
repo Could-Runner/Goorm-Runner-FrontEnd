@@ -5,13 +5,13 @@ import FindAccount from "./pages/LoginPage/FindAccount";
 import JoinPage from "./pages/JoinPage/JoinPage";
 import JoinCompletePage from "./pages/JoinPage/JoinCompletePage";
 import JoinSelectPage from "./pages/JoinPage/JoinSelectPage";
-import Match from "./pages/MatchingPage/matchingPage";
+import Match from "./pages/MatchingPage/MatchingPage";
 import Market from "./pages/MarketPage/MarketPage";
 
 import GeneralBoard from "./pages/BoardPage/GeneralBoard";
 import TipBoard from "./pages/BoardPage/TipBoard";
 // import MyPage from "./pages/MyPage/MyPage";
-import MatchingDetail from "./pages/MatchingPage/matchingDetail";
+import MatchingDetail from "./pages/MatchingPage/MatchingDetail";
 import Profile from "./pages/MyPage/Profile";
 import Header from "./components/Header/Header";
 import FoodDetail from "./pages/BoardPage/BoardDetail/FoodDetail";
@@ -33,7 +33,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Mainpage />} />
           <Route path="/matching" element={<Match />} />
-          <Route path="/matching/detail" element={<MatchingDetail />} />
+          <Route path="/matching/:id" element={<MatchingDetail />} />
           <Route path="/matching/recruit" element={<MatchingWrite />} />
           <Route path="/market" element={<Market />} />
           <Route path="/board/general" element={<GeneralBoard />} />
