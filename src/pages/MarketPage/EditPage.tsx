@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   margin-top: 50px;
+  margin-bottom: 50px;
   padding: 20px;
   max-width: 600px;
   margin-left: auto;
@@ -116,6 +117,16 @@ const CustomImageButton = styled.button`
   }
 `;
 
+const PriceInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const PriceText = styled.span`
+  margin-left: 8px;
+  font-size: 16px;
+`;
+
 const MarketEditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -140,7 +151,7 @@ const MarketEditPage: React.FC = () => {
         author: "작성자 1",
         condition: "새상품",
         description: "상품 설명 1",
-        price: "10000원",
+        price: "10000",
       },
       // 추가 아이템들...
     ];
@@ -276,14 +287,17 @@ const MarketEditPage: React.FC = () => {
         </FormGroup>
         <FormGroup>
           <Label htmlFor="price">가격</Label>
-          <Input
-            id="price"
-            name="price"
-            type="text"
-            placeholder="가격을 입력하세요"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
+          <PriceInputContainer>
+            <Input
+              id="price"
+              name="price"
+              type="text"
+              placeholder="가격을 입력하세요"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+            <PriceText>원</PriceText>
+          </PriceInputContainer>
         </FormGroup>
         <Button type="submit">수정 완료</Button>
       </form>

@@ -1,4 +1,3 @@
-// src/components/Header/Header.tsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -9,50 +8,35 @@ interface HeaderProps {
   subtitle?: string;
 }
 
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding-top: 10px;
-  margin-right: 50px;
-  margin-left: 0px;
-`;
-
-const LoginButton = styled(Link)`
-  font-size: 16px;
-  padding: 0px 10px 0px 20px;
-  color: black;
-  border: none;
-  text-decoration: none;
-  font-weight: bold;
-`;
-
 const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #fff;
-  border-bottom: black 1px solid;
-  width: 100%;
+  border-bottom: 1px solid black;
+  padding: 10px;
+`;
+
+const LogoContainer = styled.div`
+  flex: 0 1 12%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Logo = styled(Link)`
   img {
-    height: 70px;
-    width: 90px;
-    margin-left: 20px;
-    margin-right: 20px;
+    height: 80px;
+    width: 110px;
   }
 `;
 
-const Nav = styled.nav`
+const NavContainer = styled.nav`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   ul {
     list-style: none;
     display: flex;
@@ -62,8 +46,7 @@ const Nav = styled.nav`
   }
 
   ul li {
-    margin-left: 100px;
-    margin-right: 100px;
+    margin: 0 100px;
     font-size: 21px;
     position: relative;
     cursor: pointer;
@@ -75,9 +58,11 @@ const Nav = styled.nav`
     color: #333;
     font-weight: bold;
     position: relative;
+    white-space: nowrap;
   }
 
-  ul li a:hover {
+  ul li a:hover,
+  ul li span:hover {
     color: #60dafb;
   }
 
@@ -91,7 +76,7 @@ const Nav = styled.nav`
     width: 0;
     height: 4px;
     background: #f1c40f;
-    transition: all 0.3s ease-out;
+    transition: width 0.3s ease-out;
   }
 
   ul li a:hover::after,
@@ -126,15 +111,22 @@ const Nav = styled.nav`
   }
 `;
 
-const Title = styled.h1`
-  margin: 0;
-  font-size: 24px;
+const ButtonContainer = styled.div`
+  flex: 0 1 12%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50px;
 `;
 
-const Subtitle = styled.h2`
-  margin: 0;
-  font-size: 18px;
-  color: #666;
+const LoginButton = styled(Link)`
+  font-size: 16px;
+  padding: 0 10px;
+  color: black;
+  border: none;
+  font-weight: bold;
+  text-decoration: none;
+  white-space: nowrap;
 `;
 
 const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
@@ -145,57 +137,52 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
   };
 
   return (
-    <PageContainer>
+    <HeaderContainer>
+      <LogoContainer>
+        <Logo to="/">
+          <img src={logo} alt="logo" />
+        </Logo>
+      </LogoContainer>
+      <NavContainer>
+        <ul>
+          <li
+            onMouseEnter={handleDropdownToggle}
+            onMouseLeave={handleDropdownToggle}
+          >
+            <span>직관 매칭</span>
+            <div className="dropdown">
+              <Link to="/matching">모집글 조회</Link>
+              <Link to="/matching/recruit">모집하기</Link>
+            </div>
+          </li>
+          <li>
+            <span>굿즈 장터</span>
+            <div className="dropdown">
+              <Link to="/market/sell">판매하기</Link>
+              <Link to="/market/buy">구입하기</Link>
+            </div>
+          </li>
+          <li>
+            <span>게시판</span>
+            <div className="dropdown">
+              <Link to="/board/general">자유게시판</Link>
+              <Link to="/board/tips">꿀팁게시판</Link>
+              <Link to="/board/food">맛집게시판</Link>
+            </div>
+          </li>
+          <li>
+            <span>마이페이지</span>
+            <div className="dropdown">
+              <Link to="/mypage/profile">내 정보</Link>
+            </div>
+          </li>
+        </ul>
+      </NavContainer>
       <ButtonContainer>
         <LoginButton to="/loginpage">로그인</LoginButton>
         <LoginButton to="/joinselectpage">회원가입</LoginButton>
       </ButtonContainer>
-
-      <HeaderContainer>
-        <Logo to="/">
-          <img src={logo} alt="logo" />
-        </Logo>
-        <Nav>
-          <ul>
-            <li
-              onMouseEnter={handleDropdownToggle}
-              onMouseLeave={handleDropdownToggle}
-            >
-              <span>직관 매칭</span>
-              <div className="dropdown">
-                <Link to="/matching">모집글 조회</Link>
-                <Link to="/matching/recruit">모집하기</Link>
-              </div>
-            </li>
-            <li>
-              <span>굿즈 장터</span>
-              <div className="dropdown">
-                <Link to="/market/sell">판매하기</Link>
-                <Link to="/market/buy">구입하기</Link>
-              </div>
-            </li>
-            <li>
-              <span>게시판</span>
-              <div className="dropdown">
-                <Link to="/board/general">자유게시판</Link>
-                <Link to="/board/tips">꿀팁게시판</Link>
-                <Link to="/board/food">맛집게시판</Link>
-              </div>
-            </li>
-            <li>
-              <span>마이페이지</span>
-              <div className="dropdown">
-                <Link to="/mypage/profile">내 정보</Link>
-              </div>
-            </li>
-          </ul>
-        </Nav>
-        <div>
-          <Title>{title}</Title>
-          {subtitle && <Subtitle>{subtitle}</Subtitle>}
-        </div>
-      </HeaderContainer>
-    </PageContainer>
+    </HeaderContainer>
   );
 };
 
