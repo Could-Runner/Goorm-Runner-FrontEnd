@@ -5,13 +5,16 @@ import FindAccount from "./pages/LoginPage/FindAccount";
 import JoinPage from "./pages/JoinPage/JoinPage";
 import JoinCompletePage from "./pages/JoinPage/JoinCompletePage";
 import JoinSelectPage from "./pages/JoinPage/JoinSelectPage";
-import Match from "./pages/MatchingPage/MatchingPage";
-import Market from "./pages/MarketPage/MarketPage";
+import Match from "./pages/MatchingPage/matchingPage";
+import MarketSell from "./pages/MarketPage/SellPage";
+import MarketBuy from "./pages/MarketPage/BuyPage";
+import MarketDetail from "./pages/MarketPage/DetailPage";
+import MarketEdit from "./pages/MarketPage/EditPage";
 
 import GeneralBoard from "./pages/BoardPage/GeneralBoard";
 import TipBoard from "./pages/BoardPage/TipBoard";
 // import MyPage from "./pages/MyPage/MyPage";
-import MatchingDetail from "./pages/MatchingPage/MatchingDetail";
+import MatchingDetail from "./pages/MatchingPage/matchingDetail";
 import Profile from "./pages/MyPage/Profile";
 import Header from "./components/Header/Header";
 import FoodDetail from "./pages/BoardPage/BoardDetail/FoodDetail";
@@ -35,7 +38,10 @@ const App: React.FC = () => {
           <Route path="/matching" element={<Match />} />
           <Route path="/matching/:id" element={<MatchingDetail />} />
           <Route path="/matching/recruit" element={<MatchingWrite />} />
-          <Route path="/market" element={<Market />} />
+          <Route path="/market/sell" element={<MarketSell />} />
+          <Route path="/market/buy" element={<MarketBuy />} />
+          <Route path="/market/buy/:id" element={<MarketDetail />} />
+          <Route path="/market/edit/:id" element={<MarketEdit />} />
           <Route path="/board/general" element={<GeneralBoard />} />
           <Route path="/board/general/:id" element={<GeneralDetail />} />
           <Route path="/board/general/edit/:id" element={<GeneralEditor />} />
