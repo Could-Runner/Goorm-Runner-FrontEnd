@@ -4,8 +4,8 @@ import styled from "styled-components";
 const Container = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -37,6 +37,21 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   margin-right: 40px;
   margin-left: 30px;
+`;
+
+const ChangeImageButton = styled.button`
+  display: block;
+  margin: 10px auto 0;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
 
 const Info = styled.div`
@@ -116,17 +131,22 @@ const Profile: React.FC = () => {
   const [introduction, setIntroduction] = useState(
     " 롯데경기라면 어디든지 달려갑니다!"
   );
+  const [profileImage, setProfileImage] = useState(
+    "https://via.placeholder.com/100"
+  );
 
   useEffect(() => {
     const savedUsername = localStorage.getItem("username");
     const savedIntroduction = localStorage.getItem("introduction");
     const savedSelectedTeam = localStorage.getItem("selectedTeam");
     const savedSelectedStadium = localStorage.getItem("selectedStadium");
+    const savedProfileImage = localStorage.getItem("profileImage");
 
     if (savedUsername) setUsername(savedUsername);
     if (savedIntroduction) setIntroduction(savedIntroduction);
     if (savedSelectedTeam) setSelectedTeam(savedSelectedTeam);
     if (savedSelectedStadium) setSelectedStadium(savedSelectedStadium);
+    if (savedProfileImage) setProfileImage(savedProfileImage);
   }, []);
 
   const handleTeamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -147,7 +167,19 @@ const Profile: React.FC = () => {
     localStorage.setItem("introduction", introduction);
     localStorage.setItem("selectedTeam", selectedTeam);
     localStorage.setItem("selectedStadium", selectedStadium);
+    localStorage.setItem("profileImage", profileImage);
     alert("변경이 완료되었습니다.");
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -155,7 +187,24 @@ const Profile: React.FC = () => {
       <SectionTitle>회원정보</SectionTitle>
       <Section>
         <ProfileInfo>
-          <ProfileImage src="https://via.placeholder.com/100" alt="Profile" />
+          <div>
+            <ProfileImage src={profileImage} alt="Profile" />
+            {isEditing && (
+              <>
+                <ChangeImageButton
+                  onClick={() => document.getElementById("fileInput")?.click()}
+                >
+                  사진변경
+                </ChangeImageButton>
+                <input
+                  type="file"
+                  id="fileInput"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+              </>
+            )}
+          </div>
           <div>
             {isEditing ? (
               <Input

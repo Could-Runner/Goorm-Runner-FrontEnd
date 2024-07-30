@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   margin-top: 50px;
+  margin-bottom: 50px;
   padding: 20px;
   max-width: 600px;
   margin-left: auto;
@@ -52,7 +53,7 @@ const TextArea = styled.textarea`
   background: #fff;
   box-sizing: border-box;
   border-radius: 4px;
-  resize: vertical;
+  resize: none;
 `;
 
 const Select = styled.select`
@@ -104,7 +105,7 @@ const HiddenInput = styled.input`
 
 const CustomImageButton = styled.button`
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   padding: 10px 20px;
   margin-top: 10px;
   cursor: pointer;
@@ -137,6 +138,13 @@ const MarketPage: React.FC = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleImageUploadClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    document.getElementById("image")?.click();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -177,9 +185,7 @@ const MarketPage: React.FC = () => {
             accept="image/*"
             onChange={handleImageChange}
           />
-          <CustomImageButton
-            onClick={() => document.getElementById("image")?.click()}
-          >
+          <CustomImageButton onClick={handleImageUploadClick}>
             {imagePreview ? "이미지 변경" : "이미지 업로드"}
           </CustomImageButton>
           {imagePreview && (
