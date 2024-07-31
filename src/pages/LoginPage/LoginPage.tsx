@@ -87,7 +87,7 @@ const RememberMeContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-size: 14px;
 `;
 

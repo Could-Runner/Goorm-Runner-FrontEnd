@@ -98,7 +98,7 @@ const LoginLink = styled.div`
   a {
     color: #03c75a;
     text-decoration: none;
-    font-weight: bold;
+    // font-weight: bold;
 
     &:hover {
       text-decoration: underline;
@@ -418,10 +418,16 @@ const JoinPage: React.FC = () => {
                   onChange={handleFavoriteTeamChange}
                 >
                   <option value="">응원팀을 선택하세요</option>
-                  <option value="팀1">팀1</option>
-                  <option value="팀2">팀2</option>
-                  <option value="팀3">팀3</option>
-                  {/* 다른 팀들도 추가 */}
+                  <option value="KIA타이거즈">KIA타이거즈</option>
+                  <option value="LG트윈스">LG트윈스</option>
+                  <option value="삼성라이온즈">삼성라이온즈</option>
+                  <option value="SSG랜더스">SSG랜더스</option>
+                  <option value="롯데자이언츠">롯데자이언츠</option>
+                  <option value="두산베어스">두산베어스</option>
+                  <option value="NC다이노스">NC다이노스</option>
+                  <option value="한화이글스">한화이글스</option>
+                  <option value="KT위즈">KT위즈</option>
+                  <option value="키움히어로즈">키움히어로즈</option>
                 </PopupSelect>
               </PopupFormGroup>
               <PopupFormGroup>
@@ -432,9 +438,20 @@ const JoinPage: React.FC = () => {
                   onChange={handlePreferredStadiumChange}
                 >
                   <option value="">선호구장을 선택하세요</option>
-                  <option value="구장1">구장1</option>
-                  <option value="구장2">구장2</option>
-                  <option value="구장3">구장3</option>
+                  <option value="광주 챔피언스필드">광주 챔피언스필드</option>
+                  <option value="대구 라이온즈파크">대구 라이온즈파크</option>
+                  <option value="인천 SSG랜더스필드">인천 SSG랜더스필드</option>
+                  <option value="사직 야구장">사직 야구장</option>
+                  <option value="창원 NC파크">창원 NC파크</option>
+                  <option value="대전 한화생명이글스파크">
+                    대전 한화생명이글스파크
+                  </option>
+                  <option value="수원 KT위즈파크">수원 KT위즈파크</option>
+                  <option value="고척 스카이돔">고척 스카이돔</option>
+                  <option value="서울종합운동장 야구장">
+                    서울종합운동장 야구장
+                  </option>
+
                   {/* 다른 구장도 추가 */}
                 </PopupSelect>
               </PopupFormGroup>

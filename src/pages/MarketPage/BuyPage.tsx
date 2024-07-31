@@ -55,6 +55,7 @@ const Item = styled.div`
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
 
   &:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -82,6 +83,13 @@ const ItemTitle = styled.h3`
   margin: 0;
   color: #333;
   text-align: center;
+`;
+
+const ItemPrice = styled.p`
+  font-size: 16px;
+  font-weight: bold;
+  color: #03c75a;
+  margin: 5px 0;
 `;
 
 const ItemDate = styled.div`
@@ -121,11 +129,11 @@ const PageButton = styled.button<{ active: boolean }>`
   }
 `;
 
-const MarketBuyPage: React.FC = () => {
+const BuyPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("전체보기");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  
+
   const itemsPerPage = 8;
 
   const items = [
@@ -135,7 +143,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 1",
       date: "2일 전",
       likes: 5,
-      category: "의류",
+      category: "유니폼",
+      price: "50,000원",
     },
     {
       id: 2,
@@ -143,7 +152,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 2",
       date: "1일 전",
       likes: 3,
-      category: "악세사리",
+      category: "유니폼",
+      price: "45,000원",
     },
     {
       id: 3,
@@ -151,7 +161,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 3",
       date: "3일 전",
       likes: 8,
-      category: "기타",
+      category: "기타굿즈",
+      price: "30,000원",
     },
     {
       id: 4,
@@ -159,7 +170,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 4",
       date: "4일 전",
       likes: 1,
-      category: "의류",
+      category: "싸인볼",
+      price: "70,000원",
     },
     {
       id: 5,
@@ -167,7 +179,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 5",
       date: "5일 전",
       likes: 4,
-      category: "기타",
+      category: "티켓양도",
+      price: "15,000원",
     },
     {
       id: 6,
@@ -175,7 +188,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 6",
       date: "6일 전",
       likes: 2,
-      category: "악세사리",
+      category: "티켓양도",
+      price: "20,000원",
     },
     {
       id: 7,
@@ -183,7 +197,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 7",
       date: "7일 전",
       likes: 7,
-      category: "의류",
+      category: "유니폼",
+      price: "55,000원",
     },
     {
       id: 8,
@@ -191,7 +206,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 8",
       date: "8일 전",
       likes: 9,
-      category: "기타",
+      category: "기타굿즈",
+      price: "40,000원",
     },
     {
       id: 9,
@@ -199,7 +215,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 9",
       date: "9일 전",
       likes: 6,
-      category: "악세사리",
+      category: "유니폼",
+      price: "50,000원",
     },
     {
       id: 10,
@@ -207,7 +224,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 10",
       date: "10일 전",
       likes: 0,
-      category: "의류",
+      category: "유니폼",
+      price: "60,000원",
     },
     {
       id: 11,
@@ -215,7 +233,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 11",
       date: "11일 전",
       likes: 3,
-      category: "기타",
+      category: "기타굿즈",
+      price: "35,000원",
     },
     {
       id: 12,
@@ -223,7 +242,8 @@ const MarketBuyPage: React.FC = () => {
       title: "굿즈 12",
       date: "12일 전",
       likes: 2,
-      category: "악세사리",
+      category: "KBO포토카드",
+      price: "10,000원",
     },
     // 다른 상품들도 추가할 수 있습니다.
   ];
@@ -246,7 +266,14 @@ const MarketBuyPage: React.FC = () => {
     <Container>
       <Title>판매 목록</Title>
       <CategoryButtons>
-        {["전체보기", "의류", "악세사리", "기타"].map((category) => (
+        {[
+          "전체보기",
+          "유니폼",
+          "KBO포토카드",
+          "티켓양도",
+          "싸인볼",
+          "기타굿즈",
+        ].map((category) => (
           <CategoryButton
             key={category}
             active={selectedCategory === category}
@@ -268,6 +295,7 @@ const MarketBuyPage: React.FC = () => {
             <ItemImage src={item.image} alt={item.title} />
             <ItemContent>
               <ItemTitle>{item.title}</ItemTitle>
+              <ItemPrice>{item.price}</ItemPrice>
               <ItemDate>{item.date}</ItemDate>
               <ItemLikes>
                 <HeartIcon>❤️</HeartIcon>
@@ -292,4 +320,4 @@ const MarketBuyPage: React.FC = () => {
   );
 };
 
-export default MarketBuyPage;
+export default BuyPage;

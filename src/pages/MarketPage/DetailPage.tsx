@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const Container = styled.div`
   margin-top: 50px;
   margin-bottom: 50px;
   padding: 20px;
-  max-width: 600px;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #dadada;
@@ -15,134 +16,277 @@ const Container = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const Title = styled.h2`
+const Header = styled.div`
+  display: flex;
   margin-bottom: 20px;
+`;
+
+const ProductImage = styled.img`
+  width: 200px;
+  height: auto;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  margin-right: 20px;
+`;
+
+const ProductInfo = styled.div`
+  flex: 1;
+`;
+
+const Title = styled.h2`
+  margin: 10px;
+  margin-left: auto;
   font-size: 24px;
   color: #333;
-  text-align: center;
 `;
 
-const Image = styled.img`
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 20px;
-`;
-
-const Content = styled.div`
-  text-align: left;
-`;
-
-const ContentItem = styled.div`
+const ProductDetail = styled.div`
   margin-bottom: 10px;
 `;
 
-const Label = styled.span`
+const Label = styled.label`
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+`;
+
+const Text = styled.p`
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+`;
+
+const Price = styled.p`
+  font-size: 20px;
+  font-weight: bold;
+  color: #03c75a;
+  margin: 10px;
+  margin-left: auto;
+`;
+
+const WishlistButton = styled.button`
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  background-color: #ff4081;
+  padding: 10px 20px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    background-color: #e73370;
+  }
+
+  svg {
+    margin-right: 5px;
+  }
+`;
+
+const DescriptionSection = styled.div`
+  margin-top: 20px;
+`;
+
+const SellerInfo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const SellerImage = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+`;
+
+const SellerDetails = styled.div`
+  flex: 1;
+`;
+
+const SellerName = styled.p`
+  margin: 0;
+  font-size: 16px;
   font-weight: bold;
   color: #333;
 `;
 
-const Text = styled.span`
-  color: #777;
+const SellerRating = styled.p`
+  margin: 0;
+  font-size: 14px;
+  color: #555;
 `;
 
-const ButtonContainer = styled.div`
+const ReviewsSection = styled.div`
+  margin-top: 20px;
+`;
+
+const Review = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid #dadada;
+`;
+
+const ReviewText = styled.p`
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+`;
+
+const ReviewAuthor = styled.p`
+  margin: 0;
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+`;
+
+const ButtonGroup = styled.div`
   display: flex;
-  justify-content: center;
   gap: 10px;
+  margin-top: 20px;
 `;
 
 const Button = styled.button`
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 49px;
+  width: 100%;
+  height: 49px;
   cursor: pointer;
-  border: 1px solid #dadada;
+  text-align: center;
+  color: #fff;
+  border: none;
   border-radius: 4px;
-  background-color: #f8f8f8;
+  background-color: #03c75a;
 
   &:hover {
-    background-color: #e8e8e8;
+    background-color: #028a4d;
   }
 `;
 
-const MarketDetailPage: React.FC = () => {
+const items = [
+  {
+    id: 1,
+    image: "https://via.placeholder.com/200",
+    title: "굿즈 1",
+    date: "2일 전",
+    likes: 5,
+    category: "유니폼",
+    condition: "새상품",
+    description:
+      "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
+    price: "50,000원",
+    seller: {
+      image: "https://via.placeholder.com/50",
+      name: "판매자 닉네임",
+      rating: "매너점수: 60",
+    },
+    reviews: [
+      { text: "좋은 상품 잘 받았습니다!", author: "구매자1" },
+      { text: "상태가 아주 좋아요.", author: "구매자2" },
+    ],
+  },
+  {
+    id: 2,
+    image: "https://via.placeholder.com/200",
+    title: "굿즈 2",
+    date: "1일 전",
+    likes: 3,
+    category: "유니폼",
+    condition: "새상품",
+    description:
+      "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
+    price: "50,000원",
+    seller: {
+      image: "https://via.placeholder.com/50",
+      name: "판매자 닉네임",
+      rating: "매너점수: 100",
+    },
+    reviews: [
+      { text: "좋은 상품 잘 받았습니다!", author: "구매자1" },
+      { text: "상태가 아주 좋아요.", author: "구매자2" },
+    ],
+  },
+  // 다른 items들도 추가해줍니다.
+];
+
+const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [item, setItem] = useState<any>(null);
+  const product = items.find((item) => item.id === parseInt(id!, 10));
 
-  useEffect(() => {
-    const items = [
-      {
-        id: 1,
-        image: "https://via.placeholder.com/100",
-        title: "굿즈 1",
-        date: "2일 전",
-        likes: 5,
-        category: "의류",
-        author: "작성자 1",
-        condition: "새상품",
-        description: "상품 설명 1",
-        price: "10000원",
-      },
-      // 추가 아이템들...
-    ];
+  const [wishlistCount, setWishlistCount] = useState(
+    product ? product.likes : 0
+  );
+  const [isWishlist, setIsWishlist] = useState(false);
 
-    const selectedItem = items.find(
-      (item) => item.id === parseInt(id || "", 10)
-    );
-    setItem(selectedItem);
-  }, [id]);
+  const handleWishlistClick = () => {
+    setIsWishlist(!isWishlist);
+    setWishlistCount(isWishlist ? wishlistCount - 1 : wishlistCount + 1);
+  };
 
-  if (!item) {
-    return <Container>Loading...</Container>;
+  if (!product) {
+    return <div>상품을 찾을 수 없습니다.</div>;
   }
+
+  const handleBuyClick = () => {
+    console.log("구매 버튼 클릭됨");
+    navigate("/market/buy");
+  };
+
+  const handleEditClick = () => {
+    navigate(`/market/edit/${id}`);
+  };
 
   return (
     <Container>
-      <Title>{item.title}</Title>
-      <Image src={item.image} alt={item.title} />
-      <Content>
-        <ContentItem>
-          <Label>작성자: </Label>
-          <Text>{item.author}</Text>
-        </ContentItem>
-        <ContentItem>
-          <Label>카테고리: </Label>
-          <Text>{item.category}</Text>
-        </ContentItem>
-        <ContentItem>
-          <Label>상품 상태: </Label>
-          <Text>{item.condition}</Text>
-        </ContentItem>
-        <ContentItem>
-          <Label>설명: </Label>
-          <Text>{item.description}</Text>
-        </ContentItem>
-        <ContentItem>
-          <Label>가격: </Label>
-          <Text>{item.price}</Text>
-        </ContentItem>
-        <ContentItem>
-          <Label>작성일: </Label>
-          <Text>{item.date}</Text>
-        </ContentItem>
-        <ContentItem>
-          <Label>찜: </Label>
-          <Text>{item.likes}</Text>
-        </ContentItem>
-      </Content>
-      <ButtonContainer>
-        <Button onClick={() => navigate("/market/buy")}>
-          목록으로 돌아가기
-        </Button>
-        <Button onClick={() => navigate(`/market/edit/${item.id}`)}>
-          수정하기
-        </Button>
-      </ButtonContainer>
+      <Header>
+        <ProductImage src={product.image} alt="상품 이미지" />
+        <ProductInfo>
+          <Title>{product.title}</Title>
+          <Price>{product.price}</Price>
+          <ProductDetail>
+            <Label>카테고리</Label>
+            <Text>{product.category}</Text>
+          </ProductDetail>
+          <ProductDetail>
+            <Label>상품 상태</Label>
+            <Text>{product.condition}</Text>
+          </ProductDetail>
+          <WishlistButton onClick={handleWishlistClick}>
+            {isWishlist ? <AiFillHeart /> : <AiOutlineHeart />}
+            {wishlistCount} 찜하기
+          </WishlistButton>
+        </ProductInfo>
+      </Header>
+      <DescriptionSection>
+        <Label>상품 설명</Label>
+        <Text>{product.description}</Text>
+      </DescriptionSection>
+      <SellerInfo>
+        <SellerImage src={product.seller.image} alt="판매자 이미지" />
+        <SellerDetails>
+          <SellerName>{product.seller.name}</SellerName>
+          <SellerRating>{product.seller.rating}</SellerRating>
+        </SellerDetails>
+      </SellerInfo>
+      <ReviewsSection>
+        <Label>판매 후기</Label>
+        {product.reviews.map((review, index) => (
+          <Review key={index}>
+            <ReviewText>{review.text}</ReviewText>
+            <ReviewAuthor>{review.author}</ReviewAuthor>
+          </Review>
+        ))}
+      </ReviewsSection>
+      <ButtonGroup>
+        <Button onClick={handleBuyClick}>채팅하기</Button>
+        <Button onClick={handleEditClick}>수정하기</Button>
+      </ButtonGroup>
     </Container>
   );
 };
 
-export default MarketDetailPage;
+export default DetailPage;
