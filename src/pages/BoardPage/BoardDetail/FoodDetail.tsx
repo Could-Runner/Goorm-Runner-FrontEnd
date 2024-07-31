@@ -100,8 +100,16 @@ const FoodDetail: React.FC = () => {
 export default FoodDetail;
 
 const Container = styled.div`
+    margin-top: 50px;
     padding: 20px;
-    margin: 0 200px;
+    padding-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #dadada;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Table = styled.table`
@@ -162,6 +170,8 @@ const CommentSection = styled.div`
 
 const CommentTitle = styled.h2`
     margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 `;
 
 const Comment = styled.div`

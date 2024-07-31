@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { MdPeople } from "react-icons/md";
 import baseballImg from "../../assets/야구배경.jpg"

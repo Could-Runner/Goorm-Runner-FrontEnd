@@ -126,6 +126,7 @@ const MarketBuyPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string>("전체보기");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  
   const itemsPerPage = 8;
 
   const items = [

@@ -214,10 +214,6 @@ const StyledLink = styled(Link)`
     color: inherit;
 `;
 
-const MainContent = styled.div`
-    flex: 1;
-`;
-
 const Content = styled.div`
     display: flex;
     flex-wrap: wrap;
