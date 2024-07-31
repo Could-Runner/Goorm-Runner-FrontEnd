@@ -157,24 +157,6 @@ const Label = styled.label`
     }
 `;
 
-const StyledDatePicker = styled(DatePicker)`
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    width: 100%;
-    height: 46px;
-    color: #333;
-    text-align: center;
-    padding-right: 14px;
-    font-size: 16px;
-
-    &:focus {
-        border: 2px solid #ff5722;
-    }
-`;
-
 const Input = styled.input`
     padding: 8px;
     border: 1px solid #ccc;

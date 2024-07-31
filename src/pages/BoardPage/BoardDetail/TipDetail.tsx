@@ -63,7 +63,7 @@ const TipsDetail: React.FC = () => {
                     </Tr>
                     <Tr>
                         <Th>내용</Th>
-                        <Td colSpan={3} rowSpan={3}>{post.content}</Td>
+                        <Td colSpan={3}>{post.content}</Td>
                     </Tr>
                 </tbody>
             </Table>
@@ -100,8 +100,16 @@ const TipsDetail: React.FC = () => {
 export default TipsDetail;
 
 const Container = styled.div`
+    margin-top: 50px;
     padding: 20px;
-    margin: 0 200px;
+    padding-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #dadada;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Table = styled.table`
@@ -162,6 +170,8 @@ const CommentSection = styled.div`
 
 const CommentTitle = styled.h2`
     margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 `;
 
 const Comment = styled.div`
