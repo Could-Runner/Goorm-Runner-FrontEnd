@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom";
+import AuthContext from "../../pages/LoginPage/AuthContext";
 
 const Container = styled.div`
   max-width: 800px;
@@ -45,12 +47,12 @@ const ChangeImageButton = styled.button`
   padding: 5px 10px;
   font-size: 12px;
   color: #fff;
-  background-color: #007bff;
+  background-color: #03c75a;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    filter: brightness(0.9);
   }
 `;
 
@@ -96,12 +98,12 @@ const Button = styled.button`
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
-  background-color: #007bff;
+  background-color: #03c75a;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    filter: brightness(0.9);
   }
 `;
 
@@ -128,14 +130,28 @@ const Profile: React.FC = () => {
   const [selectedStadium, setSelectedStadium] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState("롯데조아용");
-  const [introduction, setIntroduction] = useState(
-    " 롯데경기라면 어디든지 달려갑니다!"
-  );
+  const [introduction, setIntroduction] =
+    useState("롯데경기라면 어디든지 달려갑니다!");
   const [profileImage, setProfileImage] = useState(
     "https://via.placeholder.com/100"
   );
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isLoggedIn } = useContext(AuthContext);
+  const hasShownPopup = useRef(false);
 
   useEffect(() => {
+    // 로그인 여부 확인
+    if (
+      !isLoggedIn &&
+      location.pathname !== "/loginpage" &&
+      !hasShownPopup.current
+    ) {
+      hasShownPopup.current = true;
+      alert("회원가입 또는 로그인을 해주세요.");
+      navigate("/loginpage"); // 로그인 페이지로 리디렉션
+    }
+
     const savedUsername = localStorage.getItem("username");
     const savedIntroduction = localStorage.getItem("introduction");
     const savedSelectedTeam = localStorage.getItem("selectedTeam");
@@ -147,7 +163,7 @@ const Profile: React.FC = () => {
     if (savedSelectedTeam) setSelectedTeam(savedSelectedTeam);
     if (savedSelectedStadium) setSelectedStadium(savedSelectedStadium);
     if (savedProfileImage) setProfileImage(savedProfileImage);
-  }, []);
+  }, [isLoggedIn, navigate, location.pathname]);
 
   const handleTeamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTeam(e.target.value);
