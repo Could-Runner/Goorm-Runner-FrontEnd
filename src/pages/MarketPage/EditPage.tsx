@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -53,7 +53,7 @@ const TextArea = styled.textarea`
   background: #fff;
   box-sizing: border-box;
   border-radius: 4px;
-  resize: vertical;
+  resize: none;
 `;
 
 const Select = styled.select`
@@ -85,6 +85,24 @@ const Button = styled.button`
   }
 `;
 
+const HiddenInput = styled.input`
+  display: none;
+`;
+
+const CustomImageButton = styled.button`
+  display: inline-block;
+  font-size: 14px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  &:hover {
+    background-color: #e8e8e8;
+  }
+`;
+
 const ImagePreviewContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -99,76 +117,19 @@ const ImagePreview = styled.img`
   border-radius: 4px;
 `;
 
-const HiddenInput = styled.input`
-  display: none;
-`;
-
-const CustomImageButton = styled.button`
-  display: inline-block;
-  font-size: 16px;
-  padding: 10px 20px;
-  margin-top: 10px;
-  cursor: pointer;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  background-color: #f8f8f8;
-  &:hover {
-    background-color: #e8e8e8;
-  }
-`;
-
-const PriceInputContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const PriceText = styled.span`
-  margin-left: 8px;
-  font-size: 16px;
-`;
-
-const MarketEditPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+const EditPage: React.FC = () => {
   const navigate = useNavigate();
-  const [item, setItem] = useState<any>(null);
-  const [author, setAuthor] = useState("");
+  const { id } = useParams<{ id: string }>();
+
+  // 수정 폼의 초기 값을 설정
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [category, setCategory] = useState("");
-  const [condition, setCondition] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-
-  useEffect(() => {
-    const items = [
-      {
-        id: 1,
-        image: "https://via.placeholder.com/100",
-        title: "굿즈 1",
-        date: "2일 전",
-        likes: 5,
-        category: "의류",
-        author: "작성자 1",
-        condition: "새상품",
-        description: "상품 설명 1",
-        price: "10000",
-      },
-      // 추가 아이템들...
-    ];
-
-    const selectedItem = items.find(
-      (item) => item.id === parseInt(id || "", 10)
-    );
-    if (selectedItem) {
-      setItem(selectedItem);
-      setAuthor(selectedItem.author);
-      setImagePreview(selectedItem.image);
-      setCategory(selectedItem.category);
-      setCondition(selectedItem.condition);
-      setDescription(selectedItem.description);
-      setPrice(selectedItem.price);
-    }
-  }, [id]);
+  const [category, setCategory] = useState("유니폼");
+  const [condition, setCondition] = useState("새상품");
+  const [description, setDescription] = useState(
+    "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다."
+  );
+  const [price, setPrice] = useState("50,000");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -183,49 +144,31 @@ const MarketEditPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleImageUploadClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
-
-    const updatedItem = {
-      ...item,
-      author,
-      image: imagePreview,
-      category,
-      condition,
-      description,
-      price,
-    };
-
-    // 로컬 스토리지에 업데이트
-    const items = JSON.parse(localStorage.getItem("items") || "[]");
-    const updatedItems = items.map((i: any) =>
-      i.id === updatedItem.id ? updatedItem : i
-    );
-    localStorage.setItem("items", JSON.stringify(updatedItems));
-
-    // 수정 완료 후 /market/detail/:id로 이동
-    navigate(`/market/buy/${updatedItem.id}`);
+    document.getElementById("image")?.click();
   };
 
-  if (!item) {
-    return <Container>Loading...</Container>;
-  }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 폼 제출 로직을 추가하세요
+
+    console.log("Image:", image);
+    console.log("Category:", category);
+    console.log("Condition:", condition);
+    console.log("Description:", description);
+    console.log("Price:", price);
+
+    // 수정 완료 후 상세 페이지로 이동
+    navigate(`/market/buy/${id}`);
+  };
 
   return (
     <Container>
-      <Title>판매글 수정하기</Title>
+      <Title>제품 수정</Title>
       <form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label htmlFor="author">작성자</Label>
-          <Input
-            id="author"
-            name="author"
-            type="text"
-            placeholder="작성자를 입력하세요"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </FormGroup>
         <FormGroup>
           <Label htmlFor="image">상품 이미지</Label>
           <HiddenInput
@@ -235,9 +178,7 @@ const MarketEditPage: React.FC = () => {
             accept="image/*"
             onChange={handleImageChange}
           />
-          <CustomImageButton
-            onClick={() => document.getElementById("image")?.click()}
-          >
+          <CustomImageButton onClick={handleImageUploadClick}>
             {imagePreview ? "이미지 변경" : "이미지 업로드"}
           </CustomImageButton>
           {imagePreview && (
@@ -254,11 +195,12 @@ const MarketEditPage: React.FC = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="">카테고리를 선택하세요</option>
-            <option value="의류">의류</option>
-            <option value="악세사리">악세사리</option>
-            <option value="기타">기타</option>
-            {/* 다른 카테고리를 추가하세요 */}
+            <option value="유니폼">유니폼</option>
+            <option value="KBO포토카드">KBO포토카드</option>
+            <option value="티켓양도">티켓양도</option>
+            <option value="싸인볼">싸인볼</option>
+            <option value="기타굿즈">기타굿즈</option>
+            {/* 다른 카테고리를 추가 */}
           </Select>
         </FormGroup>
         <FormGroup>
@@ -269,10 +211,9 @@ const MarketEditPage: React.FC = () => {
             value={condition}
             onChange={(e) => setCondition(e.target.value)}
           >
-            <option value="">상품 상태를 선택하세요</option>
             <option value="새상품">새상품</option>
             <option value="중고상품">중고상품</option>
-            {/* 다른 상태를 추가하세요 */}
+            {/* 다른 상태를 추가 */}
           </Select>
         </FormGroup>
         <FormGroup>
@@ -280,24 +221,19 @@ const MarketEditPage: React.FC = () => {
           <TextArea
             id="description"
             name="description"
-            placeholder="상품 설명을 입력하세요"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </FormGroup>
         <FormGroup>
           <Label htmlFor="price">가격</Label>
-          <PriceInputContainer>
-            <Input
-              id="price"
-              name="price"
-              type="text"
-              placeholder="가격을 입력하세요"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-            <PriceText>원</PriceText>
-          </PriceInputContainer>
+          <Input
+            id="price"
+            name="price"
+            type="text"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </FormGroup>
         <Button type="submit">수정 완료</Button>
       </form>
@@ -305,4 +241,4 @@ const MarketEditPage: React.FC = () => {
   );
 };
 
-export default MarketEditPage;
+export default EditPage;
