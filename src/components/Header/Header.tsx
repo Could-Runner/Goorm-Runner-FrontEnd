@@ -46,7 +46,7 @@ const NavContainer = styled.nav`
   }
 
   ul li {
-    margin: 0 100px;
+    margin: 0 100px; // 뷰포트가 작아져도 auto나 다른 방식으로 수정이 필요
     font-size: 21px;
     position: relative;
     cursor: pointer;
@@ -112,11 +112,12 @@ const NavContainer = styled.nav`
 `;
 
 const ButtonContainer = styled.div`
-  flex: 0 1 12%;
+  flex: 0 1 ;
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 50px;
+  padding-right: 20px;
 `;
 
 const LoginButton = styled(Link)`
