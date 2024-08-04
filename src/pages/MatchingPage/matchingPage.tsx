@@ -32,15 +32,15 @@ const teams = [
 ];
 
 const stadiums = [
-    "광주 챔피언스필드",
-    "대구 라이온즈파크",
-    "인천 SSG랜더스필드",
-    "사직 야구장",
-    "창원 NC파크",
-    "대전 한화생명이글스파크",
-    "수원 KT위즈파크",
-    "고척 스카이돔",
-    "서울종합운동장 야구장"
+    { name: "광주 챔피언스필드", color: "#1f77b4" },
+    { name: "대구 라이온즈파크", color: "#ff7f0e" },
+    { name: "인천 SSG랜더스필드", color: "#2ca02c" },
+    { name: "사직 야구장", color: "#d62728" },
+    { name: "창원 NC파크", color: "#9467bd" },
+    { name: "대전 한화생명이글스파크", color: "#8c564b" },
+    { name: "수원 KT위즈파크", color: "#e377c2" },
+    { name: "고척 스카이돔", color: "#7f7f7f" },
+    { name: "서울종합운동장 야구장", color: "#bcbd22" }
 ];
 
 const ITEMS_PER_PAGE = 8;
@@ -60,6 +60,8 @@ const MatchingPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
     const [showStadiums, setShowStadiums] = useState(false);
+    const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+    const [selectedStadium, setSelectedStadium] = useState<string | null>(null);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -73,11 +75,24 @@ const MatchingPage: React.FC = () => {
         setShowStadiums(!showStadiums);
     };
 
+    const handleTeamFilter = (team: string) => {
+        setSelectedTeam(selectedTeam === team ? null : team);
+    };
+
+    const handleStadiumFilter = (stadium: string) => {
+        setSelectedStadium(selectedStadium === stadium ? null : stadium);
+    };
+
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const currentItems = teams.slice(indexOfFirstItem, indexOfLastItem);
+    const filteredTeams = teams.filter(team => {
+        const teamMatch = selectedTeam ? team.name === selectedTeam : true;
+        const stadiumMatch = selectedStadium ? team.location === selectedStadium : true;
+        return teamMatch && stadiumMatch;
+    });
+    const currentItems = filteredTeams.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(teams.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(filteredTeams.length / ITEMS_PER_PAGE);
 
     return (
         <Container>
@@ -87,7 +102,14 @@ const MatchingPage: React.FC = () => {
                     {showFilters && (
                         <FilterButtons>
                             {teams.map((team) => (
-                                <TeamFilter key={team.id} color={team.color}>{team.name}</TeamFilter>
+                                <TeamFilter
+                                    key={team.id}
+                                    color={team.color}
+                                    selected={team.name === selectedTeam}
+                                    onClick={() => handleTeamFilter(team.name)}
+                                >
+                                    {team.name}
+                                </TeamFilter>
                             ))}
                         </FilterButtons>
                     )}
@@ -97,7 +119,14 @@ const MatchingPage: React.FC = () => {
                     {showStadiums && (
                         <FilterButtons>
                             {stadiums.map((stadium, index) => (
-                                <TeamFilter key={index} color="#ccc">{stadium}</TeamFilter>
+                                <TeamFilter
+                                    key={index}
+                                    color={stadium.color}
+                                    selected={stadium.name === selectedStadium}
+                                    onClick={() => handleStadiumFilter(stadium.name)}
+                                >
+                                    {stadium.name}
+                                </TeamFilter>
                             ))}
                         </FilterButtons>
                     )}
@@ -143,12 +172,14 @@ export default MatchingPage;
 const Container = styled.div`
     display: flex;
     padding: 20px;
+    justify-content: center;
 `;
 
 const FilterGroup = styled.div`
     display: flex;
     flex-direction: row;
-    margin-right: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
     margin-top: 20px;
 `;
 
@@ -161,7 +192,6 @@ const FilterWrapper = styled.div`
 `;
 
 const FilterToggle = styled.button`
-    background-color: #03a9f4;
     border: none;
     width: 120px;
     height: 40px;
@@ -170,12 +200,12 @@ const FilterToggle = styled.button`
     font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s;
+    background-color: #03c75a;
 
-    &:hover {
-        background-color: #0288d1;
+    &:hover {   
+        background-color: #028a4d;
     }
 `;
-
 
 const FilterButtons = styled.div`
     display: flex;
@@ -186,8 +216,8 @@ const FilterButtons = styled.div`
     animation: ${expand} 0.5s ease-out;
 `;
 
-const TeamFilter = styled.button<{ color: string }>`
-    background-color: ${({ color }) => color};
+const TeamFilter = styled.button<{ color: string, selected: boolean }>`
+    background-color: ${({ color, selected }) => (selected ? darken(0.2, color) : color)};
     border: none;
     width: 120px;
     height: 40px;
@@ -207,6 +237,8 @@ const ContentWrapper = styled.div`
     flex-direction: column;
     flex: 1;
     align-items: center;
+
+    max-width: 1000px;
 `;
 
 const StyledLink = styled(Link)`
@@ -215,25 +247,38 @@ const StyledLink = styled(Link)`
 `;
 
 const Content = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns layout */
+    row-gap: 25px;
+    column-gap: 40px;
     margin-top: 20px;
-
-    & > * {
-        flex: 1 1 calc(50% - 20px);
-        max-width: calc(50% - 20px);
-    }
+    width: 100%; 
+    max-width: 1000px; 
 `;
 
+// const Card = styled.div`
+//     border: 1px solid #dadada;
+//     border-radius: 8px;
+//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//     overflow: hidden;
+//     text-align: left;
+//     margin-bottom: 10px;
+//     height: 100%; /* Ensures all cards have equal height */
+//     min-width: 500px;
+// `;
+
 const Card = styled.div`
-    width: 100%;
     border: 1px solid #dadada;
+
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-align: left;
-    margin-bottom: 10px;
+    height: 100%; /* Ensures all cards have equal height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure content is spaced out */
+    background-color: rgba(217, 217, 217, 0.2); /* White background for a clean look */
 `;
 
 const CardContent = styled.div`
@@ -248,8 +293,11 @@ const CardContent = styled.div`
 
 const LogoWrapper = styled.div`
     flex: 0 0 100px;
-    border: 1px solid #000;
+    /* border: 1px solid #000; */
     border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    /* filter: drop-shadow(); */
 `;
 
 const InfoWrapper = styled.div`
@@ -271,7 +319,9 @@ const Pagination = styled.div`
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    padding-top: 10px;
 `;
+
 const PageNumber = styled.div<{ isActive: boolean }>`
     margin: 0 5px; 
     padding: 5px 10px; 
