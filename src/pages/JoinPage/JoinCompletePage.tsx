@@ -3,9 +3,14 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin-top: 100px;
   margin-bottom: 100px;
   padding: 20px;
+  padding-bottom: 35px;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
@@ -23,22 +28,23 @@ const Message = styled.h2`
 `;
 
 const LoginButton = styled(Link)`
-  display: block;
-  font-size: 18px;
-  font-weight: 700;
+  display: inline-block;
+  font-size: 18.5px;
+  font-weight: 500;
   line-height: 49px;
-  width: 100%;
-  height: 49px;
-  margin: 16px 0 7px;
+  width: 90%;
+  height: 54px;
+  margin: 1px 0 7px;
+  cursor: pointer;
   text-align: center;
   color: #fff;
   border: none;
-  border-radius: 0;
+  border-radius: 7px;
   background-color: #03c75a;
   text-decoration: none;
 
   &:hover {
-    background-color: #028a4d;
+    filter: brightness(0.9);
   }
 `;
 

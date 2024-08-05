@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../assets/Cloud_Runner_Logo.png";
+import AuthContext from "../../pages/LoginPage/AuthContext";
 
 interface HeaderProps {
   title: string;
@@ -130,12 +131,23 @@ const LoginButton = styled(Link)`
   white-space: nowrap;
 `;
 
-const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+const LogoutButton = styled.button`
+  font-size: 16px;
+  padding: 0 10px;
+  color: black;
+  border: none;
+  font-weight: bold;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
 
-  const handleDropdownToggle = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  &:hover {
+    color: #60dafb;
+  }
+`;
+
+const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
+  const { isLoggedIn, username, logout } = useContext(AuthContext);
 
   return (
     <HeaderContainer>
@@ -146,10 +158,7 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
       </LogoContainer>
       <NavContainer>
         <ul>
-          <li
-            onMouseEnter={handleDropdownToggle}
-            onMouseLeave={handleDropdownToggle}
-          >
+          <li>
             <span>직관 매칭</span>
             <div className="dropdown">
               <Link to="/matching">모집글 조회</Link>
@@ -180,8 +189,17 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
         </ul>
       </NavContainer>
       <ButtonContainer>
-        <LoginButton to="/loginpage">로그인</LoginButton>
-        <LoginButton to="/joinselectpage">회원가입</LoginButton>
+        {isLoggedIn ? (
+          <>
+            <span>{username}</span>
+            <LogoutButton onClick={logout}>로그아웃</LogoutButton>
+          </>
+        ) : (
+          <>
+            <LoginButton to="/loginpage">로그인</LoginButton>
+            <LoginButton to="/joinselectpage">회원가입</LoginButton>
+          </>
+        )}
       </ButtonContainer>
     </HeaderContainer>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Kakaologin from "../../assets/kakao_login_large_wide.png";
 
 const Container = styled.div`
   margin-top: 100px;
@@ -17,38 +18,45 @@ const Container = styled.div`
 `;
 
 const Message = styled.h2`
-  margin-bottom: 20px;
   font-size: 24px;
   color: #333;
+  padding-bottom: 20px;
 `;
 
 const Button = styled.button`
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 18.5px;
+  font-weight: 500;
   line-height: 49px;
-  width: 100%;
-  height: 49px;
+  width: 90%;
+  height: 54px;
   margin: 1px 0 7px;
   cursor: pointer;
   text-align: center;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 7px;
   background-color: #03c75a;
 
   &:hover {
-    background-color: #028a4d;
+    filter: brightness(0.9);
   }
 `;
 
-const KakaoButton = styled(Button)`
-  background-color: #ffeb00;
-  color: #3c1e1e;
+const KakaoButton = styled.img`
+  width: 90%;
+  padding-bottom: 20px;
 
   &:hover {
-    background-color: #e8d408;
+    filter: brightness(0.9);
+    border-radius: 7px;
+    cursor: pointer;
   }
 `;
+
+const handleKakaoLogin = () => {
+  window.location.href =
+    "https://kauth.kakao.com/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code";
+};
 
 const JoinSelectPage: React.FC = () => {
   return (
@@ -59,17 +67,14 @@ const JoinSelectPage: React.FC = () => {
         회원가입 할 방법을 선택해주세요
       </Message>
       <Link to="/joinpage">
-        <Button>아이디 회원가입</Button>
+        <Button>회원가입</Button>
       </Link>
+
       <KakaoButton
-      // onClick={() => {
-      //   // 카카오 회원가입 로직 추가
-      //   window.location.href =
-      //     "https://kauth.kakao.com/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code";
-      // }}
-      >
-        카카오 회원가입
-      </KakaoButton>
+        src={Kakaologin}
+        alt="카카오 로그인"
+        onClick={handleKakaoLogin}
+      />
     </Container>
   );
 };

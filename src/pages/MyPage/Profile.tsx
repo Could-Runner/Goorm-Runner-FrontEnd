@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import styled from "styled-components";
+import { useNavigate, useLocation } from "react-router-dom";
+import AuthContext from "../../pages/LoginPage/AuthContext";
 
 const Container = styled.div`
   max-width: 800px;
@@ -45,12 +47,12 @@ const ChangeImageButton = styled.button`
   padding: 5px 10px;
   font-size: 12px;
   color: #fff;
-  background-color: #007bff;
+  background-color: #03c75a;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    filter: brightness(0.9);
   }
 `;
 
@@ -96,12 +98,12 @@ const Button = styled.button`
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
-  background-color: #007bff;
+  background-color: #03c75a;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background-color: #0056b3;
+    filter: brightness(0.9);
   }
 `;
 
@@ -128,14 +130,28 @@ const Profile: React.FC = () => {
   const [selectedStadium, setSelectedStadium] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState("롯데조아용");
-  const [introduction, setIntroduction] = useState(
-    " 롯데경기라면 어디든지 달려갑니다!"
-  );
+  const [introduction, setIntroduction] =
+    useState("롯데경기라면 어디든지 달려갑니다!");
   const [profileImage, setProfileImage] = useState(
     "https://via.placeholder.com/100"
   );
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isLoggedIn } = useContext(AuthContext);
+  const hasShownPopup = useRef(false);
 
   useEffect(() => {
+    // 로그인 여부 확인
+    if (
+      !isLoggedIn &&
+      location.pathname !== "/loginpage" &&
+      !hasShownPopup.current
+    ) {
+      hasShownPopup.current = true;
+      alert("회원가입 또는 로그인을 해주세요.");
+      navigate("/loginpage"); // 로그인 페이지로 리디렉션
+    }
+
     const savedUsername = localStorage.getItem("username");
     const savedIntroduction = localStorage.getItem("introduction");
     const savedSelectedTeam = localStorage.getItem("selectedTeam");
@@ -147,7 +163,7 @@ const Profile: React.FC = () => {
     if (savedSelectedTeam) setSelectedTeam(savedSelectedTeam);
     if (savedSelectedStadium) setSelectedStadium(savedSelectedStadium);
     if (savedProfileImage) setProfileImage(savedProfileImage);
-  }, []);
+  }, [isLoggedIn, navigate, location.pathname]);
 
   const handleTeamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTeam(e.target.value);
@@ -252,9 +268,16 @@ const Profile: React.FC = () => {
           {isEditing ? (
             <Select value={selectedTeam} onChange={handleTeamChange}>
               <option value="">없음</option>
-              <option value="팀1">팀1</option>
-              <option value="팀2">팀2</option>
-              <option value="팀3">팀3</option>
+              <option value="KIA타이거즈">KIA타이거즈</option>
+              <option value="LG트윈스">LG트윈스</option>
+              <option value="삼성라이온즈">삼성라이온즈</option>
+              <option value="SSG랜더스">SSG랜더스</option>
+              <option value="롯데자이언츠">롯데자이언츠</option>
+              <option value="두산베어스">두산베어스</option>
+              <option value="NC다이노스">NC다이노스</option>
+              <option value="한화이글스">한화이글스</option>
+              <option value="KT위즈">KT위즈</option>
+              <option value="키움히어로즈">키움히어로즈</option>
             </Select>
           ) : (
             <Text>{selectedTeam || "-- 없음 --"}</Text>
@@ -265,9 +288,19 @@ const Profile: React.FC = () => {
           {isEditing ? (
             <Select value={selectedStadium} onChange={handleStadiumChange}>
               <option value="">없음</option>
-              <option value="구장1">구장1</option>
-              <option value="구장2">구장2</option>
-              <option value="구장3">구장3</option>
+              <option value="광주 챔피언스필드">광주 챔피언스필드</option>
+              <option value="대구 라이온즈파크">대구 라이온즈파크</option>
+              <option value="인천 SSG랜더스필드">인천 SSG랜더스필드</option>
+              <option value="사직 야구장">사직 야구장</option>
+              <option value="창원 NC파크">창원 NC파크</option>
+              <option value="대전 한화생명이글스파크">
+                대전 한화생명이글스파크
+              </option>
+              <option value="수원 KT위즈파크">수원 KT위즈파크</option>
+              <option value="고척 스카이돔">고척 스카이돔</option>
+              <option value="서울종합운동장 야구장">
+                서울종합운동장 야구장
+              </option>
             </Select>
           ) : (
             <Text>{selectedStadium || "-- 없음 --"}</Text>
