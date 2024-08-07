@@ -13,13 +13,15 @@ import { RouteObject } from 'react-router-dom';
 
 const boardRoutes: RouteObject[] = [
     {   
-        path: "/board",
-        element: <div>{/* Board layout or parent component */}</div>,
+        path: "board",
         children: [
             {
                 path: "general",
-                element: <GeneralBoard />,
                 children: [
+                    {
+                        index: true,
+                        element: <GeneralBoard />
+                    },
                     { 
                         path: ":id", 
                         element: <GeneralDetail /> 
@@ -32,8 +34,11 @@ const boardRoutes: RouteObject[] = [
             },
             { 
                 path: "tips",
-                element: <TipBoard />,
                 children: [
+                    {
+                        index: true,
+                        element: <TipBoard />
+                    },
                     { 
                         path: ":id", 
                         element: <TipDetail /> 
@@ -46,8 +51,11 @@ const boardRoutes: RouteObject[] = [
             },
             {
                 path: "food",
-                element: <FoodBoard />,
                 children: [
+                    {
+                        index: true,
+                        element: <FoodBoard />
+                    },
                     { 
                         path: ":id", 
                         element: <FoodDetail /> 

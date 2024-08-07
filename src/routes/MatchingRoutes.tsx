@@ -6,11 +6,13 @@ import MatchingWrite from "../pages/MatchingPage/MatchingWrite";
 
 const matchingRoutes: RouteObject[] = [
     { 
-        path: "/matching", 
-        element: <Match />,
-        children:[
+        path: "matching", 
+        children:[{
+            index: true,
+            element: <Match />,
+        },
             {
-                path: "recruit",
+                path: "recruit", // 경로 지정시 
                 element: <MatchingWrite />
             },
             {

@@ -164,6 +164,7 @@ const MainContent = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    padding-bottom: 20px;
 `;
 
 const LeftContent = styled.div`
