@@ -1,0 +1,11 @@
+[
+    { "name": "광주 챔피언스필드", "color": "#1f77b4" },
+    { "name": "대구 라이온즈파크", "color": "#ff7f0e" },
+    { "name": "인천 SSG랜더스필드", "color": "#2ca02c" },
+    { "name": "사직 야구장", "color": "#d62728" },
+    { "name": "창원 NC파크", "color": "#9467bd" },
+    { "name": "대전 한화생명이글스파크", "color": "#8c564b" },
+    { "name": "수원 KT위즈파크", "color": "#e377c2" },
+    { "name": "고척 스카이돔", "color": "#7f7f7f" },
+    { "name": "서울종합운동장 야구장", "color": "#bcbd22" }
+]
