@@ -4,13 +4,15 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select, { SingleValue } from 'react-select';
 import { useNavigate } from 'react-router-dom';
-import { teamOptions, stadiumOptions } from "../../assets/Options.json"
+import teamOptions from "../../assets/teamOptions.json";
+import stadiumOptions from "../../assets/stadiumOptions.json";
+import { Option } from './type'; // types.ts에서 Option 인터페이스를 불러옵니다.
 
 const MatchingWrite: React.FC = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [selectedTeam, setSelectedTeam] = useState<SingleValue<{ value: string; label: string }>>(null);
-    const [selectedStadium, setSelectedStadium] = useState<SingleValue<{ value: string; label: string }>>(null);
+    const [selectedTeam, setSelectedTeam] = useState<SingleValue<Option>>(null);
+    const [selectedStadium, setSelectedStadium] = useState<SingleValue<Option>>(null);
     const [date, setDate] = useState<Date | null>(new Date());
 
     const navigate = useNavigate();
@@ -59,7 +61,7 @@ const MatchingWrite: React.FC = () => {
                 <Label>
                     응원 팀:
                     <Select
-                        options={teamOptions}
+                        options={teamOptions as Option[]} // 타입 캐스팅
                         value={selectedTeam}
                         placeholder="응원할 팀을 선택해주세요."
                         onChange={(value) => setSelectedTeam(value)}
@@ -68,7 +70,7 @@ const MatchingWrite: React.FC = () => {
                 <Label>
                     경기장:
                     <Select
-                        options={stadiumOptions}
+                        options={stadiumOptions as Option[]} // 타입 캐스팅
                         value={selectedStadium}
                         placeholder="경기장을 선택해주세요."
                         onChange={(value) => setSelectedStadium(value)}
