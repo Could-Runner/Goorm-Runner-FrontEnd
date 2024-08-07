@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import items from "../../assets/Items.json";
 
 const Container = styled.div`
   margin-top: 50px;
@@ -165,52 +166,6 @@ const Button = styled.button`
     background-color: #028a4d;
   }
 `;
-
-const items = [
-  {
-    id: 1,
-    image: "https://via.placeholder.com/200",
-    title: "굿즈 1",
-    date: "2일 전",
-    likes: 5,
-    category: "유니폼",
-    condition: "새상품",
-    description:
-      "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
-    price: "50,000원",
-    seller: {
-      image: "https://via.placeholder.com/50",
-      name: "판매자 닉네임",
-      rating: "매너점수: 60",
-    },
-    reviews: [
-      { text: "좋은 상품 잘 받았습니다!", author: "구매자1" },
-      { text: "상태가 아주 좋아요.", author: "구매자2" },
-    ],
-  },
-  {
-    id: 2,
-    image: "https://via.placeholder.com/200",
-    title: "굿즈 2",
-    date: "1일 전",
-    likes: 3,
-    category: "유니폼",
-    condition: "새상품",
-    description:
-      "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
-    price: "50,000원",
-    seller: {
-      image: "https://via.placeholder.com/50",
-      name: "판매자 닉네임",
-      rating: "매너점수: 100",
-    },
-    reviews: [
-      { text: "좋은 상품 잘 받았습니다!", author: "구매자1" },
-      { text: "상태가 아주 좋아요.", author: "구매자2" },
-    ],
-  },
-  // 다른 items들도 추가해줍니다.
-];
 
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

@@ -5,9 +5,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import matchingRoutes from './routes/MatchingRoutes';
-import boardRoutes from './routes/BoardRoutes';
+import matchingRoutes from "./routes/MatchingRoutes";
+import boardRoutes from "./routes/BoardRoutes";
 import Mainpage from "./pages/mainpage/mainpage";
+import MarketPageRoutes from "./routes/MarketPageRoutes";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -22,20 +23,18 @@ const root = ReactDOM.createRoot(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 
-
-
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, 
+    element: <App />,
     children: [
       { path: "/", element: <Mainpage /> },
-      ...matchingRoutes, 
-      ...boardRoutes 
-    ]
-  }
+      ...matchingRoutes,
+      ...boardRoutes,
+      ...MarketPageRoutes,
+    ],
+  },
 ]);
-
 
 root.render(
   <React.StrictMode>
