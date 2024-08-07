@@ -5,22 +5,23 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import matchingRoutes from './routes/MatchingRoutes';
-import boardRoutes from './routes/BoardRoutes';
+import matchingRoutes from "./routes/MatchingRoutes";
+import boardRoutes from "./routes/BoardRoutes";
 import Mainpage from "./pages/mainpage/mainpage";
+import MarketPageRoutes from "./routes/MarketPageRoutes";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, 
+    element: <App />,
     children: [
       { path: "/", element: <Mainpage /> },
-      ...matchingRoutes, 
-      ...boardRoutes 
-    ]
-  }
+      ...matchingRoutes,
+      ...boardRoutes,
+      ...MarketPageRoutes,
+    ],
+  },
 ]);
-
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

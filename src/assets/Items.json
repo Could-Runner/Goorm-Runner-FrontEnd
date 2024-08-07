@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "title": "굿즈 1",
+    "image": "https://via.placeholder.com/100",
+    "date": "2일 전",
+    "likes": 5,
+    "category": "유니폼",
+    "price": "50,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "굿즈 2",
+    "image": "https://via.placeholder.com/100",
+    "date": "1일 전",
+    "likes": 3,
+    "category": "유니폼",
+    "price": "45,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "굿즈 3",
+    "image": "https://via.placeholder.com/100",
+    "date": "3일 전",
+    "likes": 8,
+    "category": "기타굿즈",
+    "price": "30,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 기타굿즈들을 판매합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "굿즈 4",
+    "image": "https://via.placeholder.com/100",
+    "date": "4일 전",
+    "likes": 1,
+    "category": "싸인볼",
+    "price": "70,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 싸인볼을 판매합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "굿즈 5",
+    "image": "https://via.placeholder.com/100",
+    "date": "5일 전",
+    "likes": 4,
+    "category": "티켓양도",
+    "price": "15,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구의 티켓을 양도하려고 합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "굿즈 6",
+    "image": "https://via.placeholder.com/100",
+    "date": "6일 전",
+    "likes": 2,
+    "category": "티켓양도",
+    "price": "20,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구의 티켓을 양도하려고 합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "굿즈 7",
+    "image": "https://via.placeholder.com/100",
+    "date": "7일 전",
+    "likes": 7,
+    "category": "유니폼",
+    "price": "55,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "굿즈 8",
+    "image": "https://via.placeholder.com/100",
+    "date": "8일 전",
+    "likes": 9,
+    "category": "기타굿즈",
+    "price": "40,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 기타굿즈들을 판매합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "굿즈 9",
+    "image": "https://via.placeholder.com/100",
+    "date": "9일 전",
+    "likes": 6,
+    "category": "유니폼",
+    "price": "50,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "굿즈 10",
+    "image": "https://via.placeholder.com/100",
+    "date": "10일 전",
+    "likes": 0,
+    "category": "유니폼",
+    "price": "60,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "굿즈 11",
+    "image": "https://via.placeholder.com/100",
+    "date": "11일 전",
+    "likes": 3,
+    "category": "기타굿즈",
+    "price": "35,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 기타굿즈들을 판매합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "굿즈 12",
+    "image": "https://via.placeholder.com/100",
+    "date": "12일 전",
+    "likes": 2,
+    "category": "KBO포토카드",
+    "price": "10,000원",
+    "condition": "새상품",
+    "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 KBO 포토카드를 판매합니다.",
+    "seller": {
+      "image": "https://via.placeholder.com/50",
+      "name": "판매자 닉네임",
+      "rating": "매너점수: 60"
+    },
+    "reviews": [
+      { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
+      { "text": "상태가 아주 좋아요.", "author": "구매자2" }
+    ]
+  }
+]
