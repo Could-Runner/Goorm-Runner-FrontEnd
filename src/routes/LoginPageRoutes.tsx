@@ -4,7 +4,7 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 
 const LoginPageRoutes: RouteObject[] = [
   {
-    path: "/loginpage",
+    path: "loginpage",
     element: <LoginPage />,
   },
 ];

@@ -8,7 +8,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import matchingRoutes from "./routes/MatchingRoutes";
 import boardRoutes from "./routes/BoardRoutes";
 import Mainpage from "./pages/mainpage/mainpage";
-import MarketPageRoutes from "./routes/MarketPageRoutes";
+import marketPageRoutes from "./routes/MarketPageRoutes";
+import joinPageRoutes from "./routes/JoinPageRoutes";
+import loginPageRoutes from "./routes/LoginPageRoutes";
+import myPageRoutes from "./routes/MyPageRoutes";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +21,10 @@ const router = createBrowserRouter([
       { path: "/", element: <Mainpage /> },
       ...matchingRoutes,
       ...boardRoutes,
-      ...MarketPageRoutes,
+      ...marketPageRoutes,
+      ...joinPageRoutes,
+      ...loginPageRoutes,
+      ...myPageRoutes
     ],
   },
 ]);
@@ -26,7 +32,6 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
