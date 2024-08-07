@@ -27,11 +27,11 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />, // App 컴포넌트를 루트로 설정
+    element: <App />, 
     children: [
       { path: "/", element: <Mainpage /> },
-      ...matchingRoutes,
-      ...boardRoutes
+      ...matchingRoutes, 
+      ...boardRoutes 
     ]
   }
 ]);
