@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import { AuthProvider } from "./pages/LoginPage/AuthContext";
 import FindAccount from "./pages/LoginPage/FindAccount";
 import JoinPage from "./pages/JoinPage/JoinPage";
 import JoinCompletePage from "./pages/JoinPage/JoinCompletePage";
@@ -10,7 +11,6 @@ import MarketSell from "./pages/MarketPage/SellPage";
 import MarketBuy from "./pages/MarketPage/BuyPage";
 import MarketDetail from "./pages/MarketPage/DetailPage";
 import MarketEdit from "./pages/MarketPage/EditPage";
-
 import GeneralBoard from "./pages/BoardPage/GeneralBoard";
 import TipBoard from "./pages/BoardPage/TipBoard";
 // import MyPage from "./pages/MyPage/MyPage";
@@ -38,5 +38,4 @@ const App: React.FC = () => {
       
   )
 }
-
 export default App;

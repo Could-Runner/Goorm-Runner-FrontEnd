@@ -45,22 +45,39 @@ const Input = styled.input`
   border-radius: 4px;
 `;
 
-const Button = styled.button<{ disabled: boolean }>`
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 49px;
+const GenderButton = styled.button<{ selected: boolean }>`
+  width: 48%;
+  height: 40px;
+  margin: 0 1%;
+  border: 1px solid #dadada;
+  border-radius: 4px;
+  background-color: ${({ selected }) => (selected ? "#03c75a" : "#fff")};
+  color: ${({ selected }) => (selected ? "#fff" : "#333")};
+  cursor: pointer;
+
+  &:hover {
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
+`;
+
+const InButton = styled.button<{ disabled: boolean }>`
+  font-size: 14px;
+  // font-weight: 700;
+  line-height: 40px;
   width: 100%;
-  height: 49px;
-  margin: 16px 0 7px;
+  height: 40px;
+  margin: 10px 0 7px;
   cursor: pointer;
   text-align: center;
   color: #fff;
   border: none;
-  border-radius: 0;
+  border-radius: 6px; /* 모서리를 둥글게 설정 */
   background-color: #03c75a;
 
   &:hover {
-    background-color: #028a4d;
+    filter: brightness(0.9);
   }
 
   ${({ disabled }) =>
@@ -74,20 +91,33 @@ const Button = styled.button<{ disabled: boolean }>`
   `}
 `;
 
-const GenderButton = styled.button<{ selected: boolean }>`
-  width: 48%;
-  height: 40px;
-  margin: 0 1%;
-  border: 1px solid #dadada;
-  border-radius: 4px;
-  background-color: ${({ selected }) => (selected ? "#03c75a" : "#fff")};
-  color: ${({ selected }) => (selected ? "#fff" : "#333")};
+const JoinButton = styled.button<{ disabled: boolean }>`
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 4px;
+  width: 100%;
+  height: 49px;
+  margin: 10px 0 7px;
   cursor: pointer;
+  text-align: center;
+  color: #fff;
+  border: none;
+  border-radius: 6px; /* 모서리를 둥글게 설정 */
+  background-color: #03c75a;
 
   &:hover {
-    background-color: #028a4d;
-    color: #fff;
+    filter: brightness(0.9);
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+    background-color: #efefef;
+    cursor: not-allowed;
+    &:hover {
+      background-color: #efefef;
+    }
+  `}
 `;
 
 const LoginLink = styled.div`
@@ -98,7 +128,7 @@ const LoginLink = styled.div`
   a {
     color: #03c75a;
     text-decoration: none;
-    font-weight: bold;
+    // font-weight: bold;
 
     &:hover {
       text-decoration: underline;
@@ -149,21 +179,21 @@ const PopupSelect = styled.select`
 `;
 
 const PopupButton = styled.button`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 49px;
   width: 100%;
   height: 49px;
-  margin: 16px 0 7px;
+  margin: 10px 0 7px;
   cursor: pointer;
   text-align: center;
   color: #fff;
   border: none;
-  border-radius: 0;
+  border-radius: 6px; /* 모서리를 둥글게 설정 */
   background-color: #03c75a;
 
   &:hover {
-    background-color: #028a4d;
+    filter: brightness(0.9);
   }
 `;
 
@@ -304,7 +334,7 @@ const JoinPage: React.FC = () => {
             id="password"
             name="password"
             type="password"
-            placeholder="8~12자의 영문 소문자            , 숫자 조합"
+            placeholder="8~12자의 영문 소문자, 숫자 조합"
             value={password}
             onChange={handlePasswordChange}
           />
@@ -371,13 +401,13 @@ const JoinPage: React.FC = () => {
             value={phone}
             onChange={handlePhoneChange}
           />
-          <Button
+          <InButton
             type="button"
             disabled={!phone}
             onClick={sendVerificationCode}
           >
             인증코드 발송
-          </Button>
+          </InButton>
           {phoneMessage && <MessageText>{phoneMessage}</MessageText>}
         </FormGroup>
         <FormGroup>
@@ -390,20 +420,20 @@ const JoinPage: React.FC = () => {
             value={verificationCode}
             onChange={handleVerificationCodeChange}
           />
-          <Button
+          <InButton
             type="button"
             disabled={!verificationCode}
             onClick={verifyCode}
           >
             인증
-          </Button>
+          </InButton>
           {verificationMessage && (
             <MessageText>{verificationMessage}</MessageText>
           )}
         </FormGroup>
-        <Button type="submit" disabled={isDisabled}>
+        <JoinButton type="submit" disabled={isDisabled}>
           회원가입
-        </Button>
+        </JoinButton>
       </form>
       {showPopup && (
         <PopupContainer>
@@ -418,10 +448,16 @@ const JoinPage: React.FC = () => {
                   onChange={handleFavoriteTeamChange}
                 >
                   <option value="">응원팀을 선택하세요</option>
-                  <option value="팀1">팀1</option>
-                  <option value="팀2">팀2</option>
-                  <option value="팀3">팀3</option>
-                  {/* 다른 팀들도 추가 */}
+                  <option value="KIA타이거즈">KIA타이거즈</option>
+                  <option value="LG트윈스">LG트윈스</option>
+                  <option value="삼성라이온즈">삼성라이온즈</option>
+                  <option value="SSG랜더스">SSG랜더스</option>
+                  <option value="롯데자이언츠">롯데자이언츠</option>
+                  <option value="두산베어스">두산베어스</option>
+                  <option value="NC다이노스">NC다이노스</option>
+                  <option value="한화이글스">한화이글스</option>
+                  <option value="KT위즈">KT위즈</option>
+                  <option value="키움히어로즈">키움히어로즈</option>
                 </PopupSelect>
               </PopupFormGroup>
               <PopupFormGroup>
@@ -432,13 +468,24 @@ const JoinPage: React.FC = () => {
                   onChange={handlePreferredStadiumChange}
                 >
                   <option value="">선호구장을 선택하세요</option>
-                  <option value="구장1">구장1</option>
-                  <option value="구장2">구장2</option>
-                  <option value="구장3">구장3</option>
+                  <option value="광주 챔피언스필드">광주 챔피언스필드</option>
+                  <option value="대구 라이온즈파크">대구 라이온즈파크</option>
+                  <option value="인천 SSG랜더스필드">인천 SSG랜더스필드</option>
+                  <option value="사직 야구장">사직 야구장</option>
+                  <option value="창원 NC파크">창원 NC파크</option>
+                  <option value="대전 한화생명이글스파크">
+                    대전 한화생명이글스파크
+                  </option>
+                  <option value="수원 KT위즈파크">수원 KT위즈파크</option>
+                  <option value="고척 스카이돔">고척 스카이돔</option>
+                  <option value="서울종합운동장 야구장">
+                    서울종합운동장 야구장
+                  </option>
+
                   {/* 다른 구장도 추가 */}
                 </PopupSelect>
               </PopupFormGroup>
-              <PopupButton type="submit">제출</PopupButton>
+              <PopupButton type="submit">제출하기</PopupButton>
             </form>
           </Popup>
         </PopupContainer>

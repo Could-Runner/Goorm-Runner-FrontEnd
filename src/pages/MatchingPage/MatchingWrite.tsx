@@ -4,14 +4,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select, { SingleValue } from 'react-select';
 import { useNavigate } from 'react-router-dom';
-import { teamOptions, stadiumOptions } from "../../assets/Options.json";
-import { Option } from "./type";
+import { teamOptions, stadiumOptions } from "../../assets/Options.json"
 
 const MatchingWrite: React.FC = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [selectedTeam, setSelectedTeam] = useState<SingleValue<Option>>(null);
-    const [selectedStadium, setSelectedStadium] = useState<SingleValue<Option>>(null);
+    const [selectedTeam, setSelectedTeam] = useState<SingleValue<{ value: string; label: string }>>(null);
+    const [selectedStadium, setSelectedStadium] = useState<SingleValue<{ value: string; label: string }>>(null);
     const [date, setDate] = useState<Date | null>(new Date());
 
     const navigate = useNavigate();

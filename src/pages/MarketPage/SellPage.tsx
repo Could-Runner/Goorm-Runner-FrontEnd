@@ -119,7 +119,6 @@ const CustomImageButton = styled.button`
 
 const MarketPage: React.FC = () => {
   const navigate = useNavigate();
-  const [author, setAuthor] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [category, setCategory] = useState("");
@@ -150,7 +149,7 @@ const MarketPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // 폼 제출 로직을 추가하세요
-    console.log("Author:", author);
+
     console.log("Image:", image);
     console.log("Category:", category);
     console.log("Condition:", condition);
@@ -165,17 +164,6 @@ const MarketPage: React.FC = () => {
     <Container>
       <Title>굿즈 판매글 작성</Title>
       <form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label htmlFor="author">작성자</Label>
-          <Input
-            id="author"
-            name="author"
-            type="text"
-            placeholder="작성자를 입력하세요"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
-        </FormGroup>
         <FormGroup>
           <Label htmlFor="image">상품 이미지</Label>
           <HiddenInput
@@ -203,9 +191,12 @@ const MarketPage: React.FC = () => {
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">카테고리를 선택하세요</option>
-            <option value="의류">의류</option>
-            <option value="악세사리">악세사리</option>
-            <option value="기타">기타</option>
+            <option value="유니폼">유니폼</option>
+            <option value="KBO포토카드">KBO포토카드</option>
+            <option value="티켓양도">티켓양도</option>
+            <option value="싸인볼">싸인볼</option>
+            <option value="기타굿즈">기타굿즈</option>
+
             {/* 다른 카테고리를 추가하세요 */}
           </Select>
         </FormGroup>
