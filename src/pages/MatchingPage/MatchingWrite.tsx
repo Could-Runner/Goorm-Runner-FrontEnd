@@ -4,38 +4,14 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select, { SingleValue } from 'react-select';
 import { useNavigate } from 'react-router-dom';
-
-// 팀 옵션과 경기장 옵션 데이터
-const teamOptions = [
-    { value: 'kia', label: 'KIA 타이거즈' },
-    { value: 'lg', label: 'LG 트윈스' },
-    { value: 'samsung', label: '삼성 라이온즈' },
-    { value: 'ssg', label: 'SSG 랜더스' },
-    { value: 'lotte', label: '롯데 자이언츠' },
-    { value: 'doosan', label: '두산 베어스' },
-    { value: 'nc', label: 'NC 다이노스' },
-    { value: 'hanwha', label: '한화 이글스' },
-    { value: 'kt', label: 'KT 위즈' },
-    { value: 'kiwoom', label: '키움 히어로즈' }
-];
-
-const stadiumOptions = [
-    { value: 'gwangju', label: '광주 챔피언스필드' },
-    { value: 'daegu', label: '대구 라이온즈파크' },
-    { value: 'incheon', label: '인천 SSG랜더스필드' },
-    { value: 'sajik', label: '사직 야구장' },
-    { value: 'changwon', label: '창원 NC파크' },
-    { value: 'daejeon', label: '대전 한화생명이글스파크' },
-    { value: 'suwon', label: '수원 KT위즈파크' },
-    { value: 'gocheok', label: '고척 스카이돔' },
-    { value: 'seoul', label: '서울종합운동장 야구장' }
-];
+import { teamOptions, stadiumOptions } from "../../assets/Options.json";
+import { Option } from "./type";
 
 const MatchingWrite: React.FC = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [selectedTeam, setSelectedTeam] = useState<SingleValue<{ value: string; label: string }>>(null);
-    const [selectedStadium, setSelectedStadium] = useState<SingleValue<{ value: string; label: string }>>(null);
+    const [selectedTeam, setSelectedTeam] = useState<SingleValue<Option>>(null);
+    const [selectedStadium, setSelectedStadium] = useState<SingleValue<Option>>(null);
     const [date, setDate] = useState<Date | null>(new Date());
 
     const navigate = useNavigate();

@@ -1,11 +1,13 @@
-import React from "react";
+import React from 'react'
+import MatchingContent from '../../components/MatchingContent/MatchingContent'
+import teams  from "../../assets/teams.json";
 
-function Mainpage() {
-  return(
-    <h2>
-      mainpage
-    </h2>
-  );  
+const mainpage = () => {
+  return (
+    <>
+      <MatchingContent teams={teams} limit={4}/>
+    </>
+  )
 }
 
-export default Mainpage;
+export default mainpage
