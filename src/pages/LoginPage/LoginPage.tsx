@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Kakaologin from "../../assets/kakao_login_large_wide.png";
 import AuthContext from "../../pages/LoginPage/AuthContext";
+import axios from "axios";
 
 const Container = styled.div`
   margin-top: 100px;
@@ -143,11 +144,24 @@ const LoginPage: React.FC = () => {
       localStorage.setItem("rememberedId", id);
     }
 
-    // 여기에 실제 로그인 로직 추가
-    if (id === "test" && password === "1234") {
-      login(id);
-      navigate("/");
-    } else {
+    try {
+      const response = await axios.post(
+        "http://api.baseball-route.site:8080/api/auth/login",
+        {
+          loginId: id,
+          password: password,
+        }
+      );
+
+      // 로그인 성공 시
+      if (response.status === 200) {
+        login(id); // 인증 컨텍스트에 로그인 정보 저장
+        navigate("/"); // 홈 페이지로 이동
+      } else {
+        alert("로그인에 실패했습니다. 다시 시도해 주세요.");
+      }
+    } catch (error) {
+      console.error("로그인 오류:", error);
       alert(
         "아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요."
       );
