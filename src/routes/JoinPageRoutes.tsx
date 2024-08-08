@@ -10,7 +10,7 @@ const JoinPageRoutes: RouteObject[] = [
     element: <JoinPage />,
   },
   {
-    path: "/joincompletepage",
+    path: "/joincomplete",
     element: <JoinCompletePage />,
   },
   {
