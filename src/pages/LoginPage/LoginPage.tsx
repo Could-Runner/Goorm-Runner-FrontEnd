@@ -169,8 +169,10 @@ const LoginPage: React.FC = () => {
   };
 
   const handleKakaoLogin = () => {
-    window.location.href =
-      "https://kauth.kakao.com/oauth/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code";
+    const clientId = "92cd40e5a7fd5149599415959131515e"; // 카카오 디벨로퍼스에서 발급받은 REST API 키
+    const redirectUri = "http://localhost:3000/oauth"; // 설정한 리디렉션 URI
+    const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code`;
+    window.location.href = kakaoAuthUrl;
   };
 
   return (

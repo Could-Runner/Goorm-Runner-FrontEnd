@@ -210,13 +210,13 @@ const JoinPage: React.FC = () => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [favoriteTeam, setFavoriteTeam] = useState("");
   const [preferredStadium, setPreferredStadium] = useState("");
-  const [phoneMessage, setPhoneMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
   const navigate = useNavigate();
 
@@ -246,8 +246,8 @@ const JoinPage: React.FC = () => {
     setDateOfBirth(e.target.value);
   };
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
   };
 
   const handleVerificationCodeChange = (
@@ -268,22 +268,46 @@ const JoinPage: React.FC = () => {
     setPreferredStadium(e.target.value);
   };
 
-  const sendVerificationCode = () => {
-    // 인증 코드를 발송하는 로직을 추가합니다.
-    console.log("Sending verification code to:", phone);
-    setPhoneMessage("인증코드가 발송되었습니다.");
-    // 예: 서버에 요청을 보내서 인증 코드를 발송
+  const sendVerificationCode = async () => {
+    try {
+      const response = await axios.post(
+        "http://api.baseball-route.site:8080/api/auth/send-email",
+        {
+          email,
+        }
+      );
+      if (response.data.success) {
+        setEmailMessage("인증코드가 발송되었습니다.");
+      } else {
+        setEmailMessage(
+          response.data.message ||
+            "인증코드 발송에 실패했습니다. 다시 시도해주세요."
+        );
+      }
+    } catch (error) {
+      console.error("인증코드 발송 실패:", error);
+      setEmailMessage("인증코드 발송에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
-  const verifyCode = () => {
-    // 인증 코드를 확인하는 로직을 추가합니다.
-    console.log("Verifying code:", verificationCode);
-    if (verificationCode === "123456") {
-      // 서버 검증 로직을 대체해야 함
-      setIsPhoneVerified(true);
-      setVerificationMessage("인증되었습니다.");
-    } else {
-      setVerificationMessage("인증코드가 일치하지 않습니다.");
+  const verifyCode = async () => {
+    try {
+      const response = await axios.post(
+        "http://api.baseball-route.site:8080/api/auth/verify-email",
+        {
+          email,
+          code: verificationCode,
+        }
+      );
+      if (response.data.success) {
+        setIsEmailVerified(true);
+        setVerificationMessage("인증되었습니다.");
+      } else {
+        setVerificationMessage("인증코드가 일치하지 않습니다.");
+      }
+    } catch (error) {
+      console.error("인증 실패:", error);
+      setVerificationMessage("인증에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
@@ -294,7 +318,7 @@ const JoinPage: React.FC = () => {
     !name ||
     !gender ||
     !dateOfBirth ||
-    !isPhoneVerified;
+    !isEmailVerified;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -313,7 +337,7 @@ const JoinPage: React.FC = () => {
         );
         console.log("회원가입 성공:", response.data);
         setShowPopup(true);
-        navigate("/joinCompletePage");
+        navigate("/joinComplete");
       } catch (error) {
         console.error("회원가입 실패:", error);
         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
@@ -411,23 +435,23 @@ const JoinPage: React.FC = () => {
           />
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="phone">전화번호</Label>
+          <Label htmlFor="email">이메일</Label>
           <Input
-            id="phone"
-            name="phone"
-            type="text"
-            placeholder="전화번호를 입력해주세요"
-            value={phone}
-            onChange={handlePhoneChange}
+            id="email"
+            name="email"
+            type="email"
+            placeholder="이메일을 입력해주세요 (예:example@example.com)"
+            value={email}
+            onChange={handleEmailChange}
           />
           <InButton
             type="button"
-            disabled={!phone}
+            disabled={!email}
             onClick={sendVerificationCode}
           >
             인증코드 발송
           </InButton>
-          {phoneMessage && <MessageText>{phoneMessage}</MessageText>}
+          {emailMessage && <MessageText>{emailMessage}</MessageText>}
         </FormGroup>
         <FormGroup>
           <Label htmlFor="verificationCode">인증코드</Label>
