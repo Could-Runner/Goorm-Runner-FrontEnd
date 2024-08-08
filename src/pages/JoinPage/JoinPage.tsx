@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Container = styled.div`
   margin-top: 100px;
@@ -295,10 +296,28 @@ const JoinPage: React.FC = () => {
     !dateOfBirth ||
     !isPhoneVerified;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isDisabled) {
-      setShowPopup(true);
+      try {
+        const response = await axios.post(
+          "http://api.baseball-route.site:8080/api/auth/signup",
+          {
+            loginId: id,
+            nickname: name,
+            password: password,
+            role: "USER",
+            sex: gender === "남자" ? "male" : "female",
+            birth: dateOfBirth.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3"),
+          }
+        );
+        console.log("회원가입 성공:", response.data);
+        setShowPopup(true);
+        navigate("/joinCompletePage");
+      } catch (error) {
+        console.error("회원가입 실패:", error);
+        alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+      }
     }
   };
 
