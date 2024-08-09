@@ -187,8 +187,12 @@ const DetailPage: React.FC = () => {
   }
 
   const handleBuyClick = () => {
-    console.log("구매 버튼 클릭됨");
-    navigate("/market/buy");
+    const openChatUrl = product.openChatUrl; // 판매글에서 입력된 오픈채팅 URL
+    if (openChatUrl) {
+      window.location.href = openChatUrl;
+    } else {
+      alert("오픈채팅방 URL이 등록되지 않았습니다.");
+    }
   };
 
   const handleEditClick = () => {

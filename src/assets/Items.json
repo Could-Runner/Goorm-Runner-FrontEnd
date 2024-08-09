@@ -7,12 +7,12 @@
     "likes": 5,
     "category": "유니폼",
     "price": "50,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
     "seller": {
       "image": "https://via.placeholder.com/50",
-      "name": "판매자 닉네임",
-      "rating": "매너점수: 60"
+      "name": "판매자 닉네임"
     },
     "reviews": [
       { "text": "좋은 상품 잘 받았습니다!", "author": "구매자1" },
@@ -27,6 +27,7 @@
     "likes": 3,
     "category": "유니폼",
     "price": "45,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
     "seller": {
@@ -47,6 +48,7 @@
     "likes": 8,
     "category": "기타굿즈",
     "price": "30,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 기타굿즈들을 판매합니다.",
     "seller": {
@@ -67,6 +69,7 @@
     "likes": 1,
     "category": "싸인볼",
     "price": "70,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 싸인볼을 판매합니다.",
     "seller": {
@@ -87,6 +90,7 @@
     "likes": 4,
     "category": "티켓양도",
     "price": "15,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구의 티켓을 양도하려고 합니다.",
     "seller": {
@@ -107,6 +111,7 @@
     "likes": 2,
     "category": "티켓양도",
     "price": "20,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구의 티켓을 양도하려고 합니다.",
     "seller": {
@@ -127,6 +132,7 @@
     "likes": 7,
     "category": "유니폼",
     "price": "55,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
     "seller": {
@@ -147,6 +153,7 @@
     "likes": 9,
     "category": "기타굿즈",
     "price": "40,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 기타굿즈들을 판매합니다.",
     "seller": {
@@ -167,6 +174,7 @@
     "likes": 6,
     "category": "유니폼",
     "price": "50,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
     "seller": {
@@ -187,6 +195,7 @@
     "likes": 0,
     "category": "유니폼",
     "price": "60,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다.",
     "seller": {
@@ -207,6 +216,7 @@
     "likes": 3,
     "category": "기타굿즈",
     "price": "35,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 기타굿즈들을 판매합니다.",
     "seller": {
@@ -227,6 +237,7 @@
     "likes": 2,
     "category": "KBO포토카드",
     "price": "10,000원",
+    "openChatUrl": "https://open.kakao.com/o/suNbCSHg",
     "condition": "새상품",
     "description": "안녕하세요, 최강야구 팬 여러분! 최강야구 KBO 포토카드를 판매합니다.",
     "seller": {

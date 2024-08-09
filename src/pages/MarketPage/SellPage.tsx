@@ -125,6 +125,7 @@ const MarketPage: React.FC = () => {
   const [condition, setCondition] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [openChatUrl, setOpenChatUrl] = useState("");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -144,6 +145,17 @@ const MarketPage: React.FC = () => {
   ) => {
     e.preventDefault();
     document.getElementById("image")?.click();
+  };
+
+  const formatPrice = (value: string) => {
+    const numberValue = Number(value.replaceAll(",", ""));
+    if (isNaN(numberValue)) return "";
+    return new Intl.NumberFormat("ko-KR").format(numberValue);
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedPrice = formatPrice(e.target.value);
+    setPrice(formattedPrice);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -196,8 +208,6 @@ const MarketPage: React.FC = () => {
             <option value="티켓양도">티켓양도</option>
             <option value="싸인볼">싸인볼</option>
             <option value="기타굿즈">기타굿즈</option>
-
-            {/* 다른 카테고리를 추가하세요 */}
           </Select>
         </FormGroup>
         <FormGroup>
@@ -211,7 +221,6 @@ const MarketPage: React.FC = () => {
             <option value="">상품 상태를 선택하세요</option>
             <option value="새상품">새상품</option>
             <option value="중고상품">중고상품</option>
-            {/* 다른 상태를 추가하세요 */}
           </Select>
         </FormGroup>
         <FormGroup>
@@ -232,7 +241,18 @@ const MarketPage: React.FC = () => {
             type="text"
             placeholder="가격을 입력하세요"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={handlePriceChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="openChatUrl">오픈채팅방 링크</Label>
+          <Input
+            id="openChatUrl"
+            name="openChatUrl"
+            type="text"
+            placeholder="카카오톡 오픈채팅방 링크를 입력하세요"
+            value={openChatUrl}
+            onChange={(e) => setOpenChatUrl(e.target.value)}
           />
         </FormGroup>
         <Button type="submit">판매글 작성</Button>

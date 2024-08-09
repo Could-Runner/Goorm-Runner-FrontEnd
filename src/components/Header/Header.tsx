@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../../assets/Cloud_Runner_Logo.png";
+import logo from "../../assets/baseballroutelogo.png";
 import AuthContext from "../../pages/LoginPage/AuthContext";
 
 interface HeaderProps {
@@ -113,7 +113,7 @@ const NavContainer = styled.nav`
 `;
 
 const ButtonContainer = styled.div`
-  flex: 0 1 ;
+  flex: 0 1;
   display: flex;
   justify-content: center;
   align-items: center;
