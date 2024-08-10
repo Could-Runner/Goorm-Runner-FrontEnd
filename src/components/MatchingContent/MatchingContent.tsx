@@ -1,10 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoLocationSharp } from 'react-icons/io5';
-import { darken } from 'polished';
 import { Team, MatchingContentProps } from '../../pages/MatchingPage/type';
-// 이미지 로드가 안되는 이슈로 인해 import로 불러옴
+import { BsPeopleFill } from "react-icons/bs";
+
+// 이미지 import
 import kiaLogo from "../../assets/teamlogo/기아 타이거즈.png";
 import lgLogo from "../../assets/teamlogo/엘지 트윈스.png";
 import samsungLogo from "../../assets/teamlogo/삼성 라이온즈.png";
@@ -15,8 +16,20 @@ import ncLogo from "../../assets/teamlogo/엔씨 다이노스.png";
 import hanwhaLogo from "../../assets/teamlogo/한화 이글스.png";
 import ktLogo from "../../assets/teamlogo/케이티 위즈.png";
 import kiwoomLogo from "../../assets/teamlogo/키움 히어로즈.png";
-import teams from "../../assets/teams.json"
 
+// 이미지 매핑 객체 생성
+const teamLogos: { [key: string]: string } = {
+    "kiaLogo": kiaLogo,
+    "lgLogo": lgLogo,
+    "samsungLogo": samsungLogo,
+    "ssgLogo": ssgLogo,
+    "lotteLogo": lotteLogo,
+    "doosanLogo": doosanLogo,
+    "ncLogo": ncLogo,
+    "hanwhaLogo": hanwhaLogo,
+    "ktLogo": ktLogo,
+    "kiwoomLogo": kiwoomLogo
+};
 
 const MatchingContent: React.FC<MatchingContentProps> = ({ teams, limit }) => {
     const displayedTeams = limit ? teams.slice(0, limit) : teams;
@@ -28,12 +41,13 @@ const MatchingContent: React.FC<MatchingContentProps> = ({ teams, limit }) => {
                     <StyledLink to={`/matching/${team.id}`}>
                         <CardContent>
                             <LogoWrapper>
-                                <img src={team.logo} alt={team.name} />
+                                <img src={teamLogos[team.logo]} alt={team.teamName} />
                             </LogoWrapper>
                             <InfoWrapper>
-                                <h3>{team.name}</h3>
+                                <h3>{team.teamName}</h3>
                                 <p>{team.date} {team.time}</p>
-                                <p><IoLocationSharp /> {team.location}</p>
+                                <p><IoLocationSharp /> {team.ballparkName}</p>
+                                <p><BsPeopleFill /> {team.maxParticipants}</p>
                             </InfoWrapper>
                         </CardContent>
                     </StyledLink>
