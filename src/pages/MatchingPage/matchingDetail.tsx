@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MdPeople } from "react-icons/md";
 import baseballImg from "../../assets/야구배경.jpg"
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import profile from "../../assets/profile_img.jpg"
 
 
 declare global {
@@ -28,39 +31,64 @@ const stadiums: StadiumsType = {
     "고척 스카이돔": { lat: 37.498333, lng: 126.866667 }
 };
 
+type RecruitmentDetail = {
+    id: number;
+    title: string;
+    content: string;
+    address: string;
+    meetTime: string;
+    maxParticipants: number;
+    teamName: string;
+    ballparkName: string;
+};
+
 const MatchingDetail: React.FC = () => {
-    useEffect(() =>{
-        const mapContainer = document.getElementById('map');
-		const mapOption = {
-			center: new kakao.maps.LatLng(37.51215, 127.071976), // 위경도 임시 더미
-			level: 5 // 거리 표시 단위, 숫자가 클수록 멀리 보임
-		};
+    const { recruitmentId } = useParams<{ recruitmentId: string }>();
+    const [detail, setDetail] = useState<RecruitmentDetail | null>(null);
 
-        // 야구 마크 불러오기
-        const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png' // 마커이미지의 주소입니다    
-        const imageSize = new kakao.maps.Size(64, 69) // 마커이미지의 크기입니다
-        const imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    useEffect(() => {
+        axios.get(`http://api.baseball-route.site:8080/api/recruitment/${recruitmentId}`)
+            .then(response => {
+                setDetail(response.data);
+            })
+            .catch(error => {
+                console.error('Failed to fetch data:', error);
+            });
+    }, [recruitmentId]);
 
-        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-        const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+    useEffect(() => {
+        if (detail) {
+            const mapContainer = document.getElementById('map');
+            const mapOption = {
+                center: new kakao.maps.LatLng(stadiums[detail.ballparkName].lat, stadiums[detail.ballparkName].lng),
+                level: 5
+            };
 
-        const map = new kakao.maps.Map(mapContainer, mapOption);
-        Object.keys(stadiums).forEach(stadium => {
-            const { lat, lng } = stadiums[stadium];
-            const markerPosition = new kakao.maps.LatLng(lat, lng);
+            const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
+            const imageSize = new kakao.maps.Size(64, 69);
+            const imageOption = { offset: new kakao.maps.Point(27, 69) };
+            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+            const map = new kakao.maps.Map(mapContainer, mapOption);
+
+            const markerPosition = new kakao.maps.LatLng(stadiums[detail.ballparkName].lat, stadiums[detail.ballparkName].lng);
             const marker = new kakao.maps.Marker({
                 position: markerPosition,
-                image: markerImage // marker title
+                image: markerImage
             });
             marker.setMap(map);
-        });
-    }, []);
+        }
+    }, [detail]);
+
+    if (!detail) {
+        return <div>Loading...</div>;
+    }
+    
     return (
         <Container>
         <Banner src={baseballImg} alt="banner" />
         <Title>두산팬들 모여라~</Title>
         <HostInfo>
-            <HostAvatar src="data:image/png;base64,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" alt="host" />
+            <HostAvatar src={profile} alt="host" />
             <HostDetails>
             <span>Hosted by <strong>두산조아</strong></span>
             <span><MdPeople /> 1/4</span>

@@ -13,6 +13,8 @@ const GeneralDetail: React.FC = () => {
     const [liked, setLiked] = useState(false);
     const [comments, setComments] = useState(commentData as CommentData[]);
     const [newComment, setNewComment] = useState("");
+    const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+    const [editedComment, setEditedComment] = useState("");
 
     if (!post) {
         return <div>게시글을 찾을 수 없습니다.</div>;
@@ -47,6 +49,27 @@ const GeneralDetail: React.FC = () => {
         navigate(`/board/general/edit/${id}`);
     };
 
+    const handleEditComment = (commentId: number) => {
+        const commentToEdit = comments.find(comment => comment.id === commentId);
+        if (commentToEdit) {
+            setEditingCommentId(commentId);
+            setEditedComment(commentToEdit.content);
+        }
+    };
+
+    const handleUpdateComment = (e: React.FormEvent) => {
+        e.preventDefault();
+        setComments(comments.map(comment => 
+            comment.id === editingCommentId ? { ...comment, content: editedComment } : comment
+        ));
+        setEditingCommentId(null);
+        setEditedComment("");
+    };
+
+    const handleDeleteComment = (commentId: number) => {
+        setComments(comments.filter(comment => comment.id !== commentId));
+    };
+
     return (
         <Container>
             <Table>
@@ -76,21 +99,29 @@ const GeneralDetail: React.FC = () => {
             </Actions>
             <CommentSection>
                 <CommentTitle>댓글</CommentTitle>
-                <CommentForm onSubmit={handleCommentSubmit}>
+                <CommentForm onSubmit={editingCommentId ? handleUpdateComment : handleCommentSubmit}>
                     <CommentInput
                         type="text"
                         placeholder="댓글을 작성해주세요."
-                        value={newComment}
-                        onChange={handleCommentChange}
+                        value={editingCommentId ? editedComment : newComment}
+                        onChange={e => editingCommentId ? setEditedComment(e.target.value) : handleCommentChange(e)}
                     />
-                    <CommentButton type="submit">댓글 쓰기</CommentButton>
+                    <CommentButton type="submit">
+                        {editingCommentId ? "수정 완료" : "댓글 쓰기"}
+                    </CommentButton>
                 </CommentForm>
                 {comments.map(comment => (
                     <Comment key={comment.id}>
+                    <CommentContentWrapper>
                         <CommentAuthor>{comment.author}</CommentAuthor>
                         <CommentContent>{comment.content}</CommentContent>
                         <CommentDate>{comment.date}</CommentDate>
-                    </Comment>
+                    </CommentContentWrapper>
+                    <CommentActions>
+                        <EditButton onClick={() => handleEditComment(comment.id)}>수정</EditButton>
+                        <DeleteButton onClick={() => handleDeleteComment(comment.id)}>삭제</DeleteButton>
+                    </CommentActions>
+                </Comment>
                 ))}
             </CommentSection>
         </Container>
@@ -194,6 +225,44 @@ const CommentDate = styled.div`
     font-size: 12px;
     color: #999;
 `;
+
+const CommentContentWrapper = styled.div`
+    flex: 1;
+`;
+
+const CommentActions = styled.div`
+    display: flex;
+    gap: 10px;
+`;
+
+const EditButton = styled.button`
+    padding: 5px 10px;
+    background-color: #03a9f4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        background-color: #0288d1;
+    }
+`;
+
+const DeleteButton = styled.button`
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        background-color: #d32f2f;
+    }
+`;
+    
 
 const CommentForm = styled.form`
     display: flex;

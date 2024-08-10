@@ -72,7 +72,7 @@ const JoinSelectPage: React.FC = () => {
 
       <KakaoButton
         src={Kakaologin}
-        alt="카카오 로그인"
+        alt="카카오 회원가입"
         onClick={handleKakaoLogin}
       />
     </Container>

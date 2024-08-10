@@ -9,7 +9,7 @@ import items from "../../assets/Items.json"
 
 // 
 const mainpage = () => {
-  const itemsToShow = items.slice(0, 4);
+  const itemsToShow = items.slice(0, 4);  
 
   return (
     <Container>
