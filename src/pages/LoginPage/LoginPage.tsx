@@ -154,7 +154,11 @@ const LoginPage: React.FC = () => {
       );
 
       // 로그인 성공 시
+      // JWT 토큰을 로컬 스토리지에 저장
+
       if (response.status === 200) {
+        const token = response.data.token; // 서버로부터 받은 토큰을 저장
+        localStorage.setItem("authToken", token); // 토큰을 localStorage에 저장
         login(id); // 인증 컨텍스트에 로그인 정보 저장
         navigate("/"); // 홈 페이지로 이동
       } else {

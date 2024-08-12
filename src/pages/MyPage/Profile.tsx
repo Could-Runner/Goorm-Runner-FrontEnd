@@ -44,7 +44,8 @@ const ProfileImage = styled.img`
 const ChangeImageButton = styled.button`
   display: block;
   margin: 10px auto 0;
-  padding: 5px 10px;
+  margin-left: 60px;
+  padding: 8px 10px;
   font-size: 12px;
   color: #fff;
   background-color: #03c75a;
@@ -249,7 +250,7 @@ const Profile: React.FC = () => {
             )}
 
             <Info>
-              <Label>자기소개 :</Label>
+              <Label>자기소개 : </Label>
               {isEditing ? (
                 <Input
                   type="text"
@@ -270,7 +271,7 @@ const Profile: React.FC = () => {
               <Label>생년월일 :</Label> 1999-03-30
             </Info>
             <Info>
-              <Label>휴대폰번호 :</Label> 010-1234-5678
+              <Label>이메일 :</Label> example@example.com
             </Info>
           </div>
         </ProfileInfo>

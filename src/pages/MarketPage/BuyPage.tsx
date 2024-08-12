@@ -84,6 +84,10 @@ const BuyPage: React.FC = () => {
   for (let i = 1; i <= Math.ceil(filteredItems.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
+  const token = localStorage.getItem("authToken");
+  const handleClick = () => {
+    console.log(token);
+  };
 
   return (
     <Container>
@@ -122,6 +126,7 @@ const BuyPage: React.FC = () => {
           />
         ))}
       </ItemList>
+      <button onClick={handleClick}>Token</button>
       <Pagination>
         {pageNumbers.map((number) => (
           <PageButton

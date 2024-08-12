@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import items from "../../assets/Items.json";
+import axios from "axios";
 
 const Container = styled.div`
   margin-top: 50px;
@@ -115,12 +115,6 @@ const SellerName = styled.p`
   color: #333;
 `;
 
-const SellerRating = styled.p`
-  margin: 0;
-  font-size: 14px;
-  color: #555;
-`;
-
 const ReviewsSection = styled.div`
   margin-top: 20px;
 `;
@@ -168,23 +162,47 @@ const Button = styled.button`
 `;
 
 const DetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, categoryName } = useParams<{
+    id: string;
+    categoryName: string;
+  }>(); // 카테고리 이름과 아이템 ID를 URL에서 가져옴
   const navigate = useNavigate();
-  const product = items.find((item) => item.id === parseInt(id!, 10));
-
-  const [wishlistCount, setWishlistCount] = useState(
-    product ? product.likes : 0
-  );
+  const [product, setProduct] = useState<any | null>(null);
+  const [wishlistCount, setWishlistCount] = useState(0);
   const [isWishlist, setIsWishlist] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(
+          `http://api.baseball-route.site:8080/market/categories/${categoryName}/items/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // 토큰을 Authorization 헤더에 포함
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        setProduct(response.data);
+        setWishlistCount(response.data.likeCount);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    fetchProduct();
+  }, [id, categoryName]); // id와 categoryName이 변경될 때마다 useEffect 재실행
+
+  if (!product) {
+    return <div>상품을 찾을 수 없습니다.</div>;
+  }
 
   const handleWishlistClick = () => {
     setIsWishlist(!isWishlist);
     setWishlistCount(isWishlist ? wishlistCount - 1 : wishlistCount + 1);
   };
-
-  if (!product) {
-    return <div>상품을 찾을 수 없습니다.</div>;
-  }
 
   const handleBuyClick = () => {
     const openChatUrl = product.openChatUrl; // 판매글에서 입력된 오픈채팅 URL
@@ -202,17 +220,21 @@ const DetailPage: React.FC = () => {
   return (
     <Container>
       <Header>
-        <ProductImage src={product.image} alt="상품 이미지" />
+        <ProductDetail>
+          <Label>작성일시</Label>
+          <Text>{new Date(product.createdAt).toLocaleString()}</Text>
+        </ProductDetail>
+        <ProductImage src={product.imageUrl} alt="상품 이미지" />
         <ProductInfo>
           <Title>{product.title}</Title>
-          <Price>{product.price}</Price>
+          <Price>{product.price}원</Price>
           <ProductDetail>
             <Label>카테고리</Label>
-            <Text>{product.category}</Text>
+            <Text>{product.categoryName}</Text>
           </ProductDetail>
           <ProductDetail>
             <Label>상품 상태</Label>
-            <Text>{product.condition}</Text>
+            <Text>{product.status}</Text>
           </ProductDetail>
           <WishlistButton onClick={handleWishlistClick}>
             {isWishlist ? <AiFillHeart /> : <AiOutlineHeart />}
@@ -222,18 +244,20 @@ const DetailPage: React.FC = () => {
       </Header>
       <DescriptionSection>
         <Label>상품 설명</Label>
-        <Text>{product.description}</Text>
+        <Text>{product.content}</Text>
       </DescriptionSection>
       <SellerInfo>
-        <SellerImage src={product.seller.image} alt="판매자 이미지" />
+        <SellerImage
+          src={product.seller?.image || "/default-seller.jpg"}
+          alt="판매자 이미지"
+        />
         <SellerDetails>
-          <SellerName>{product.seller.name}</SellerName>
-          <SellerRating>{product.seller.rating}</SellerRating>
+          <SellerName>{product.seller?.name || "Unknown Seller"}</SellerName>
         </SellerDetails>
       </SellerInfo>
       <ReviewsSection>
         <Label>판매 후기</Label>
-        {product.reviews.map((review, index) => (
+        {product.reviews?.map((review: any, index: number) => (
           <Review key={index}>
             <ReviewText>{review.text}</ReviewText>
             <ReviewAuthor>{review.author}</ReviewAuthor>
