@@ -271,11 +271,12 @@ const JoinPage: React.FC = () => {
   const sendVerificationCode = async () => {
     try {
       const response = await axios.post(
-        "http://api.baseball-route.site:8080/api/auth/send-email",
+        "http://api.baseball-route.site:8080/api/auth/sendCode",
         {
           email,
         }
       );
+
       if (response.data.success) {
         setEmailMessage("인증코드가 발송되었습니다.");
       } else {
@@ -293,7 +294,7 @@ const JoinPage: React.FC = () => {
   const verifyCode = async () => {
     try {
       const response = await axios.post(
-        "http://api.baseball-route.site:8080/api/auth/verify-email",
+        "http://api.baseball-route.site:8080/api/auth/verifyCode",
         {
           email,
           code: verificationCode,
