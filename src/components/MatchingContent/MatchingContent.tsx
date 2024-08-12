@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoLocationSharp } from 'react-icons/io5';
-import { Team, MatchingContentProps } from '../../pages/MatchingPage/type';
 import { BsPeopleFill } from "react-icons/bs";
+import { IoTimeOutline } from "react-icons/io5";
 
 // 이미지 import
 import kiaLogo from "../../assets/teamlogo/기아 타이거즈.png";
@@ -16,19 +15,45 @@ import ncLogo from "../../assets/teamlogo/엔씨 다이노스.png";
 import hanwhaLogo from "../../assets/teamlogo/한화 이글스.png";
 import ktLogo from "../../assets/teamlogo/케이티 위즈.png";
 import kiwoomLogo from "../../assets/teamlogo/키움 히어로즈.png";
+import { Link } from 'react-router-dom';
 
 // 이미지 매핑 객체 생성
 const teamLogos: { [key: string]: string } = {
-    "kiaLogo": kiaLogo,
-    "lgLogo": lgLogo,
-    "samsungLogo": samsungLogo,
-    "ssgLogo": ssgLogo,
-    "lotteLogo": lotteLogo,
-    "doosanLogo": doosanLogo,
-    "ncLogo": ncLogo,
-    "hanwhaLogo": hanwhaLogo,
-    "ktLogo": ktLogo,
-    "kiwoomLogo": kiwoomLogo
+    "KIA 타이거즈": kiaLogo,
+    "LG 트윈스": lgLogo,
+    "삼성 라이온즈": samsungLogo,
+    "SSG 랜더스": ssgLogo,
+    "롯데 자이언츠": lotteLogo,
+    "두산 베어스": doosanLogo,
+    "NC 다이노스": ncLogo,
+    "한화 이글스": hanwhaLogo,
+    "KT 위즈": ktLogo,
+    "키움 히어로즈": kiwoomLogo
+};
+
+interface MatchingContentProps {
+    teams: {
+        id: number;
+        title: string;
+        content: string;
+        address: string;
+        meetTime: string;
+        maxParticipants: number;
+        teamName: string;
+        ballparkName: string;
+    }[];
+    limit?: number;
+}
+
+const formatDateTime = (dateTime: string) => {
+    const date = new Date(dateTime);
+    return date.toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
 };
 
 const MatchingContent: React.FC<MatchingContentProps> = ({ teams, limit }) => {
@@ -37,21 +62,21 @@ const MatchingContent: React.FC<MatchingContentProps> = ({ teams, limit }) => {
     return (
         <ContentWrapper>
             {displayedTeams.map((team) => (
-                <Card key={team.id}>
-                    <StyledLink to={`/matching/${team.id}`}>
+                <StyledLink to={`/matching/${team.id}`} key={team.id}>
+                    <Card>
                         <CardContent>
                             <LogoWrapper>
-                                <img src={teamLogos[team.logo]} alt={team.teamName} />
+                                <img src={teamLogos[team.teamName]} alt={team.teamName} />
                             </LogoWrapper>
                             <InfoWrapper>
-                                <h3>{team.teamName}</h3>
-                                <p>{team.date} {team.time}</p>
+                                <h3>{team.title}</h3>
                                 <p><IoLocationSharp /> {team.ballparkName}</p>
-                                <p><BsPeopleFill /> {team.maxParticipants}</p>
+                                <p><IoTimeOutline /> {formatDateTime(team.meetTime)}</p>
+                                <p><BsPeopleFill /> 최대 {team.maxParticipants}명</p>
                             </InfoWrapper>
                         </CardContent>
-                    </StyledLink>
-                </Card>
+                    </Card>
+                </StyledLink>
             ))}
         </ContentWrapper>
     );
@@ -67,6 +92,11 @@ const ContentWrapper = styled.div`
     margin-top: 20px;
     width: 100%;
     max-width: 1000px;
+`;
+
+const StyledLink = styled(Link)`
+    text-decoration: none;
+    color: inherit;
 `;
 
 const Card = styled.div`
@@ -112,9 +142,4 @@ const InfoWrapper = styled.div`
         font-size: 14px;
         margin: 5px 0;
     }
-`;
-
-const StyledLink = styled(Link)`
-    text-decoration: none;
-    color: inherit;
 `;
