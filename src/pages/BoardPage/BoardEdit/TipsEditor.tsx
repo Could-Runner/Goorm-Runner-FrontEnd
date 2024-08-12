@@ -11,11 +11,37 @@ const TipsEditor: React.FC = () => {
     const [title, setTitle] = useState(post ? post.title : "");
     const [content, setContent] = useState(post ? post.content : "");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log({ id, title, content });
-        alert("수정이 완료되었습니다.");
-        navigate(`/board/food/${id}`);
+
+        const updatedPost = {
+            title,
+            content,
+        };
+
+        try {
+            const response = await fetch(`http://api.baseball-route.site:8080/TIP/posts/${id}`, {
+                method: "PUT", 
+                headers: {
+                    "Content-Type": "application/json",
+                    // 필요한 경우 Authorization 헤더 추가
+                    // "Authorization": "Bearer YOUR_TOKEN_HERE",
+                },
+                body: JSON.stringify(updatedPost),
+            });
+
+            if (!response.ok) {
+                throw new Error("게시글 수정에 실패했습니다.");
+            }
+
+            const data = await response.json();
+            console.log("수정된 게시글 데이터:", data);
+            alert("수정이 완료되었습니다.");
+            navigate(`/board/tips/${id}`);
+        } catch (error) {
+            console.error("Error:", error);
+            alert("게시글 수정 중 오류가 발생했습니다.");
+        }
     };
 
     if (!post) {

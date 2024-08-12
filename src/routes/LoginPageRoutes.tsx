@@ -6,7 +6,7 @@ const LoginPageRoutes: RouteObject[] = [
   {
     path: "loginpage",
     element: <LoginPage />,
-  },
+  }
 ];
 
 export default LoginPageRoutes;

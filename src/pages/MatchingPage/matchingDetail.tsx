@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MdPeople } from "react-icons/md";
-import baseballImg from "../../assets/야구배경.jpg"
-
+import baseballImg from "../../assets/야구배경.jpg";
+import profile from "../../assets/profile_img.jpg";
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 declare global {
     interface Window {
@@ -10,7 +12,7 @@ declare global {
     } 
 }
 
-const {kakao} = window;
+const { kakao } = window;
 
 type StadiumsType = {
     [key: string]: { lat: number; lng: number };
@@ -18,7 +20,7 @@ type StadiumsType = {
 
 const stadiums: StadiumsType = {
     "서울종합운동장 야구장": { lat: 37.51215, lng: 127.071976 },
-    "광주 챔피언스필드": { lat: 35.168339, lng: 126.888992 },
+    "광주-기아 챔피언스 필드": { lat: 35.168339, lng: 126.888992 },
     "대구 라이온즈파크": { lat: 35.841111, lng: 128.681667 },
     "인천 SSG랜더스필드": { lat: 37.435139, lng: 126.690806 },
     "사직 야구장": { lat: 35.194077, lng: 129.061584 },
@@ -28,96 +30,147 @@ const stadiums: StadiumsType = {
     "고척 스카이돔": { lat: 37.498333, lng: 126.866667 }
 };
 
+type RecruitmentDetail = {
+    id: number;
+    title: string;
+    content: string;
+    address: string;
+    meetTime: string;
+    maxParticipants: number;
+    teamName: string;
+    ballparkName: string;
+};
+
 const MatchingDetail: React.FC = () => {
-    useEffect(() =>{
-        const mapContainer = document.getElementById('map');
-		const mapOption = {
-			center: new kakao.maps.LatLng(37.51215, 127.071976), // 위경도 임시 더미
-			level: 5 // 거리 표시 단위, 숫자가 클수록 멀리 보임
-		};
+    const { recruitmentId } = useParams<{ recruitmentId: string }>(); // URL에서 recruitmentId를 가져옴
+    const [detail, setDetail] = useState<RecruitmentDetail | null>(null);
 
-        // 야구 마크 불러오기
-        const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png' // 마커이미지의 주소입니다    
-        const imageSize = new kakao.maps.Size(64, 69) // 마커이미지의 크기입니다
-        const imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+    useEffect(() => {
+        const fetchDetail = async () => {
+            try {
+                const response = await fetch(`http://api.baseball-route.site:8080/api/recruitment/${recruitmentId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                setDetail(data); // 데이터를 state에 저장
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        };
 
-        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-        const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+        fetchDetail(); // 데이터 호출 함수 실행
+    }, [recruitmentId]); // recruitmentId가 변경될 때마다 호출
 
-        const map = new kakao.maps.Map(mapContainer, mapOption);
-        Object.keys(stadiums).forEach(stadium => {
-            const { lat, lng } = stadiums[stadium];
-            const markerPosition = new kakao.maps.LatLng(lat, lng);
+    useEffect(() => {
+        if (detail) {
+            const mapContainer = document.getElementById('map');
+            const mapOption = {
+                center: new kakao.maps.LatLng(stadiums[detail.ballparkName].lat, stadiums[detail.ballparkName].lng),
+                level: 5
+            };
+
+            const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
+            const imageSize = new kakao.maps.Size(64, 69);
+            const imageOption = { offset: new kakao.maps.Point(27, 69) };
+            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+            const map = new kakao.maps.Map(mapContainer, mapOption);
+
+            const markerPosition = new kakao.maps.LatLng(stadiums[detail.ballparkName].lat, stadiums[detail.ballparkName].lng);
             const marker = new kakao.maps.Marker({
                 position: markerPosition,
-                image: markerImage // marker title
+                image: markerImage
             });
             marker.setMap(map);
+        }
+    }, [detail]); // detail이 설정된 후 지도 표시
+
+    const formatDateTime = (dateTime: string) => {
+        const date = new Date(dateTime);
+        return date.toLocaleString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
         });
-    }, []);
+    };
+
+    const handleJoin = async () => {
+        try {
+            const response = await fetch(`http://api.baseball-route.site:8080/api/recruitment/${recruitmentId}/join`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 필요한 경우, Authorization 헤더 추가
+                    // 'Authorization': 'Bearer YOUR_TOKEN_HERE',
+                },
+            });
+
+            if (!response.ok) {
+                if (response.status === 400) {
+                    const errorData = await response.json();
+                    alert(`참여 실패: ${errorData.message}`);
+                } else {
+                    throw new Error('참여 요청에 실패했습니다.');
+                }
+            } else {
+                alert('모집에 성공적으로 참여했습니다.');
+                // 필요한 경우, 성공적으로 참여 후 동작 추가
+            }
+        } catch (error) {
+            console.error('Failed to join:', error);
+            alert('참여 중 오류가 발생했습니다.');
+        }
+    };
+
+    if (!detail) {
+        return <div>Loading...</div>; // 데이터를 불러오는 동안 로딩 표시
+    }
+    
     return (
         <Container>
-        <Banner src={baseballImg} alt="banner" />
-        <Title>두산팬들 모여라~</Title>
-        <HostInfo>
-            <HostAvatar src="data:image/png;base64,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" alt="host" />
-            <HostDetails>
-            <span>Hosted by <strong>두산조아</strong></span>
-            <span><MdPeople /> 1/4</span>
-            </HostDetails>
-        </HostInfo>
-        <SectionTitle>Details</SectionTitle>
-        <MainContent>
-            <LeftContent>
-            
-            <Details>
-                안녕하세요, 야구 팬 여러분!<br />
-                다가오는 7월 23일 화요일 오후 6시 30분에 잠실야구장에서 열리는 두산 베어스 vs 한화 이글스 경기를 함께 관람할 멤버를 모집합니다 ⚾<br />
-                <br />
-                모집 인원<br />
-                - 총 3명 (선착순)<br />
-                <br />
-                모집 일정<br />
-                - 날짜: 2024년 7월 23일 (화요일)<br />
-                - 시간: 오후 6시 30분 경기 시작 (5시 30분까지 모임)<br />
-                <br />
-                모집 장소<br />
-                - 장소: 잠실야구장 정문 앞<br />
-                <br />
-                티켓 구매<br />
-                - 온라인 예매: 경기 7일 전부터 가능 (예매 사이트: 티켓링크)<br />
-                <br />
-                참가 방법<br />
-                - 참석하기 버튼을 눌러 참석을 알려주세요.<br />
-                - 참석 가능 여부와 함께 연락처를 남겨주세요.<br />
-                <br />
-                준비물<br />
-                - 응원 도구 (응원복, 응원용품 등)<br />
-                - 야구에 대한 열정과 응원의 에너지!<br />
-                <br />
-                즐거운 야구 관람을 함께하며, 팀을 향한 열정을 마음껏 발휘해 봅시다! 많은 참여 부탁드려요!
-            </Details>
-            </LeftContent>
-            <RightContent>
-            <Card>
-                <CardTitle>두산조아 님</CardTitle>
-                <CardDetails>
-                <div>응원팀: 두산 베어스</div>
-                <div>성별: 남자</div>
-                <div>나이: 25살</div>
-                </CardDetails>
-            </Card>
-            <Card>
-                <CardTitle>날짜 및 시간</CardTitle>
-                <CardDetails>
-                <div>🗓 2024-07-23 오후 6:30</div>
-                <div>📍 서울특별시 송파구 올림픽로 25</div>
-                </CardDetails>
-            </Card>
-            <MapPlaceholder id='map'>지도 위치</MapPlaceholder>
-            <AttendButton>참석하기</AttendButton>
-            </RightContent>
-        </MainContent>
+            <Banner src={baseballImg} alt="banner" />
+            <Title>{detail.title}</Title> {/* 상세 정보 제목 */}
+            <HostInfo>
+                <HostAvatar src={profile} alt="host" />
+                <HostDetails>
+                    <span>Hosted by <strong>두산조아</strong></span>
+                    <span><MdPeople /> 1/{detail.maxParticipants}</span>
+                </HostDetails>
+            </HostInfo>
+            <SectionTitle>Details</SectionTitle>
+            <MainContent>
+                <LeftContent>
+                    <Details>
+                        {detail.content}<br />
+                        <br />
+                        모집 일정<br />
+                        - 날짜: {formatDateTime(detail.meetTime)}<br />
+                        <br />
+                        모집 장소<br />
+                        - 장소: {detail.ballparkName}<br />
+                    </Details>
+                </LeftContent>
+                <RightContent>
+                    <Card>
+                        <CardTitle>두산조아 님</CardTitle>
+                        <CardDetails>
+                            <div>응원팀: {detail.teamName}</div>
+                            <div>경기장: {detail.ballparkName}</div>
+                        </CardDetails>
+                    </Card>
+                    <Card>
+                        <CardTitle>날짜 및 시간</CardTitle>
+                        <CardDetails>
+                            <div>🗓 {formatDateTime(detail.meetTime)}</div>
+                            <div>📍 {detail.address}</div>
+                        </CardDetails>
+                    </Card>
+                    <MapPlaceholder id='map'>지도 위치</MapPlaceholder>
+                    <AttendButton onClick={handleJoin}>참석하기</AttendButton>
+                </RightContent>
+            </MainContent>
         </Container>
     );
 };
