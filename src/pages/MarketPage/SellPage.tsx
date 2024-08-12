@@ -117,8 +117,9 @@ const CustomImageButton = styled.button`
   }
 `;
 
-const MarketPage: React.FC = () => {
+const SellPage: React.FC = () => {
   const navigate = useNavigate();
+  const [title, setTitle] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [category, setCategory] = useState("");
@@ -158,24 +159,86 @@ const MarketPage: React.FC = () => {
     setPrice(formattedPrice);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 폼 제출 로직을 추가하세요
 
-    console.log("Image:", image);
-    console.log("Category:", category);
-    console.log("Condition:", condition);
-    console.log("Description:", description);
-    console.log("Price:", price);
+    if (
+      !title ||
+      !image ||
+      !category ||
+      !condition ||
+      !description ||
+      !price ||
+      !openChatUrl
+    ) {
+      alert("모든 필드를 채워주세요.");
+      return;
+    }
 
-    // 작성 완료 후 /market/buy로 이동
-    navigate("/market/buy");
+    const formData = new FormData();
+    formData.append(
+      "request",
+      new Blob(
+        [
+          JSON.stringify({
+            title: title, // 사용자가 입력한 상품 제목
+            category: category, // 카테고리
+            content: description, // 상품 설명
+            price: Number(price.replace(/,/g, "")), // 가격에서 쉼표 제거 후 숫자로 변환
+            openChatUrl: openChatUrl, // 사용자가 입력한 오픈채팅 URL 추가
+          }),
+        ],
+        { type: "application/json" }
+      )
+    );
+
+    if (image) {
+      formData.append("image", image, image.name);
+    }
+
+    const token = localStorage.getItem("authToken");
+
+    try {
+      const response = await fetch(
+        `http://api.baseball-route.site:8080/market/categories/${category}/items?statusTitle=${condition}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`, // 토큰을 Authorization 헤더에 포함
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to submit");
+      }
+
+      const result = await response.json();
+      console.log("Submit successful:", result);
+
+      // 게시글 상세 페이지로 리다이렉트
+      navigate(`/market/items/${result.marketId}`);
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+      alert("서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.");
+    }
   };
 
   return (
     <Container>
       <Title>굿즈 판매글 작성</Title>
       <form onSubmit={handleSubmit}>
+        <FormGroup>
+          <Label htmlFor="title">제목</Label>
+          <Input
+            id="title"
+            name="title"
+            placeholder="판매글 제목을 입력하세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </FormGroup>
         <FormGroup>
           <Label htmlFor="image">상품 이미지</Label>
           <HiddenInput
@@ -203,11 +266,10 @@ const MarketPage: React.FC = () => {
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">카테고리를 선택하세요</option>
-            <option value="유니폼">유니폼</option>
-            <option value="KBO포토카드">KBO포토카드</option>
-            <option value="티켓양도">티켓양도</option>
-            <option value="싸인볼">싸인볼</option>
-            <option value="기타굿즈">기타굿즈</option>
+            <option value="UNIFORM">유니폼</option>
+            <option value="PHOTOCARD">KBO포토카드</option>
+            <option value="TICKET">티켓 양도</option>
+            <option value="ETC">기타 굿즈</option>
           </Select>
         </FormGroup>
         <FormGroup>
@@ -219,8 +281,9 @@ const MarketPage: React.FC = () => {
             onChange={(e) => setCondition(e.target.value)}
           >
             <option value="">상품 상태를 선택하세요</option>
-            <option value="새상품">새상품</option>
-            <option value="중고상품">중고상품</option>
+            <option value="NEW">새상품</option>
+            <option value="USED_GOOD">중고상품_상</option>
+            <option value="USED_FAIR">중고상품_중</option>
           </Select>
         </FormGroup>
         <FormGroup>
@@ -261,4 +324,4 @@ const MarketPage: React.FC = () => {
   );
 };
 
-export default MarketPage;
+export default SellPage;

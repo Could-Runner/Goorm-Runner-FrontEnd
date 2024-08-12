@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -121,15 +121,38 @@ const EditPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  // 수정 폼의 초기 값을 설정
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [category, setCategory] = useState("유니폼");
-  const [condition, setCondition] = useState("새상품");
-  const [description, setDescription] = useState(
-    "안녕하세요, 최강야구 팬 여러분! 최강야구 어센틱 유니폼을 판매합니다. 이 유니폼은 선수들이 실제 경기에서 입는 고퀄리티의 제품으로, 마킹이 없는 상태입니다. 정가는 110,000원인데, 저는 50,000원에 판매하고자 합니다."
-  );
-  const [price, setPrice] = useState("50,000");
+  const [category, setCategory] = useState<string>("UNIFORM");
+  const [condition, setCondition] = useState<string>("NEW");
+  const [description, setDescription] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+
+  useEffect(() => {
+    // 여기서 id를 사용해 상품의 현재 데이터를 가져옵니다
+    const fetchItemData = async () => {
+      try {
+        const response = await fetch(
+          `/market/categories/${category}/items/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setTitle(data.title);
+          setDescription(data.content);
+          setPrice(data.price.toString());
+          setImagePreview(data.imageUrl);
+          // 기타 상태 업데이트
+        } else {
+          console.error("Failed to fetch item data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching item data:", error);
+      }
+    };
+
+    fetchItemData();
+  }, [id, category]); // id와 category가 변경되면 데이터를 다시 가져옵니다
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -151,18 +174,41 @@ const EditPage: React.FC = () => {
     document.getElementById("image")?.click();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // 폼 제출 로직을 추가하세요
 
-    console.log("Image:", image);
-    console.log("Category:", category);
-    console.log("Condition:", condition);
-    console.log("Description:", description);
-    console.log("Price:", price);
+    const body = {
+      title: title,
+      content: description,
+      price: parseInt(price.replace(/,/g, ""), 10), // 가격을 정수로 변환
+      delivery: 0, // 예제에서는 배송비를 0으로 설정
+      imageUrl: imagePreview || "", // 이미지가 있을 경우 해당 URL을 사용
+    };
 
-    // 수정 완료 후 상세 페이지로 이동
-    navigate(`/market/buy/${id}`);
+    try {
+      const response = await fetch(
+        `http://api.baseball-route.site:8080/market/categories/${category}/items/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer YOUR_TOKEN_HERE`, // 실제 토큰으로 대체해야 함
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Updated item:", result);
+
+        navigate(`/market/buy/${id}`);
+      } else {
+        console.error("Failed to update the item:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -195,12 +241,10 @@ const EditPage: React.FC = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="유니폼">유니폼</option>
-            <option value="KBO포토카드">KBO포토카드</option>
-            <option value="티켓양도">티켓양도</option>
-            <option value="싸인볼">싸인볼</option>
-            <option value="기타굿즈">기타굿즈</option>
-            {/* 다른 카테고리를 추가 */}
+            <option value="UNIFORM">유니폼</option>
+            <option value="PHOTOCARD">KBO포토카드</option>
+            <option value="TICKET">티켓 양도</option>
+            <option value="ETC">기타 굿즈</option>
           </Select>
         </FormGroup>
         <FormGroup>
@@ -211,9 +255,8 @@ const EditPage: React.FC = () => {
             value={condition}
             onChange={(e) => setCondition(e.target.value)}
           >
-            <option value="새상품">새상품</option>
-            <option value="중고상품">중고상품</option>
-            {/* 다른 상태를 추가 */}
+            <option value="NEW">새상품</option>
+            <option value="USED">중고상품</option>
           </Select>
         </FormGroup>
         <FormGroup>

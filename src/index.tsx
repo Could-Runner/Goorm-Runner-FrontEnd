@@ -4,14 +4,28 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AuthProvider } from "./pages/LoginPage/AuthContext";
 
 import matchingRoutes from "./routes/MatchingRoutes";
 import boardRoutes from "./routes/BoardRoutes";
 import Mainpage from "./pages/mainpage/mainpage";
-import marketPageRoutes from "./routes/MarketPageRoutes";
-import joinPageRoutes from "./routes/JoinPageRoutes";
-import loginPageRoutes from "./routes/LoginPageRoutes";
-import myPageRoutes from "./routes/MyPageRoutes";
+import MarketPageRoutes from "./routes/MarketPageRoutes";
+import LoginPageRoutes from "./routes/LoginPageRoutes";
+import JoinPageRoutes from "./routes/JoinPageRoutes";
+import MyPageRoutes from "./routes/MyPageRoutes";
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+// root.render(
+//   <React.StrictMode>
+//     <App />
+//   </React.StrictMode>
+// );
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 
 const router = createBrowserRouter([
   {
@@ -21,24 +35,20 @@ const router = createBrowserRouter([
       { path: "/", element: <Mainpage /> },
       ...matchingRoutes,
       ...boardRoutes,
-      ...marketPageRoutes,
-      ...joinPageRoutes,
-      ...loginPageRoutes,
-      ...myPageRoutes
+      ...MarketPageRoutes,
+      ...JoinPageRoutes,
+      ...LoginPageRoutes,
+      ...MyPageRoutes,
     ],
   },
 ]);
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
