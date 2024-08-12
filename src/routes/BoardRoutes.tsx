@@ -29,6 +29,10 @@ const boardRoutes: RouteObject[] = [
                     { 
                         path: "edit/:id", 
                         element: <GeneralEditor /> 
+                    },
+                    {
+                        path: "postform", 
+                        element: <PostWriter /> 
                     }
                 ]
             },
@@ -46,6 +50,10 @@ const boardRoutes: RouteObject[] = [
                     { 
                         path: "edit/:id", 
                         element: <TipsEditor /> 
+                    },
+                    {
+                        path: "postform", 
+                        element: <PostWriter /> 
                     }
                 ]
             },
@@ -63,13 +71,13 @@ const boardRoutes: RouteObject[] = [
                     { 
                         path: "edit/:id", 
                         element: <FoodEditor /> 
+                    },
+                    {
+                        path: "postform", 
+                        element: <PostWriter /> 
                     }
                 ]
-            },
-            {
-                path: "postform", 
-                element: <PostWriter /> 
-            }
+            }            
         ]
     }   
 ];
