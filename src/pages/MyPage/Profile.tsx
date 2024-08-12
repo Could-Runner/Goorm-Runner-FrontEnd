@@ -107,9 +107,16 @@ const Button = styled.button`
   }
 `;
 
+const DeleteButton = styled(Button)`
+  background-color: #ff4d4d;
+  &:hover {
+    filter: brightness(0.9);
+  }
+`;
+
 const BottomButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 20px;
 `;
 
@@ -198,6 +205,15 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleDeleteAccount = () => {
+    if (window.confirm("정말로 탈퇴하시겠습니까?")) {
+      // Perform account deletion logic here
+      alert("성공적으로 탈퇴되었습니다.");
+      // Redirect to a different page if necessary
+      navigate("/loginpage");
+    }
+  };
+
   return (
     <Container>
       <SectionTitle>회원정보</SectionTitle>
@@ -210,7 +226,7 @@ const Profile: React.FC = () => {
                 <ChangeImageButton
                   onClick={() => document.getElementById("fileInput")?.click()}
                 >
-                  사진변경
+                  변경
                 </ChangeImageButton>
                 <input
                   type="file"
@@ -231,9 +247,7 @@ const Profile: React.FC = () => {
             ) : (
               <NickName>{username}</NickName>
             )}
-            <Info>
-              <Label>매너점수</Label> 100점
-            </Info>
+
             <Info>
               <Label>자기소개 :</Label>
               {isEditing ? (
@@ -317,6 +331,9 @@ const Profile: React.FC = () => {
         </div>
       </Section>
       <BottomButtonContainer>
+        {isEditing && (
+          <DeleteButton onClick={handleDeleteAccount}>탈퇴하기</DeleteButton>
+        )}
         <Button onClick={isEditing ? handleSaveClick : handleEditClick}>
           {isEditing ? "변경완료" : "변경하기"}
         </Button>
