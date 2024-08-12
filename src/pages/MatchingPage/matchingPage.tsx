@@ -51,17 +51,24 @@ const MatchingPage: React.FC = () => {
     const [teamsData, setTeamsData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const fetchFilteredData = async (team: string | null, ballpark: string | null) => {
+        try {
+            const response = await fetch(`http://api.baseball-route.site:8080/api/recruitment?team=${team || ""}&ballpark=${ballpark || ""}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setTeamsData(data);
+            setLoading(false);
+        } catch (error) {
+            console.error("데이터를 가져오는 중 오류 발생:", error);
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        axios.get('http://api.baseball-route.site:8080/api/recruitments')
-            .then(response => {
-                setTeamsData(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('데이터 가져오기 오류:', error);
-                setLoading(false);
-            });
-    }, []);
+        fetchFilteredData(selectedTeam, selectedStadium);
+    }, [selectedTeam, selectedStadium]);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -85,14 +92,9 @@ const MatchingPage: React.FC = () => {
 
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const filteredTeams = teamsData.filter(team => {
-        const teamMatch = selectedTeam ? team.teamName === selectedTeam : true;
-        const stadiumMatch = selectedStadium ? team.ballparkName === selectedStadium : true;
-        return teamMatch && stadiumMatch;
-    });
-    const currentItems = filteredTeams.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = teamsData.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(filteredTeams.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(teamsData.length / ITEMS_PER_PAGE);
 
     if (loading) {
         return <div>로딩 중...</div>;

@@ -22,7 +22,7 @@ const FoodBoard: React.FC = () => {
         navigate(`/board/food/${id}`);
     };
     const handleWritePost = () => {
-        navigate("/postform");
+        navigate("/board/food/postform");
     };
 
     return (

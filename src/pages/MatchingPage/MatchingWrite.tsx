@@ -14,27 +14,53 @@ const MatchingWrite: React.FC = () => {
     const [selectedTeam, setSelectedTeam] = useState<SingleValue<Option>>(null);
     const [selectedStadium, setSelectedStadium] = useState<SingleValue<Option>>(null);
     const [date, setDate] = useState<Date | null>(new Date());
+    const [maxParticipants, setMaxParticipants] = useState<number>(4); // 최대 인원 수 추가
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+    
         if (!title || !content || !selectedTeam || !selectedStadium || !date) {
             alert("작성이 완료되지 않았습니다");
             return;
         }
-
-        console.log({
+    
+        const payload = {
             title,
             content,
-            selectedTeam,
-            selectedStadium,
-            date
-        });
-
-        alert('제출 완료되었습니다');
-        navigate('/matching');
+            address: selectedStadium?.label || '',
+            meetTime: date.toISOString(),
+            teamId: selectedTeam?.value,
+            ballparkId: selectedStadium?.value,
+            maxParticipants,
+        };
+    
+        try {
+            const response = await fetch('http://api.baseball-route.site:8080/api/recruitment/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': 'Bearer YOUR_TOKEN_HERE'  // 만약 인증이 필요하다면 헤더에 추가
+                },
+                body: JSON.stringify(payload),
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.text(); // 먼저 텍스트로 응답을 확인
+                console.error(`Error: ${response.status} - ${errorData}`);
+                alert(`Error: ${response.status}`);
+                return;
+            }
+    
+            const data = await response.json();
+            console.log('Success:', data);
+            alert('모집 글이 성공적으로 작성되었습니다!');
+            navigate('/matching');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('모집 글 작성 중 오류가 발생했습니다.');
+        }
     };
 
     return (
@@ -84,6 +110,16 @@ const MatchingWrite: React.FC = () => {
                         onChange={(date) => setDate(date)}
                         showTimeSelect
                         dateFormat="yyyy년 MM월 dd일 a hh:mm"
+                    />
+                </Label>
+                <Label>
+                    최대 참가자 수:
+                    <Input
+                        type="number"
+                        value={maxParticipants}
+                        onChange={(e) => setMaxParticipants(Number(e.target.value))}
+                        min={1}
+                        max={20}
                     />
                 </Label>
                 <Button type="submit">작성하기</Button>

@@ -19,10 +19,10 @@ const TipsBoard: React.FC = () => {
         setCurrentPage(page);
     };
     const handleRowClick = (id: number) => {
-        navigate(`/board/food/${id}`);
+        navigate(`/board/tips/${id}`);
     };
     const handleWritePost = () => {
-        navigate("/postform");
+        navigate("board/tips/postform");
     };
 
     return (
