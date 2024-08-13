@@ -46,7 +46,7 @@ const TipsDetail: React.FC = () => {
     };
 
     const handleEdit = () => {
-        navigate(`/board/general/edit/${id}`);
+        navigate(`/board/tips/edit/${id}`);
     };
 
     const handleEditComment = (commentId: number) => {

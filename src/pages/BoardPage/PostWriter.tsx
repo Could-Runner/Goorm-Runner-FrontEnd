@@ -11,36 +11,38 @@ const PostWriter: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const token =  localStorage.getItem("authToken");
-        
-        const postData = {
-            title,
-            content
-        };
+        alert("작성이 완료되었습니다.");
+        navigate("/board/general");
+        // const token =  localStorage.getItem("authToken");
 
-        try {
-            const response = await fetch(`http://api.baseball-route.site:8080/categories/${category}/posts`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}` // 토큰 사용시 추가 작성
-                },
-                body: JSON.stringify(postData),
-                credentials: 'include'
-            });
+        // const postData = {
+        //     title,
+        //     content
+        // };
 
-            if (!response.ok) {
-                throw new Error("게시글 작성에 실패했습니다.");
-            }
+        // try {
+        //     const response = await fetch(`http://api.baseball-route.site:8080/categories/${category}/posts`, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             "Authorization": `Bearer ${token}` // 토큰 사용시 추가 작성
+        //         },
+        //         body: JSON.stringify(postData),
+        //         credentials: 'include'
+        //     });
 
-            const data = await response.json();
-            console.log("작성된 게시글 데이터:", data);
-            alert("작성이 완료되었습니다.");
-            navigate("/board/general");
-        } catch (error) {
-            console.error("Error:", error);
-            alert("게시글 작성 중 오류가 발생했습니다.");
-        }
+        //     if (!response.ok) {
+        //         throw new Error("게시글 작성에 실패했습니다.");
+        //     }
+
+        //     const data = await response.json();
+        //     console.log("작성된 게시글 데이터:", data);
+        //     alert("작성이 완료되었습니다.");
+        //     navigate("/board/general");
+        // } catch (error) {
+        //     console.error("Error:", error);
+        //     alert("게시글 작성 중 오류가 발생했습니다.");
+        // }
     };
 
     return (
