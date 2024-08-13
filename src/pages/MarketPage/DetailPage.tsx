@@ -162,8 +162,8 @@ const Button = styled.button`
 `;
 
 const DetailPage: React.FC = () => {
-  const { id, categoryName } = useParams<{
-    id: string;
+  const { marketId, categoryName } = useParams<{
+    marketId: string;
     categoryName: string;
   }>(); // 카테고리 이름과 아이템 ID를 URL에서 가져옴
   const navigate = useNavigate();
@@ -177,7 +177,7 @@ const DetailPage: React.FC = () => {
     const fetchProduct = async () => {
       try {
         const response = await axios.get(
-          `http://api.baseball-route.site:8080/market/categories/${categoryName}/items/${id}`,
+          `http://api.baseball-route.site:8080/market/categories/{categoryName}/items/{marketId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // 토큰을 Authorization 헤더에 포함
@@ -193,7 +193,7 @@ const DetailPage: React.FC = () => {
     };
 
     fetchProduct();
-  }, [id, categoryName]); // id와 categoryName이 변경될 때마다 useEffect 재실행
+  }, [marketId, categoryName]); // id와 categoryName이 변경될 때마다 useEffect 재실행
 
   if (!product) {
     return <div>상품을 찾을 수 없습니다.</div>;
@@ -205,16 +205,13 @@ const DetailPage: React.FC = () => {
   };
 
   const handleBuyClick = () => {
-    const openChatUrl = product.openChatUrl; // 판매글에서 입력된 오픈채팅 URL
-    if (openChatUrl) {
-      window.location.href = openChatUrl;
-    } else {
-      alert("오픈채팅방 URL이 등록되지 않았습니다.");
-    }
+    // 항상 특정 오픈채팅 URL로 이동
+    const openChatUrl = "https://open.kakao.com/o/suNbCSHg";
+    window.location.href = openChatUrl;
   };
 
   const handleEditClick = () => {
-    navigate(`/market/edit/${id}`);
+    navigate(`/market/edit/${marketId}`);
   };
 
   return (

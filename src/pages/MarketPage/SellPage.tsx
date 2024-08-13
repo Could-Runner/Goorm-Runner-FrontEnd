@@ -200,7 +200,7 @@ const SellPage: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://api.baseball-route.site:8080/market/categories/${category}/items?statusTitle=${condition}`,
+        `http://api.baseball-route.site:8080/market/categories/{categoryName}/items`,
         {
           method: "POST",
           headers: {

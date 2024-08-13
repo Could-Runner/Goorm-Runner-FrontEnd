@@ -277,6 +277,7 @@ const JoinPage: React.FC = () => {
           email,
         }
       );
+
       if (response.data.success) {
         setEmailMessage("인증코드가 발송되었습니다.");
       } else {

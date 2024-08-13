@@ -119,8 +119,9 @@ const ImagePreview = styled.img`
 
 const EditPage: React.FC = () => {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
-
+  const { marketId } = useParams<{ marketId: string }>(); // marketId로 해체
+  // const { id } = useParams<{ id: string }>(); // 여기서 id로 해체
+  // const marketId = id; // 그리고 id를 marketId로 다시 지정
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [category, setCategory] = useState<string>("UNIFORM");
@@ -128,13 +129,14 @@ const EditPage: React.FC = () => {
   const [description, setDescription] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [title, setTitle] = useState<string>("");
+  const [openChatUrl, setOpenChatUrl] = useState<string>("");
 
   useEffect(() => {
     // 여기서 id를 사용해 상품의 현재 데이터를 가져옵니다
     const fetchItemData = async () => {
       try {
         const response = await fetch(
-          `/market/categories/${category}/items/${id}`
+          `http://api.baseball-route.site:8080/market/categories/{categoryName}/items/{marketId}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -152,7 +154,7 @@ const EditPage: React.FC = () => {
     };
 
     fetchItemData();
-  }, [id, category]); // id와 category가 변경되면 데이터를 다시 가져옵니다
+  }, [marketId, category]); // id와 category가 변경되면 데이터를 다시 가져옵니다
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -181,18 +183,20 @@ const EditPage: React.FC = () => {
       title: title,
       content: description,
       price: parseInt(price.replace(/,/g, ""), 10), // 가격을 정수로 변환
-      delivery: 0, // 예제에서는 배송비를 0으로 설정
+      condition: condition, // 상태를 문자열로 변환
       imageUrl: imagePreview || "", // 이미지가 있을 경우 해당 URL을 사용
     };
 
+    const token = localStorage.getItem("authToken");
+
     try {
       const response = await fetch(
-        `http://api.baseball-route.site:8080/market/categories/${category}/items/${id}`,
+        `http://api.baseball-route.site:8080/market/categories/{categoryName}/items/{marketId}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer YOUR_TOKEN_HERE`, // 실제 토큰으로 대체해야 함
+            Authorization: `Bearer ${token}`, // 토큰을 Authorization 헤더에 포함
           },
           body: JSON.stringify(body),
         }
@@ -202,7 +206,7 @@ const EditPage: React.FC = () => {
         const result = await response.json();
         console.log("Updated item:", result);
 
-        navigate(`/market/buy/${id}`);
+        navigate(`/market/buy/${marketId}`);
       } else {
         console.error("Failed to update the item:", response.statusText);
       }
@@ -276,6 +280,17 @@ const EditPage: React.FC = () => {
             type="text"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="openChatUrl">오픈채팅방 링크</Label>
+          <Input
+            id="openChatUrl"
+            name="openChatUrl"
+            type="text"
+            placeholder="카카오톡 오픈채팅방 링크를 입력하세요"
+            value={openChatUrl}
+            onChange={(e) => setOpenChatUrl(e.target.value)}
           />
         </FormGroup>
         <Button type="submit">수정 완료</Button>
