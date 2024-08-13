@@ -22,7 +22,7 @@ const TipsBoard: React.FC = () => {
         navigate(`/board/tips/${id}`);
     };
     const handleWritePost = () => {
-        navigate("/postform");
+        navigate("/board/tips/postform");
     };
 
     return (
