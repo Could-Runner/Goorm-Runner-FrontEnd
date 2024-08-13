@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteObject } from "react-router-dom";
-import Match from "../pages/MatchingPage/matchingPage";
-import MatchingDetail from "../pages/MatchingPage/matchingDetail";
+import Match from "../pages/MatchingPage/MatchingPage";
+import MatchingDetail from "../pages/MatchingPage/MatchingDetail";
 import MatchingWrite from "../pages/MatchingPage/MatchingWrite";
 
 const matchingRoutes: RouteObject[] = [
@@ -17,7 +17,7 @@ const matchingRoutes: RouteObject[] = [
         element: <MatchingWrite />,
       },
       {
-        path: ":id",
+        path: ":recruitmentId",
         element: <MatchingDetail />,
       },
     ],

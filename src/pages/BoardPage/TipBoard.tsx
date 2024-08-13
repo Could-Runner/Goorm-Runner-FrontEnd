@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import boardData from "../../assets/boardcontents.json"
+import boardData from "../../assets/tipboard.json"
 
 const ITEMS_PER_PAGE = 8;
 
@@ -22,7 +22,7 @@ const TipsBoard: React.FC = () => {
         navigate(`/board/tips/${id}`);
     };
     const handleWritePost = () => {
-        navigate("board/tips/postform");
+        navigate("/postform");
     };
 
     return (
@@ -69,6 +69,114 @@ const TipsBoard: React.FC = () => {
 };
 
 export default TipsBoard;
+
+// const TipsBoard: React.FC = () => {
+//     const categoryName = "TIP"
+//     const [currentPage, setCurrentPage] = useState(0);
+//     const [boardData, setBoardData] = useState<any[]>([]); // 데이터를 배열로 저장
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState<string | null>(null);
+//     const navigate = useNavigate();
+
+//     // 날짜 포맷을 yyyy년 mm월 dd일로 변환하는 함수
+//     const formatDate = (dateString: string) => {
+//         const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+//         const date = new Date(dateString);
+//         return date.toLocaleDateString('ko-KR', options);
+//     };
+
+//     useEffect(() => {
+//         const fetchData = async () => {
+//             try {
+//                 const response = await fetch(
+//                     `http://api.baseball-route.site:8080/categories/${categoryName}/posts?pageNumber=${currentPage}&pageSize=${ITEMS_PER_PAGE}`
+//                 );
+//                 if (!response.ok) {
+//                     throw new Error("Failed to fetch data");
+//                 }
+//                 const data = await response.json();
+//                 console.log("API Response Data:", data); // 응답 데이터를 콘솔에 출력하여 확인
+//                 setBoardData(data.overviews || []); // API 응답에 맞게 데이터 설정
+//             } catch (err: any) {
+//                 setError(err.message);
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+    
+//         fetchData();
+//     }, [currentPage]);
+
+//     const totalPages = Math.ceil((boardData?.length || 0) / ITEMS_PER_PAGE);
+
+//     const handlePageChange = (page: number) => {
+//         setCurrentPage(page);
+//     };
+
+//     const handleRowClick = (id: number) => {
+//         navigate(`/board/${categoryName}/${id}`);
+//     };
+
+//     const handleWritePost = () => {
+//         navigate(`/board/${categoryName}/postform`);
+//     };
+
+//     if (loading) {
+//         return <div>Loading...</div>;
+//     }
+
+//     if (error) {
+//         return <div>Error: {error}</div>;
+//     }
+
+//     // if (!boardData || boardData.length === 0) {
+//     //     return <div>No data available</div>; // 데이터가 없을 때 표시할 메시지
+//     // }
+
+//     return (
+//         <Container>
+//             <Header>
+//                 <Title>꿀팁 게시판</Title>
+//                 <WriteButton onClick={handleWritePost}>글쓰기</WriteButton>
+//             </Header>
+//             <Table>
+//                 <thead>
+//                     <tr>
+//                         <Th>No</Th>
+//                         <Th>제목</Th>
+//                         <Th>글쓴이</Th>
+//                         <Th>작성시간</Th>
+//                         <Th>좋아요</Th>
+//                     </tr>
+//                 </thead>
+//                 <tbody>
+//                     {boardData.map((item) => (
+//                         <Tr key={item.id} onClick={() => handleRowClick(item.id)}>
+//                             <Td>{item.postId}</Td>
+//                             <Td>{item.title}</Td>
+//                             <Td>{item.authorName}</Td>
+//                             <Td>{formatDate(item.createdAt)}</Td> {/* 작성시간을 포맷팅하여 표시 */}
+//                             <Td>{item.likeCount}</Td>
+//                         </Tr>
+//                     ))}
+//                 </tbody>
+//             </Table>
+//             <Pagination>
+//                 {[...Array(totalPages)].map((_, index) => (
+//                     <PageNumber
+//                         key={index}
+//                         isActive={index + 1 === currentPage}
+//                         onClick={() => handlePageChange(index + 1)}
+//                     >
+//                         {index + 1}
+//                     </PageNumber>
+//                 ))}
+//             </Pagination>
+//         </Container>
+//     );
+// };
+
+// export default TipsBoard;
 
 const Container = styled.div`
     padding: 20px;

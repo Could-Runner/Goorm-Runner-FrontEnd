@@ -1,12 +1,12 @@
 [
-    { "id": 1, "teamName": "KIA 타이거즈", "logo": "kiaLogo", "date": "07.16", "time": "오후 6:30", "ballparkName": "광주 챔피언스필드", "color": "#e61e2a", "maxParticipants": 6, "currParticipants": 3 },
-    { "id": 2, "teamName": "LG 트윈스", "logo": "lgLogo", "date": "07.18", "time": "오후 6:30", "ballparkName": "서울종합운동장 야구장", "color": "#c11d2a", "maxParticipants": 5, "currParticipants": 4 },
-    { "id": 3, "teamName": "삼성 라이온즈", "logo": "samsungLogo", "date": "07.20", "time": "오후 5:00", "ballparkName": "대구 라이온즈파크", "color": "#074ca1", "maxParticipants": 7, "currParticipants": 6 },
-    { "id": 4, "teamName": "SSG 랜더스", "logo": "ssgLogo", "date": "07.25", "time": "오후 6:30", "ballparkName": "인천 SSG랜더스필드", "color": "#c8102e", "maxParticipants": 8, "currParticipants": 5 },
-    { "id": 5, "teamName": "롯데 자이언츠", "logo": "lotteLogo", "date": "07.31", "time": "오후 6:30", "ballparkName": "사직 야구장", "color": "#00275d", "maxParticipants": 4, "currParticipants": 2 },
-    { "id": 6, "teamName": "두산 베어스", "logo": "doosanLogo", "date": "07.23", "time": "오후 6:30", "ballparkName": "서울종합운동장 야구장", "color": "#13274f", "maxParticipants": 7, "currParticipants": 5 },
-    { "id": 7, "teamName": "NC 다이노스", "logo": "ncLogo", "date": "07.27", "time": "오후 5:00", "ballparkName": "창원 NC파크", "color": "#315288", "maxParticipants": 6, "currParticipants": 3 },
-    { "id": 8, "teamName": "한화 이글스", "logo": "hanwhaLogo", "date": "08.01", "time": "오후 6:30", "ballparkName": "대전 한화생명이글스파크", "color": "#f36f21", "maxParticipants": 8, "currParticipants": 7 },
-    { "id": 9, "teamName": "KT 위즈", "logo": "ktLogo", "date": "08.05", "time": "오후 6:30", "ballparkName": "수원 KT위즈파크", "color": "#000000", "maxParticipants": 5, "currParticipants": 3 },
-    { "id": 10, "teamName": "키움 히어로즈", "logo": "kiwoomLogo", "date": "08.07", "time": "오후 6:30", "ballparkName": "고척 스카이돔", "color": "#B07F4A", "maxParticipants": 6, "currParticipants": 4 }
+    { "id": 1, "name": "KIA 타이거즈", "logo": "kiaLogo", "date": "07.16", "time": "오후 6:30", "location": "광주 챔피언스필드", "color": "#e61e2a", "title": "KIA 타이거즈 직관 모임  광주 챔피언스필드에서 함께 응원해요!", "maxParticipants": 6 },
+    { "id": 2, "name": "LG 트윈스", "logo": "lgLogo", "date": "07.18", "time": "오후 6:30", "location": "서울종합운동장 야구장", "color": "#c11d2a", "title": "LG 트윈스 팬들 모여라!  7월 18일 야구장에서 만나요!", "maxParticipants": 7 },
+    { "id": 3, "name": "삼성 라이온즈", "logo": "samsungLogo", "date": "07.20", "time": "오후 5:00", "location": "대구 라이온즈파크", "color": "#074ca1", "title": "삼성 라이온즈와 함께하는 직관! 대구 라이온즈파크에서 함께해요!", "maxParticipants": 3 },
+    { "id": 4, "name": "SSG 랜더스", "logo": "ssgLogo", "date": "07.25", "time": "오후 6:30", "location": "인천 SSG랜더스필드", "color": "#c8102e", "title": "SSG 랜더스 팬들과 함께!  SSG랜더스필드에서 만나요!", "maxParticipants": 8 },
+    { "id": 5, "name": "롯데 자이언츠", "logo": "lotteLogo", "date": "07.31", "time": "오후 6:30", "location": "사직 야구장", "color": "#00275d", "title": "롯데 자이언츠와 함께하는 마!마!마!", "maxParticipants": 4 },
+    { "id": 6, "name": "두산 베어스", "logo": "doosanLogo", "date": "07.23", "time": "오후 6:30", "location": "서울종합운동장 야구장", "color": "#13274f", "title": "두산 베어스 팬들과 함께! 서울종합운동장 야구장에서 응원해요!", "maxParticipants": 7 },
+    { "id": 7, "name": "NC 다이노스", "logo": "ncLogo", "date": "07.27", "time": "오후 5:00", "location": "창원 NC파크", "color": "#315288", "title": "NC 다이노스와 함께하는 창원 직관 창원 NC파크에서 함께해요!", "maxParticipants": 5 },
+    { "id": 8, "name": "한화 이글스", "logo": "hanwhaLogo", "date": "08.01", "time": "오후 6:30", "location": "대전 한화생명이글스파크", "color": "#f36f21", "title": "한화 이글스 팬들과 함께! 한화생명이글스파크에서 가즈아!", "maxParticipants": 6 },
+    { "id": 9, "name": "KT 위즈", "logo": "ktLogo", "date": "08.05", "time": "오후 6:30", "location": "수원 KT위즈파크", "color": "#000000", "title": "KT 위즈 직관 모임 수원 KT위즈파크에서 함께해요!", "maxParticipants": 2 },
+    { "id": 10, "name": "키움 히어로즈", "logo": "kiwoomLogo", "date": "08.07", "time": "오후 6:30", "location": "고척 스카이돔", "color": "#B07F4A", "title": "키움 히어로즈 팬들 모여라! 고척에서 놀아요!", "maxParticipants": 8 }
 ]

@@ -220,6 +220,7 @@ const LoginPage: React.FC = () => {
         alt="카카오 로그인"
         onClick={handleKakaoLogin}
       />
+      
       <SignUpLink>
         아직 회원이 아니신가요? <a href="/joinpage">회원가입</a>
       </SignUpLink>

@@ -1,29 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import boardData from "../../assets/boardcontents.json"
+// 기존의 boardData 임포트는 삭제합니다.
 
+// 페이지당 항목 수
 const ITEMS_PER_PAGE = 8;
 
 const FoodBoard: React.FC = () => {
-    const [currentPage, setCurrentPage] = useState(1);
+    const categoryName = "RESTAURANT"; // 고정된 카테고리 이름
+    const [currentPage, setCurrentPage] = useState(0);
+    const [boardData, setBoardData] = useState<any[]>([]); // 데이터를 배열로 저장
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
-    const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const currentItems = boardData.slice(indexOfFirstItem, indexOfLastItem);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(
+                    `http://api.baseball-route.site:8080/categories/${categoryName}/posts?pageNumber=${currentPage}&pageSize=${ITEMS_PER_PAGE}`
+                );
+                if (!response.ok) {
+                    throw new Error("Failed to fetch data");
+                }
+                const data = await response.json();
+                console.log("API Response Data:", data); // 응답 데이터를 콘솔에 출력하여 확인
+                setBoardData(data.overviews || []); // API 응답에 맞게 데이터 설정
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchData();
+    }, [currentPage]);
 
-    const totalPages = Math.ceil(boardData.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil((boardData?.length || 0) / ITEMS_PER_PAGE);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
     };
+
     const handleRowClick = (id: number) => {
-        navigate(`/board/food/${id}`);
+        navigate(`/board/${categoryName}/${id}`);
     };
+
     const handleWritePost = () => {
-        navigate("/board/food/postform");
+        navigate(`/board/${categoryName}/postform`);
     };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
 
     return (
         <Container>
@@ -42,13 +76,13 @@ const FoodBoard: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentItems.map((item) => (
+                    {boardData.map((item, index) => (
                         <Tr key={item.id} onClick={() => handleRowClick(item.id)}>
-                            <Td>{item.id}</Td>
+                            <Td>{item.postId}</Td>
                             <Td>{item.title}</Td>
-                            <Td>{item.author}</Td>
-                            <Td>{item.date}</Td>
-                            <Td>{item.likes}</Td>
+                            <Td>{item.authorName}</Td>
+                            <Td>{item.createdAt}</Td> {/* 작성시간에 해당하는 필드 */}
+                            <Td>{item.likeCount}</Td>
                         </Tr>
                     ))}
                 </tbody>
@@ -69,7 +103,6 @@ const FoodBoard: React.FC = () => {
 };
 
 export default FoodBoard;
-
 const Container = styled.div`
     padding: 20px;
     margin: 0 200px;

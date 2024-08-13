@@ -203,6 +203,7 @@ const MessageText = styled.p`
   font-size: 14px;
 `;
 
+
 const JoinPage: React.FC = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -271,7 +272,7 @@ const JoinPage: React.FC = () => {
   const sendVerificationCode = async () => {
     try {
       const response = await axios.post(
-        "http://api.baseball-route.site:8080/api/auth/send-email",
+        "http://api.baseball-route.site:8080/api/auth/sendCode",
         {
           email,
         }
@@ -293,7 +294,7 @@ const JoinPage: React.FC = () => {
   const verifyCode = async () => {
     try {
       const response = await axios.post(
-        "http://api.baseball-route.site:8080/api/auth/verify-email",
+        "http://api.baseball-route.site:8080/api/auth/verifyCode",
         {
           email,
           code: verificationCode,

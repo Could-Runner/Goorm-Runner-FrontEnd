@@ -4,6 +4,10 @@ import styled, { keyframes } from "styled-components";
 import { darken } from 'polished';
 import MatchingContent from "../../components/MatchingContent/MatchingContent";
 
+import teams from "../../assets/teams.json"
+import stadiums from "../../assets/stadiums.json"
+import dummyData from "../../assets/matchingdata.json"
+
 const ITEMS_PER_PAGE = 8;
 
 const expand = keyframes`
@@ -42,33 +46,127 @@ const stadiumFilterOptions = [
     { value: "고척 스카이돔", label: "고척 스카이돔", color: "#B07F4A" }
 ];
 
+// const MatchingPage: React.FC = () => {
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [showFilters, setShowFilters] = useState(false);
+//     const [showStadiums, setShowStadiums] = useState(false);
+//     const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
+//     const [selectedStadium, setSelectedStadium] = useState<string | null>(null);
+//     const [teamsData, setTeamsData] = useState<any[]>([]);
+//     const [loading, setLoading] = useState(true);
+
+//     const fetchFilteredData = async (team: string | null, ballpark: string | null) => {
+//         try {
+//             const response = await fetch(`http://api.baseball-route.site:8080/api/recruitment?team=${team || ""}&ballpark=${ballpark || ""}`);
+//             if (!response.ok) {
+//                 throw new Error(`HTTP error! status: ${response.status}`);
+//             }
+//             const data = await response.json();
+//             setTeamsData(data);
+//             setLoading(false);
+//         } catch (error) {
+//             console.error("데이터를 가져오는 중 오류 발생:", error);
+//             setLoading(false);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchFilteredData(selectedTeam, selectedStadium);
+//     }, [selectedTeam, selectedStadium]);
+
+//     const handlePageChange = (page: number) => {
+//         setCurrentPage(page);
+//     };
+
+//     const toggleFilters = () => {
+//         setShowFilters(!showFilters);
+//     };
+
+//     const toggleStadiums = () => {
+//         setShowStadiums(!showStadiums);
+//     };
+
+//     const handleTeamFilter = (team: string) => {
+//         setSelectedTeam(selectedTeam === team ? null : team);
+//     };
+
+//     const handleStadiumFilter = (stadium: string) => {
+//         setSelectedStadium(selectedStadium === stadium ? null : stadium);
+//     };
+
+//     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+//     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+//     const currentItems = teamsData.slice(indexOfFirstItem, indexOfLastItem);
+
+//     const totalPages = Math.ceil(teamsData.length / ITEMS_PER_PAGE);
+
+//     if (loading) {
+//         return <div>로딩 중...</div>;
+//     }
+
+//     return (
+//         <Container>
+//             <FilterGroup>
+//                 <FilterWrapper>
+//                     <FilterToggle onClick={toggleFilters}>팀 필터</FilterToggle>
+//                     {showFilters && (
+//                         <FilterButtons>
+//                             {teamFilterOptions.map((option) => (
+//                                 <TeamFilter
+//                                     key={option.value}
+//                                     color={option.color}
+//                                     selected={option.value === selectedTeam}
+//                                     onClick={() => handleTeamFilter(option.value)}
+//                                 >
+//                                     {option.label}
+//                                 </TeamFilter>
+//                             ))}
+//                         </FilterButtons>
+//                     )}
+//                 </FilterWrapper>
+//                 <FilterWrapper>
+//                     <FilterToggle onClick={toggleStadiums}>경기장 필터</FilterToggle>
+//                     {showStadiums && (
+//                         <FilterButtons>
+//                             {stadiumFilterOptions.map((option) => (
+//                                 <TeamFilter
+//                                     key={option.value}
+//                                     color={option.color}
+//                                     selected={option.value === selectedStadium}
+//                                     onClick={() => handleStadiumFilter(option.value)}
+//                                 >
+//                                     {option.label}
+//                                 </TeamFilter>
+//                             ))}
+//                         </FilterButtons>
+//                     )}
+//                 </FilterWrapper>
+//             </FilterGroup>
+//             <ContentWrapper>
+//                 <MatchingContent teams={currentItems} />
+//                 <Pagination>
+//                     {[...Array(totalPages)].map((_, index) => (
+//                         <PageNumber
+//                             key={index}
+//                             isActive={index + 1 === currentPage}
+//                             onClick={() => handlePageChange(index + 1)}
+//                         >
+//                             {index + 1}
+//                         </PageNumber>
+//                     ))}
+//                 </Pagination>
+//             </ContentWrapper>
+//         </Container>
+//     );
+// };
+
+// export default MatchingPage;
 const MatchingPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
     const [showStadiums, setShowStadiums] = useState(false);
     const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
     const [selectedStadium, setSelectedStadium] = useState<string | null>(null);
-    const [teamsData, setTeamsData] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    const fetchFilteredData = async (team: string | null, ballpark: string | null) => {
-        try {
-            const response = await fetch(`http://api.baseball-route.site:8080/api/recruitment?team=${team || ""}&ballpark=${ballpark || ""}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            setTeamsData(data);
-            setLoading(false);
-        } catch (error) {
-            console.error("데이터를 가져오는 중 오류 발생:", error);
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchFilteredData(selectedTeam, selectedStadium);
-    }, [selectedTeam, selectedStadium]);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -92,13 +190,14 @@ const MatchingPage: React.FC = () => {
 
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-    const currentItems = teamsData.slice(indexOfFirstItem, indexOfLastItem);
+    const filteredTeams = teams.filter(team => {
+        const teamMatch = selectedTeam ? team.name === selectedTeam : true;
+        const stadiumMatch = selectedStadium ? team.location === selectedStadium : true;
+        return teamMatch && stadiumMatch;
+    });
+    const currentItems = filteredTeams.slice(indexOfFirstItem, indexOfLastItem);
 
-    const totalPages = Math.ceil(teamsData.length / ITEMS_PER_PAGE);
-
-    if (loading) {
-        return <div>로딩 중...</div>;
-    }
+    const totalPages = Math.ceil(filteredTeams.length / ITEMS_PER_PAGE);
 
     return (
         <Container>
@@ -107,14 +206,14 @@ const MatchingPage: React.FC = () => {
                     <FilterToggle onClick={toggleFilters}>팀 필터</FilterToggle>
                     {showFilters && (
                         <FilterButtons>
-                            {teamFilterOptions.map((option) => (
+                            {teams.map((team) => (
                                 <TeamFilter
-                                    key={option.value}
-                                    color={option.color}
-                                    selected={option.value === selectedTeam}
-                                    onClick={() => handleTeamFilter(option.value)}
+                                    key={team.id}
+                                    color={team.color}
+                                    selected={team.name === selectedTeam}
+                                    onClick={() => handleTeamFilter(team.name)}
                                 >
-                                    {option.label}
+                                    {team.name}
                                 </TeamFilter>
                             ))}
                         </FilterButtons>
@@ -124,14 +223,14 @@ const MatchingPage: React.FC = () => {
                     <FilterToggle onClick={toggleStadiums}>경기장 필터</FilterToggle>
                     {showStadiums && (
                         <FilterButtons>
-                            {stadiumFilterOptions.map((option) => (
+                            {stadiums.map((stadium, index) => (
                                 <TeamFilter
-                                    key={option.value}
-                                    color={option.color}
-                                    selected={option.value === selectedStadium}
-                                    onClick={() => handleStadiumFilter(option.value)}
+                                    key={index}
+                                    color={stadium.color}
+                                    selected={stadium.name === selectedStadium}
+                                    onClick={() => handleStadiumFilter(stadium.name)}
                                 >
-                                    {option.label}
+                                    {stadium.name}
                                 </TeamFilter>
                             ))}
                         </FilterButtons>

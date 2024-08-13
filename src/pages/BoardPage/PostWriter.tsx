@@ -11,6 +11,8 @@ const PostWriter: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const token =  localStorage.getItem("authToken");
+        
         const postData = {
             title,
             content
@@ -21,8 +23,10 @@ const PostWriter: React.FC = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // 토큰 사용시 추가 작성
                 },
                 body: JSON.stringify(postData),
+                credentials: 'include'
             });
 
             if (!response.ok) {

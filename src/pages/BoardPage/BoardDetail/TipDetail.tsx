@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import boardData from "../../../assets/boardcontents.json";
-import commentData from "../../../assets/comments.json";
+import boardData from "../../../assets/tipboard.json";
+import commentData from "../../../assets/tipcommet.json";
 import { BoardData, CommentData } from "../type";
 
 const TipsDetail: React.FC = () => {
@@ -130,9 +130,191 @@ const TipsDetail: React.FC = () => {
 
 export default TipsDetail;
 
+// const TipDetail: React.FC = () => {
+//     const { id } = useParams<{ id: string }>();
+//     const navigate = useNavigate();
+//     const [post, setPost] = useState<PostDetail | null>(null);
+//     const [comments, setComments] = useState<CommentData[]>([]);
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState<string | null>(null);
+//     const [likes, setLikes] = useState(0);
+//     const [liked, setLiked] = useState(false);
+//     const [newComment, setNewComment] = useState("");
+//     const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+//     const [editedComment, setEditedComment] = useState("");
+
+//     useEffect(() => {
+//         const fetchPostData = async () => {
+//             try {
+//                 const response = await fetch(`http://api.baseball-route.site:8080/categories/TIP/posts/${id}`, {
+//                     method: 'GET',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                     },
+//                 });
+
+//                 if (!response.ok) {
+//                     throw new Error("Failed to fetch post data");
+//                 }
+//                 const data: PostDetail = await response.json();
+//                 setPost(data);
+//                 setLikes(data.likeCount);
+//             } catch (err: any) {
+//                 setError(err.message);
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         const fetchComments = async () => {
+//             try {
+//                 const response = await fetch(
+//                     `http://api.baseball-route.site:8080/categories/TIP/posts/${id}/comments`,
+//                     {
+//                         method: 'GET',
+//                         headers: {
+//                             'Content-Type': 'application/json',
+//                         },
+//                     }
+//                 );
+
+//                 if (!response.ok) {
+//                     throw new Error("Failed to fetch comments data");
+//                 }
+
+//                 const data = await response.json();
+//                 setComments(data.overviews || []);
+//             } catch (err: any) {
+//                 setError(err.message);
+//             }
+//         };
+
+//         fetchPostData();
+//         fetchComments();
+//     }, [id]);
+
+//     const handleLikeToggle = () => {
+//         if (liked) {
+//             setLikes(likes - 1);
+//         } else {
+//             setLikes(likes + 1);
+//         }
+//         setLiked(!liked);
+//     };
+
+//     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//         setNewComment(e.target.value);
+//     };
+
+//     const handleCommentSubmit = (e: React.FormEvent) => {
+//         e.preventDefault();
+//         const newCommentData: CommentData = {
+//             id: comments.length + 1,
+//             authorName: "익명",
+//             content: newComment,
+//             createdAt: new Date().toISOString().split('T')[0],
+//             updatedAt: new Date().toISOString().split('T')[0],
+//         };
+//         setComments([...comments, newCommentData]);
+//         setNewComment("");
+//     };
+
+//     const handleEditComment = (commentId: number) => {
+//         const commentToEdit = comments.find(comment => comment.id === commentId);
+//         if (commentToEdit) {
+//             setEditingCommentId(commentId);
+//             setEditedComment(commentToEdit.content);
+//         }
+//     };
+
+//     const handleUpdateComment = (e: React.FormEvent) => {
+//         e.preventDefault();
+//         setComments(comments.map(comment =>
+//             comment.id === editingCommentId ? { ...comment, content: editedComment, updatedAt: new Date().toISOString().split('T')[0] } : comment
+//         ));
+//         setEditingCommentId(null);
+//         setEditedComment("");
+//     };
+
+//     const handleDeleteComment = (commentId: number) => {
+//         setComments(comments.filter(comment => comment.id !== commentId));
+//     };
+
+//     return (
+//         <Container>
+//             <Table>
+//                 <tbody>
+//                     <Tr>
+//                         <Th>제목</Th>
+//                         <Td colSpan={3}>{post ? post.title : "제목 없음"}</Td>
+//                     </Tr>
+//                     <Tr>
+//                         <Th>작성자</Th>
+//                         <Td>{post ? post.categoryName : "알 수 없음"}</Td>
+//                         <Th>등록일</Th>
+//                         <Td>{post ? post.createdAt : "알 수 없음"}</Td>
+//                     </Tr>
+//                     <Tr>
+//                         <Th>내용</Th>
+//                         <Td colSpan={3}>{post ? post.content : "내용 없음"}</Td>
+//                     </Tr>
+//                 </tbody>
+//             </Table>
+//             <Actions>
+//                 <Button onClick={() => navigate('/board/tips')}>목록으로</Button>
+//                 <LikeButton liked={liked} onClick={handleLikeToggle}>
+//                     {liked ? `좋아요 취소 ${likes}` : `좋아요 ${likes}`}
+//                 </LikeButton>
+//                 <Button onClick={() => navigate(`/board/tips/edit/${id}`)}>수정하기</Button>
+//             </Actions>
+//             <CommentSection>
+//                 <CommentTitle>댓글</CommentTitle>
+//                 <CommentForm onSubmit={editingCommentId ? handleUpdateComment : handleCommentSubmit}>
+//                     <CommentInput
+//                         type="text"
+//                         placeholder="댓글을 작성해주세요."
+//                         value={editingCommentId ? editedComment : newComment}
+//                         onChange={e => editingCommentId ? setEditedComment(e.target.value) : handleCommentChange(e)}
+//                     />
+//                     <CommentButton type="submit">
+//                         {editingCommentId ? "수정 완료" : "댓글 쓰기"}
+//                     </CommentButton>
+//                 </CommentForm>
+//                 {comments.length > 0 ? (
+//                     comments.map(comment => (
+//                         <Comment key={comment.id}>
+//                             <CommentContentWrapper>
+//                                 <CommentAuthor>{comment.authorName}</CommentAuthor>
+//                                 <CommentContent>{comment.content}</CommentContent>
+//                                 <CommentDate>{comment.createdAt}</CommentDate>
+//                             </CommentContentWrapper>
+//                             <CommentActions>
+//                                 <EditButton onClick={() => handleEditComment(comment.id)}>수정</EditButton>
+//                                 <DeleteButton onClick={() => handleDeleteComment(comment.id)}>삭제</DeleteButton>
+//                             </CommentActions>
+//                         </Comment>
+//                     ))
+//                 ) : (
+//                     <div>댓글이 없습니다.</div>
+//                 )}
+//             </CommentSection>
+//         </Container>
+//     );
+// };
+
+// export default TipDetail;
+
 const Container = styled.div`
+    margin-top: 50px;
     padding: 20px;
-    margin: 0 200px;
+    padding-top: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #dadada;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const Table = styled.table`
@@ -193,6 +375,8 @@ const CommentSection = styled.div`
 
 const CommentTitle = styled.h2`
     margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 `;
 
 const Comment = styled.div`
@@ -200,6 +384,9 @@ const Comment = styled.div`
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const CommentAuthor = styled.div`
@@ -252,6 +439,7 @@ const DeleteButton = styled.button`
         background-color: #d32f2f;
     }
 `;
+    
 
 const CommentForm = styled.form`
     display: flex;
@@ -278,4 +466,12 @@ const CommentButton = styled.button`
     &:hover {
         background-color: #028a3d;
     }
+`;
+const NoCommentMessage = styled.div`
+    padding: 20px; 
+    text-align: center; 
+    color: #999; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background-color: #f9f9f9;
 `;

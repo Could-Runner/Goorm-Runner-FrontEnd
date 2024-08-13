@@ -10,9 +10,12 @@ const FoodEditor: React.FC = () => {
     const post = (boardData as BoardData[]).find(item => item.id === parseInt(id!, 10));
     const [title, setTitle] = useState(post ? post.title : "");
     const [content, setContent] = useState(post ? post.content : "");
+    const token =  localStorage.getItem("authToken");
+    console.log(token);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
 
         const updatedPost = {
             title,
@@ -20,12 +23,12 @@ const FoodEditor: React.FC = () => {
         };
 
         try {
-            const response = await fetch(`http://api.baseball-route.site:8080/FOOD/posts/${id}`, {
+            const response = await fetch(`http://api.baseball-route.site:8080/categories/FOOD/posts/${id}`, {
                 method: "PUT", 
                 headers: {
                     "Content-Type": "application/json",
                     // 필요한 경우 Authorization 헤더 추가
-                    // "Authorization": "Bearer YOUR_TOKEN_HERE",
+                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify(updatedPost),
             });
