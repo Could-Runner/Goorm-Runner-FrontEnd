@@ -17,7 +17,7 @@ const TipsDetail: React.FC = () => {
     const [editedComment, setEditedComment] = useState("");
 
     if (!post) {
-        return <div>게시글을 찾을 수 없습니다.</div>;
+        return <div>게시글을 찾을 수 없 습니다.</div>;
     }
 
     const handleLikeToggle = () => {
