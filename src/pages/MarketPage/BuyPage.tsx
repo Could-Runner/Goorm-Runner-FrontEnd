@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ItemCard from "./ItemCard";
-import items from "../../assets/Items.json"; // items.ts 파일에서 items 배열을 import 합니다.
 
 const Container = styled.div`
   padding: 20px;
@@ -65,72 +64,103 @@ const PageButton = styled.button<{ active: boolean }>`
   }
 `;
 
+interface Item {
+  marketId: number;
+  image: string;
+  title: string;
+  price: number;
+  date: string;
+  likeCount: number;
+}
+
+const categoryName: { [key: string]: string } = {
+  전체보기: "",
+  유니폼: "UNIFORM",
+  KBO포토카드: "PHOTOCARD",
+  티켓양도: "TICKET",
+  싸인볼: "ETC",
+  기타굿즈: "ETC",
+};
+
+
 const BuyPage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("전체보기");
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] =
+    useState<keyof typeof categoryName>("전체보기");
+  const [items, setItems] = useState<Item[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
-  const itemsPerPage = 8;
+  useEffect(() => {
+    const fetchItems = async () => {
+      const token = localStorage.getItem("authToken");
 
-  const filteredItems =
-    selectedCategory === "전체보기"
-      ? items
-      : items.filter((item) => item.category === selectedCategory);
+      try {
+        const response = await fetch(
+          `http://api.baseball-route.site:8080/market/categories/{categoryName}/items`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+        if (!response.ok) {
+          throw new Error("Failed to fetch items");
+        }
 
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(filteredItems.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
-  const token = localStorage.getItem("authToken");
+        const data = await response.json();
+        setItems(data.overviews || []);
+        setTotalPages(data.responseMetaData.totalPages || 1);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+
+    fetchItems();
+  }, [selectedCategory, currentPage]);
+
+  const handleCategoryChange = (category: keyof typeof categoryName) => {
+    setSelectedCategory(category);
+    setCurrentPage(0);
+  };
 
   return (
     <Container>
       <Title>판매 목록</Title>
       <CategoryButtons>
-        {[
-          "전체보기",
-          "유니폼",
-          "KBO포토카드",
-          "티켓양도",
-          "싸인볼",
-          "기타굿즈",
-        ].map((category) => (
+        {Object.keys(categoryName).map((category) => (
           <CategoryButton
             key={category}
             active={selectedCategory === category}
-            onClick={() => {
-              setSelectedCategory(category);
-              setCurrentPage(1);
-            }}
+            onClick={() =>
+              handleCategoryChange(category as keyof typeof categoryName)
+            }
           >
             {category}
           </CategoryButton>
         ))}
       </CategoryButtons>
       <ItemList>
-        {currentItems.map((item) => (
+        {items.map((item) => (
           <ItemCard
-            key={item.id}
-            id={item.id}
+            key={item.marketId}
+            id={item.marketId}
             image={item.image}
             title={item.title}
-            price={item.price}
+            price={item.price.toString()} /* price를 string으로 변환 */
             date={item.date}
-            likes={item.likes}
+            likes={item.likeCount}
           />
         ))}
       </ItemList>
       <Pagination>
-        {pageNumbers.map((number) => (
+        {Array.from({ length: totalPages }, (_, number) => (
           <PageButton
             key={number}
             active={currentPage === number}
             onClick={() => setCurrentPage(number)}
           >
-            {number}
+            {number + 1}
           </PageButton>
         ))}
       </Pagination>
