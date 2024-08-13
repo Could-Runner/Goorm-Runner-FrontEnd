@@ -33,7 +33,7 @@ const MatchingWrite: React.FC = () => {
             meetTime: date.toISOString(),
             teamId: selectedTeam?.value,
             ballparkId: selectedStadium?.value,
-            maxParticipants,
+            maxParticipants 
         };
     
         try {
@@ -120,6 +120,15 @@ const MatchingWrite: React.FC = () => {
                         onChange={(e) => setMaxParticipants(Number(e.target.value))}
                         min={1}
                         max={20}
+                    />
+                </Label>
+                <Label>
+                    오픈채팅 링크:
+                    <Input
+                        type="text"
+                        
+                        placeholder='주소을 입력해주세요.'
+                        onChange={(e) => setTitle(e.target.value)}
                     />
                 </Label>
                 <Button type="submit">작성하기</Button>

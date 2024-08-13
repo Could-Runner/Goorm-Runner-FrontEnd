@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IoLocationSharp } from 'react-icons/io5';
 import { BsPeopleFill } from "react-icons/bs";
 import { IoTimeOutline } from "react-icons/io5";
+import { Team, MatchingContentProps } from '../../pages/MatchingPage/type';
 
 // 이미지 import
 import kiaLogo from "../../assets/teamlogo/기아 타이거즈.png";
@@ -16,6 +17,35 @@ import hanwhaLogo from "../../assets/teamlogo/한화 이글스.png";
 import ktLogo from "../../assets/teamlogo/케이티 위즈.png";
 import kiwoomLogo from "../../assets/teamlogo/키움 히어로즈.png";
 import { Link } from 'react-router-dom';
+
+
+const MatchingContent: React.FC<MatchingContentProps> = ({ teams, limit }) => {
+    const displayedTeams = limit ? teams.slice(0, limit) : teams;
+
+    return (
+        <ContentWrapper>
+            {displayedTeams.map((team) => (
+                <Card key={team.id}>
+                    <StyledLink to={`/matching/${team.id}`}>
+                        <CardContent>
+                            <LogoWrapper>
+                                <img src={teamLogos[team.name]} alt={team.name} />
+                            </LogoWrapper>
+                            <InfoWrapper>
+                                <h3>{team.title}</h3>
+                                <p>{team.date} {team.time}</p>
+                                <p><IoLocationSharp /> {team.location}</p>
+                                <p><BsPeopleFill /> {team.maxParticipants}명</p>
+                            </InfoWrapper>
+                        </CardContent>
+                    </StyledLink>
+                </Card>
+            ))}
+        </ContentWrapper>
+    );
+};
+
+export default MatchingContent;
 
 // 이미지 매핑 객체 생성
 const teamLogos: { [key: string]: string } = {
@@ -31,58 +61,58 @@ const teamLogos: { [key: string]: string } = {
     "키움 히어로즈": kiwoomLogo
 };
 
-interface MatchingContentProps {
-    teams: {
-        id: number;
-        title: string;
-        content: string;
-        address: string;
-        meetTime: string;
-        maxParticipants: number;
-        teamName: string;
-        ballparkName: string;
-    }[];
-    limit?: number;
-}
+// interface MatchingContentProps {
+//     teams: {
+//         id: number;
+//         title: string;
+//         content: string;
+//         address: string;
+//         meetTime: string;
+//         maxParticipants: number;
+//         teamName: string;
+//         ballparkName: string;
+//     }[];
+//     limit?: number;
+// }
 
-const formatDateTime = (dateTime: string) => {
-    const date = new Date(dateTime);
-    return date.toLocaleString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-    });
-};
+// const formatDateTime = (dateTime: string) => {
+//     const date = new Date(dateTime);
+//     return date.toLocaleString('ko-KR', {
+//         year: 'numeric',
+//         month: '2-digit',
+//         day: '2-digit',
+//         hour: '2-digit',
+//         minute: '2-digit',
+//     });
+// };
 
-const MatchingContent: React.FC<MatchingContentProps> = ({ teams, limit }) => {
-    const displayedTeams = limit ? teams.slice(0, limit) : teams;
+// const MatchingContent: React.FC<MatchingContentProps> = ({ teams, limit }) => {
+//     const displayedTeams = limit ? teams.slice(0, limit) : teams;
 
-    return (
-        <ContentWrapper>
-            {displayedTeams.map((team) => (
-                <StyledLink to={`/matching/${team.id}`} key={team.id}>
-                    <Card>
-                        <CardContent>
-                            <LogoWrapper>
-                                <img src={teamLogos[team.teamName]} alt={team.teamName} />
-                            </LogoWrapper>
-                            <InfoWrapper>
-                                <h3>{team.title}</h3>
-                                <p><IoLocationSharp /> {team.ballparkName}</p>
-                                <p><IoTimeOutline /> {formatDateTime(team.meetTime)}</p>
-                                <p><BsPeopleFill /> 최대 {team.maxParticipants}명</p>
-                            </InfoWrapper>
-                        </CardContent>
-                    </Card>
-                </StyledLink>
-            ))}
-        </ContentWrapper>
-    );
-};
+//     return (
+//         <ContentWrapper>
+//             {displayedTeams.map((team) => (
+//                 <StyledLink to={`/matching/${team.id}`} key={team.id}>
+//                     <Card>
+//                         <CardContent>
+//                             <LogoWrapper>
+//                                 <img src={teamLogos[team.teamName]} alt={team.teamName} />
+//                             </LogoWrapper>
+//                             <InfoWrapper>
+//                                 <h3>{team.title}</h3>
+//                                 <p><IoLocationSharp /> {team.ballparkName}</p>
+//                                 <p><IoTimeOutline /> {formatDateTime(team.meetTime)}</p>
+//                                 <p><BsPeopleFill /> 최대 {team.maxParticipants}명</p>
+//                             </InfoWrapper>
+//                         </CardContent>
+//                     </Card>
+//                 </StyledLink>
+//             ))}
+//         </ContentWrapper>
+//     );
+// };
 
-export default MatchingContent;
+// export default MatchingContent;
 
 const ContentWrapper = styled.div`
     display: grid;
@@ -114,7 +144,10 @@ const Card = styled.div`
 
 const CardContent = styled.div`
     display: flex;
+    align-items: center;  /* 수직 중앙 정렬 */
+    justify-content: center;  /* 수평 중앙 정렬 */
     padding: 10px;
+    flex-direction: row; /* 수직으로 나란히 정렬 */
 
     img {
         width: 100px;

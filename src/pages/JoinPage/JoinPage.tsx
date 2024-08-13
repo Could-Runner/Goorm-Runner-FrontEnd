@@ -203,6 +203,7 @@ const MessageText = styled.p`
   font-size: 14px;
 `;
 
+
 const JoinPage: React.FC = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");

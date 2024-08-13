@@ -82,6 +82,7 @@ const categoryName: { [key: string]: string } = {
   기타굿즈: "ETC",
 };
 
+
 const BuyPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] =
     useState<keyof typeof categoryName>("전체보기");

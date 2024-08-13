@@ -129,6 +129,201 @@ const FoodDetail: React.FC = () => {
 };
 
 export default FoodDetail;
+// import React, { useEffect, useState } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+// import styled from "styled-components";
+// import { PostDetail, CommentData } from "../type";
+
+// const FoodDetail: React.FC = () => {
+//     const { id } = useParams<{ id: string }>(); // id는 postId를 의미합니다.
+//     const navigate = useNavigate();
+//     const [post, setPost] = useState<PostDetail | null>(null);
+//     const [comments, setComments] = useState<CommentData[]>([]);
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState<string | null>(null);
+//     const [likes, setLikes] = useState(0);
+//     const [liked, setLiked] = useState(false);
+//     const [newComment, setNewComment] = useState("");
+//     const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+//     const [editedComment, setEditedComment] = useState("");
+
+//     const token =  localStorage.getItem("authToken");
+
+
+//     useEffect(() => {
+//         const fetchPostData = async () => {
+//             try {
+//                 const response = await fetch(`http://api.baseball-route.site:8080/categories/RESTAURANT/posts/${id}`, {
+//                     method: 'GET',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                         'Authorization': `Bearer ${token}`
+//                     },
+//                 });
+
+//                 if (!response.ok) {
+//                     throw new Error("Failed to fetch post data");
+//                 }
+//                 const data: PostDetail = await response.json();
+//                 setPost(data);
+//                 setLikes(data.likeCount);
+//             } catch (err: any) {
+//                 setError(err.message);
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         const fetchComments = async () => {
+//             try {
+//                 const response = await fetch(
+//                     `http://api.baseball-route.site:8080/categories/RESTAURANT/posts/${id}/comments`,  // 여기서 pageNumber와 pageSize를 설정해줍니다.
+//                     {
+//                         method: 'GET',
+//                         headers: {
+//                             'Content-Type': 'application/json',
+//                         },
+//                     }
+//                 );
+        
+//                 if (!response.ok) {
+//                     throw new Error("Failed to fetch comments data");
+//                 }
+        
+//                 const data = await response.json();
+//                 if (data.overviews) {
+//                     setComments(data.overviews);  // 데이터를 overviews에서 가져옵니다.
+//                 } else {
+//                     console.log("No comments found for this post.");
+//                 }
+//             } catch (err: any) {
+//                 setError(err.message);
+//             }
+//         };
+
+//         fetchPostData();
+//         fetchComments();
+//     }, [id]);
+
+//     if (loading) {
+//         return <div>Loading...</div>;
+//     }
+
+//     if (error) {
+//         return <div>Error: {error}</div>;
+//     }
+
+//     if (!post) {
+//         return <div>게시글을 찾을 수 없습니다.</div>;
+//     }
+
+//     const handleLikeToggle = () => {
+//         if (liked) {
+//             setLikes(likes - 1);
+//         } else {
+//             setLikes(likes + 1);
+//         }
+//         setLiked(!liked);
+//     };
+
+//     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//         setNewComment(e.target.value);
+//     };
+
+//     const handleCommentSubmit = (e: React.FormEvent) => {
+//         e.preventDefault();
+//         const newCommentData: CommentData = {
+//             id: comments.length + 1,
+//             authorName: "익명",
+//             content: newComment,
+//             createdAt: new Date().toISOString().split('T')[0],
+//             updatedAt: new Date().toISOString().split('T')[0],
+//         };
+//         setComments([...comments, newCommentData]);
+//         setNewComment("");
+//     };
+
+//     const handleEditComment = (commentId: number) => {
+//         const commentToEdit = comments.find(comment => comment.id === commentId);
+//         if (commentToEdit) {
+//             setEditingCommentId(commentId);
+//             setEditedComment(commentToEdit.content);
+//         }
+//     };
+
+//     const handleUpdateComment = (e: React.FormEvent) => {
+//         e.preventDefault();
+//         setComments(comments.map(comment =>
+//             comment.id === editingCommentId ? { ...comment, content: editedComment, updatedAt: new Date().toISOString().split('T')[0] } : comment
+//         ));
+//         setEditingCommentId(null);
+//         setEditedComment("");
+//     };
+
+//     const handleDeleteComment = (commentId: number) => {
+//         setComments(comments.filter(comment => comment.id !== commentId));
+//     };
+
+//     return (
+//         <Container>
+//             <Table>
+//                 <tbody>
+//                     <Tr>
+//                         <Th>제목</Th>
+//                         <Td colSpan={3}>{post.title}</Td>
+//                     </Tr>
+//                     <Tr>
+//                         <Th>작성자</Th>
+//                         <Td>{post.categoryName}</Td>
+//                         <Th>등록일</Th>
+//                         <Td>{post.createdAt}</Td>
+//                     </Tr>
+//                     <Tr>
+//                         <Th>내용</Th>
+//                         <Td colSpan={3}>{post.content}</Td>
+//                     </Tr>
+//                 </tbody>
+//             </Table>
+//             <Actions>
+//                 <Button onClick={() => navigate(`/board/food`)}>목록으로</Button>
+//                 <LikeButton liked={liked} onClick={handleLikeToggle}>
+//                     {liked ? `좋아요 취소 ${likes}` : `좋아요 ${likes}`}
+//                 </LikeButton>
+//                 <Button onClick={() => navigate(`/board/food/edit/${id}`)}>수정하기</Button>
+//             </Actions>
+//             <CommentSection>
+//                 <CommentTitle>댓글</CommentTitle>
+//                 <CommentForm onSubmit={editingCommentId ? handleUpdateComment : handleCommentSubmit}>
+//                     <CommentInput
+//                         type="text"
+//                         placeholder="댓글을 작성해주세요."
+//                         value={editingCommentId ? editedComment : newComment}
+//                         onChange={e => editingCommentId ? setEditedComment(e.target.value) : handleCommentChange(e)}
+//                     />
+//                     <CommentButton type="submit">
+//                         {editingCommentId ? "수정 완료" : "댓글 쓰기"}
+//                     </CommentButton>
+//                 </CommentForm>
+//                 {comments.map(comment => (
+//                     <Comment key={comment.id}>
+//                         <CommentContentWrapper>
+//                             <CommentAuthor>{comment.authorName}</CommentAuthor>
+//                             <CommentContent>{comment.content}</CommentContent>
+//                             <CommentDate>{comment.createdAt}</CommentDate>
+//                         </CommentContentWrapper>
+//                         <CommentActions>
+//                             <EditButton onClick={() => handleEditComment(comment.id)}>수정</EditButton>
+//                             <DeleteButton onClick={() => handleDeleteComment(comment.id)}>삭제</DeleteButton>
+//                         </CommentActions>
+//                     </Comment>
+//                 ))}
+//             </CommentSection>
+//         </Container>
+//     );
+// };
+
+
+// export default FoodDetail;
 
 const Container = styled.div`
     margin-top: 50px;

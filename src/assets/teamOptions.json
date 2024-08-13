@@ -1,12 +1,12 @@
 [
     { "value": "1", "label": "KIA 타이거즈" },
-    { "value": "2", "label": "LG 트윈스" },
-    { "value": "3", "label": "삼성 라이온즈" },
-    { "value": "4", "label": "SSG 랜더스" },
-    { "value": "5", "label": "롯데 자이언츠" },
-    { "value": "6", "label": "두산 베어스" },
+    { "value": "6", "label": "LG 트윈스" },
+    { "value": "4", "label": "삼성 라이온즈" },
+    { "value": "5", "label": "SSG 랜더스" },
+    { "value": "3", "label": "롯데 자이언츠" },
+    { "value": "2", "label": "두산 베어스" },
     { "value": "7", "label": "NC 다이노스" },
     { "value": "8", "label": "한화 이글스" },
-    { "value": "9", "label": "KT 위즈" },
-    { "value": "10", "label": "키움 히어로즈" }
+    { "value": "10", "label": "KT 위즈" },
+    { "value": "9", "label": "키움 히어로즈" }
 ]

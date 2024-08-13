@@ -14,6 +14,8 @@ const GeneralEditor: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const token =  localStorage.getItem("authToken");
+
         const updatedPost = {
             title,
             content,
@@ -25,7 +27,7 @@ const GeneralEditor: React.FC = () => {
                 headers: {
                     "Content-Type": "application/json",
                     // 필요한 경우 Authorization 헤더 추가
-                    // "Authorization": "Bearer YOUR_TOKEN_HERE",
+                    "Authorization": `Bearer ${token}` 
                 },
                 body: JSON.stringify(updatedPost),
             });
